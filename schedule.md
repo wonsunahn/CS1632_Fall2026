@@ -29,13 +29,13 @@ AFIST = [_A Friendly Introduction to Software Testing_](software-quality-assuran
 * Class 1: NO CLASS (Labor Day)
 
 * Class 2
-  * Assignment due before class: [Exercise 1: Test Plans](exercises/1)
-  * Quiz: Test Plans and Defect Reporting
   * Lecture: Test-driven Development (READING: AFIST, Chapter 15)
 
 ## WEEK 4 (Week of 14 SEP)
 
 * Class 1 
+  * Assignment due before class: [Exercise 1: Test Plans](exercises/1)
+  * Quiz: Test Plans and Defect Reporting
   * Lecture: Unit Testing Part 1 (READING: AFIST, Chapter 13)
   * Assignment release: [Exercise 2: Unit Testing](exercises/2)
 
