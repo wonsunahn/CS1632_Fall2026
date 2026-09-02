@@ -12,7 +12,7 @@ AFIST = [_A Friendly Introduction to Software Testing_](software-quality-assuran
     * [Java Assessment Exercise](exercises/0)
   
 * Class 2
-  * Lecture: Testing Theory (READING: AFIST, Chapters 2 - 4), Requirements (READING: AFIST, Chapters 5)
+  * Lecture: Testing Theory (READING: AFIST, Chapters 2 - 4) 
 
 ## WEEK 2 (Week of 31 AUG)
 
@@ -29,7 +29,7 @@ AFIST = [_A Friendly Introduction to Software Testing_](software-quality-assuran
 * Class 1: NO CLASS (Labor Day)
 
 * Class 2
-  * Lecture: Test-driven Development (READING: AFIST, Chapter 15)
+  * Lecture: Requirements (READING: AFIST, Chapters 5), Test-driven Development (READING: AFIST, Chapter 15)
 
 ## WEEK 4 (Week of 14 SEP)
 
