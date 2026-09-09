@@ -586,11 +586,30 @@ not the requirements, but the process would be the same.
 
 ## Submission
 
-Please submit your GitHub repository to GradeScope at the "Exercise 1" link.
-Once you submit, GradeScope will run the autograder to grade you and give
-feedback.  If you get deductions, fix your code based on the feedback and
-resubmit.  Repeat until you don't get deductions.
+Before you submit, please add a file [issue_urls.txt](issue_urls.txt) to your
+exercise repository and fill it with three URLs to three GitHub issues, one
+line per URL.  The URL is the URL of the page when you click on an issue in the
+Issues tab.  You may have to click on the "Closed" link to display closed
+issues.  The URL is formatted as follows:
 
-Don't forget that you need to designate TEST_EXPLICIT_BOUNDARY,
-TEST_IMPLICIT_BOUNDARY, TEST_BASE, and TEST_EDGE test cases.  Grading of these
-these test cases will be done manually and not by the autograder.
+```
+https://github.com/{organization}/{repository}/issues/{issue number}
+```
+
+Once you add the file, commit and push.  Then please submit your GitHub
+repository to GradeScope at the "Exercise 1" link.  Once you submit, GradeScope
+will run the autograder to grade you and give feedback.  If you get deductions,
+fix your code based on the feedback and resubmit.  Repeat until you don't get
+deductions.  The grading sections that start with the "AI: ... " header are the
+parts that are being graded by generative AI.  The AI is intentionally
+instructed to not give out the answer to you nor point to the exact place where
+the mistake was made.  Instead, it is instructed to give you hints so that you
+can fix the mistake on your own.  If any of the feedback does not make sense to
+you, feel free to ask me and I'd be happy to assist you.
+
+There is one grading item that the autograder cannot give feedback on however,
+and that is validating the observed behavior of each issue report and
+confirming that it is indeed a valid defect.  You need to report three unique
+defects to receive the full 24 points (8 per defect).  By unique, I mean that a
+defect report is not a duplicate of another, where it is just another example
+value that exercises the same defective code.

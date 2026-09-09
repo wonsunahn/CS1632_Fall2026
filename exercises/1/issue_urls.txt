@@ -1,0 +1,2 @@
+# One GitHub issue URL per line, where the URL is in the format https://github.com/{organization}/{repository}/issues/{issue number}
+# Just three URLs for three unique issues please.  Rest of the lines will be ignored.
