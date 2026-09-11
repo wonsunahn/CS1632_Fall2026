@@ -29,5 +29,5 @@ and hence may need more preparation.**
 * Be able to differentiate between a requirement that specifies the how and one that specifies the what.
 * Be able to differentiate between functional requirements vs non-functional requirements 
 * Be able to define all terminology introduced or fill in the blank.
-* **Be ready to critique a specification using one of the six validity checks:
-  * validity, completeness, consistency, realism, ambiguity, verifiability**
+* **Be ready to critique a specification using one of the six validity checks:**
+  * validity, completeness, consistency, realism, ambiguity, verifiability
