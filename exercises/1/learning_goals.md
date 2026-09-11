@@ -10,14 +10,6 @@ and hence may need more preparation.**
 * **Be able to partition an input space into equivalence classes.**
 * **Be able to come up with boundary and interior values given a test scenario.**
 
-## REQUIREMENTS ANALYSIS
-* Be able to differentiate between requirements verification activities and requirements validation activities.
-* Be able to differentiate between a requirement that specifies the how and one that specifies the what.
-* Be able to differentiate between functional requirements vs non-functional requirements 
-* Be able to define all terminology introduced or fill in the blank.
-* **Be ready to critique a specification using one of the six validity checks:
-  * validity, completeness, consistency, realism, ambiguity, verifiability**
-
 ## TEST PLANS
 * Be able to explain what a regression test is and why it needs to be repeatable.
 * Be able to explain what problems in a test case may cause it to become not repeatable.
@@ -31,3 +23,11 @@ and hence may need more preparation.**
 * Be able to define all terminology introduced or fill in the blank.
 * Be able to explain the role of expected behavior in a defect report.
 * **Be able to write a defect report with reproduction steps, expected behavior, and observed behavior given a defect scenario.**
+
+## REQUIREMENTS ANALYSIS
+* Be able to differentiate between requirements verification activities and requirements validation activities.
+* Be able to differentiate between a requirement that specifies the how and one that specifies the what.
+* Be able to differentiate between functional requirements vs non-functional requirements 
+* Be able to define all terminology introduced or fill in the blank.
+* **Be ready to critique a specification using one of the six validity checks:
+  * validity, completeness, consistency, realism, ambiguity, verifiability**
