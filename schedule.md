@@ -29,59 +29,58 @@ AFIST = [_A Friendly Introduction to Software Testing_](software-quality-assuran
 * Class 1: NO CLASS (Labor Day)
 
 * Class 2
-  * Lecture: Requirements (READING: AFIST, Chapters 5), Test-driven Development (READING: AFIST, Chapter 15)
+  * Lecture: Requirements (READING: AFIST, Chapters 5), 
 
 ## WEEK 4 (Week of 14 SEP)
 
 * Class 1 
   * Assignment due before class: [Exercise 1: Test Plans](exercises/1)
   * Quiz: Test Plans and Defect Reporting
-  * Lecture: Unit Testing Part 1 (READING: AFIST, Chapter 13)
+  * Lecture: Test-driven Development (READING: AFIST, Chapter 15)
   * Assignment release: [Exercise 2: Unit Testing](exercises/2)
 
 * Class 2: 
-  * Lecture: Unit Testing Part 2 (READING: AFIST, Chapter 14)
+  * Lecture: Unit Testing Part 1 (READING: AFIST, Chapter 13)
 
 ## WEEK 5 (Week of 21 SEP)
 
 * Class 1
-  * Assignment due before class: [Exercise 2: Unit Testing](exercises/2)
-  * Quiz: Unit Testing
-  * Lecture: Automated System Testing
-  * Assignment release: [Exercise 3: Automated System Testing](exercises/3)
+  * Lecture: Unit Testing Part 2 (READING: AFIST, Chapter 14)
   
 * Class 2
-  * cont'd
+  * Assignment due before class: [Exercise 2: Unit Testing](exercises/2)
+  * Quiz: Unit Testing
+  * Lecture: Behavior Driven Development
+  * Assignment release: [Exercise 3: Behavior Driven Development](exercises/3)
 
 ## WEEK 6 (Week of 28 SEP)
 
 * Class 1
-  * Assignment due before class: [Exercise 3: Automated System Testing](exercises/3)
-  * Quiz: Automated System Testing
-  * Lecture: Behavior Driven Development
-  * Assignment release: [Supplementary Exercise 1: Behavior Driven Development](exercises/Supplement1)
+  * Lecture: Automated System Testing
+  * Assignment release: [Exercise 4: Automated System Testing](exercises/4)
 
 * Class 2
-  * Lecture: Writing Testable Code Lecture (READING: AFIST, Chapter 16)
+  * Assignment due before class: [Exercise 3: Behavior Driven Development](exercises/3)
+  * Lecture: cont'd
 
 ## WEEK 7 (Week of 5 OCT)
 
 * Class 1
-  * Assignment due before class: [Supplementary Exercise 1: Behavior Driven Development](exercises/Supplement1)
-  * Quiz: Behavior Driven Development
-  * Lecture: Performance Testing (READING: AFIST, Chapter 19)
-  * Assignment release: [Exercise 4: Performance Testing](exercises/4)
+  * Assignment due before class: [Exercise 4: Automated System Testing](exercises/4)
+  * Quiz: Behavior Driven Development / Automated Systems Testing
+  * Lecture: Writing Testable Code Lecture (READING: AFIST, Chapter 16)
+  * Assignment release: [Exercise 5: Performance Testing](exercises/5)
 
 * Class 2
-  * cont'd
+  * Lecture: Performance Testing (READING: AFIST, Chapter 19)
 
 ## WEEK 8 (Week of 12 OCT)
 
 * Class 1
-  * Assignment due before class: [Exercise 4: Performance Testing](exercises/4)
+  * Assignment due before class: [Exercise 5: Performance Testing](exercises/5)
   * Quiz: Performance Testing
   * Lecture: Stochastic and Property-Based Testing Lecture (READING: AFIST, Chapter 18)
-  * Assignment release: [Supplementary Exercise 2: Property-based Testing](exercises/Supplement2)
+  * Assignment release: [Exercise 6: Property-based Testing](exercises/6)
 
 * Class 2
   * cont'd
@@ -89,10 +88,10 @@ AFIST = [_A Friendly Introduction to Software Testing_](software-quality-assuran
 ## WEEK 9 (Week of 19 OCT)
 
 * Class 1
-  * Assignment due before class: [Supplementary Exercise 2: Property-based Testing](exercises/Supplement2)
+  * Assignment due before class: [Exercise 6: Property-based Testing](exercises/6)
   * Quiz: Property-based Testing
   * Lecture: Software QA and Nondeterminism
-  * Assignment release: [Supplementary Exercise 3: Testing Nondeterministic Software](exercises/Supplement3)
+  * Assignment release: [Exercise 7: Testing Nondeterministic Software](exercises/7)
 
 * Class 2
   * cont'd
@@ -100,10 +99,10 @@ AFIST = [_A Friendly Introduction to Software Testing_](software-quality-assuran
 ## WEEK 10 (Week of 26 OCT)
 
 * Class 1
-  * Assignment due before class: [Supplementary Exercise 3: Testing Nondeterministic Software](exercises/Supplement3)
+  * Assignment due before class: [Exercise 7: Testing Nondeterministic Software](exercises/7)
   * Quiz: Testing Nondeterministic Software - Memory Errors and Race Conditions
   * Lecture: Static Analysis Part 1
-  * In-class exercise: [Exercise 5 Part 1: Linters and Bug Finders](exercises/5)
+  * In-class exercise: [Exercise 8 Part 1: Linters and Bug Finders](exercises/8)
 
 * Class 2
   * Lecture: Software QA and Nondeterminism (cont'd)
@@ -111,9 +110,9 @@ AFIST = [_A Friendly Introduction to Software Testing_](software-quality-assuran
 ## WEEK 11 (Week of 2 NOV)
 
 * Class 1
-  * Assignment due before class: [Exercise 5 Part 1: Linters and Bug Finders](exercises/5)
+  * Assignment due before class: [Exercise 8 Part 1: Linters and Bug Finders](exercises/8)
   * Lecture: Static Analysis Part 2
-  * Assignment release: [Exercise 5 Part 2: Model Checking](exercises/5)
+  * Assignment release: [Exercise 8 Part 2: Model Checking](exercises/8)
 
 * Class 2
   * cont'd
@@ -121,11 +120,13 @@ AFIST = [_A Friendly Introduction to Software Testing_](software-quality-assuran
 ## WEEK 12 (Week of 9 NOV)
 
 * Class 1
+  * Assignments due before class: [Exercise 8 Part 2:  Model Checking](exercises/8)
+  * Quiz: Static Analysis
   * Lecture: Smoke and Exploratory Testing (READING: AFIST, Chapters 10-11)
-  * In-class exercise: [Supplementary Exercise 4 Part 1: CI Pipelines](exercises/Supplement4)
+  * Assignment release: [Exercise 9 Part 1: CI Pipelines](exercises/9)
 
 * Class 2
-  * In-class exercise: [Supplementary Exercise 4 Part 2: Dockers](exercises/Supplement4)
+  * Assignment release: [Exercise 9 Part 2: Dockers](exercises/9)
 
 ## WEEK 13 (Week of 16 NOV)
 
@@ -133,7 +134,7 @@ AFIST = [_A Friendly Introduction to Software Testing_](software-quality-assuran
   * Lecture: Pairwise and Combinatorial Testing (READING: AFIST, Chapter 17)
 
 * Class 2
-  * Assignments due before class: [Supplementary Exercise 4 Part 1: CI Pipelines](exercises/Supplement4), [Supplementary Exercise 4 Part 2: Dockers](exercises/Supplement4)
+  * Assignments due before class: [Exercise 9 Part 1: CI Pipelines](exercises/9), [Exercise 9 Part 2: Dockers](exercises/9)
   * Lecture: Security Testing (READING: AFIST, Chapter 20)
 
 ## WEEK 14 (Week of 23 NOV)
@@ -144,7 +145,7 @@ AFIST = [_A Friendly Introduction to Software Testing_](software-quality-assuran
 
 ## WEEK 15 (Week of 30 NOV)
 
-* TBA
+* Industry Invited Lectures (TBA)
 
 * Final Project due Friday (12/4) 11:59 PM
 
