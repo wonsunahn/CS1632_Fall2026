@@ -74,7 +74,20 @@
                     <limit>
                       <counter>INSTRUCTION</counter>
                       <value>COVEREDRATIO</value>
-                      <minimum>20%</minimum>
+                      <minimum>90%</minimum>
+                    </limit>
+                  </limits>
+                  <includes>
+                    <include>edu.pitt.cs.CatImpl</include>
+                  </includes>
+                </rule>
+                <rule>
+                  <element>CLASS</element>
+                  <limits>
+                    <limit>
+                      <counter>INSTRUCTION</counter>
+                      <value>COVEREDRATIO</value>
+                      <minimum>90%</minimum>
                     </limit>
                   </limits>
                   <includes>
