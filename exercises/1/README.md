@@ -446,7 +446,8 @@ matrices and the traceability graph.
 
 ## Reporting Defects
 
-Please find **at least three defects** and report them through the GitHub issues system.  
+Please find **at least three defects** in the CatScale application and report
+them through the GitHub issues system.  
 
 ### Components of a Defect Report
 
@@ -536,13 +537,13 @@ box:
 
 <img alt="edit requirement" src=imgs/edit_requirement.png>
 
-Go ahread and commit the change to the issue branch.  Now that we are done with
+Go ahead and commit the change to the issue branch.  Now that we are done with
 our fix, we are going to create a **pull request**, which is a request to pull
 the changes in the issue branch into the main branch.  One or more people can
 review that request and make sure everything is kosher before pulling
 everything into the main branch, because updating the main branch comes with
 risks.  Create the pull request by clicking on the "Pull requests" tab and
-clicking on the "New pull request" button as showin in the red box below:
+clicking on the "New pull request" button as shown in the red box below:
 
 <img alt="create pull request" src=imgs/create_pull_request.png>
 
@@ -573,7 +574,7 @@ Delete the branch by clicking on the "Delete branch" button since you no longer
 need the branch since it is already merged.  Closing the pull request will
 automatically close the issue associated with that pull request, so that when
 you click on the "Issues" tab, you will no longer see any open issues.  Now you
-need to click on the "Closed" issues tab indcated by the red box below to see
+need to click on the "Closed" issues tab indicated by the red box below to see
 the closed issue:
 
 <img alt="closed issue" src=imgs/closed_issue.png>
@@ -587,10 +588,10 @@ not the requirements, but the process would be the same.
 ## Submission
 
 Before you submit, please add a file [issue_urls.txt](issue_urls.txt) to your
-exercise repository and fill it with three URLs to three GitHub issues, one
-line per URL.  The URL is the URL of the page when you click on an issue in the
-Issues tab.  You may have to click on the "Closed" link to display closed
-issues.  The URL is formatted as follows:
+exercise repository and fill it with three URLs to three GitHub issues file for
+CatScale, one line per URL.  The URL is the URL of the page when you click on
+an issue in the Issues tab.  You may have to click on the "Closed" link to
+display closed issues.  The URL is formatted as follows:
 
 ```
 https://github.com/{organization}/{repository}/issues/{issue number}
