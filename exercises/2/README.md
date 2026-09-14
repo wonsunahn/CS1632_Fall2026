@@ -8,12 +8,12 @@
   * [Testing the Program](#testing-the-program)
     + [Using VSCode](#using-vscode-1)
     + [Using Commandline](#using-commandline-1)
-  * [Task 1: Use Test Driven Development (TDD) to complete RentACat](#task-1--use-test-driven-development--tdd--to-complete-rentacat)
+  * [Task 1: Use Test Driven Development (TDD) to complete RentACat](#task-1-use-test-driven-development-tdd-to-complete-rentacat)
     + [Writing JUnit Tests](#writing-junit-tests)
     + [Verifying JUnit Tests](#verifying-junit-tests)
-  * [Task 2: Measuring Test Coverage for RentACat](#task-2--measuring-test-coverage-for-rentacat)
-  * [Task 3: Improving Test Coverage for RentACat](#task-3--improving-test-coverage-for-rentacat)
-  * [Task 4: Finalizing Test Coverage for RentACat](#task-4--finalizing-test-coverage-for-rentacat)
+  * [Task 2: Measuring Test Coverage for RentACat](#task-2-measuring-test-coverage-for-rentacat)
+  * [Task 3: Improving Test Coverage for RentACat](#task-3-improving-test-coverage-for-rentacat)
+  * [Task 4: Finalizing Test Coverage for RentACat](#task-4-finalizing-test-coverage-for-rentacat)
 - [Submission](#submission)
 - [GradeScope Feedback](#gradescope-feedback)
 - [Resources](#resources)
@@ -456,9 +456,10 @@ test cases, it should look similar to the following images:
 ## Task 3: Improving Test Coverage for RentACat
 
 At this stage, you will notice that your instruction coverage for CatImpl.java
-is sufficient but not for RentACatImpl.java.  Add more test cases to
-RentACatIntegrationTest.java to hit the coverage target of 90\%.  You will have
-to add tests to test the main method of RentACatImpl.java to hit that target.
+is sufficient but not for RentACatImpl.java (for example, the above image shows
+a coverage of only 47\%.  Add more test cases to RentACatIntegrationTest.java
+to hit the coverage target of 90\%.  You will have to add tests to test the
+main method of RentACatImpl.java to hit that target.
 
 For each test, make sure:
 
