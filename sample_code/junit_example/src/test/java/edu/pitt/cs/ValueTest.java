@@ -13,7 +13,7 @@ public class ValueTest {
 
 	@Before
 	public void setUp() {
-		value = new Value();
+		// TODO: Fill in!
 	}
 	
 	/**
