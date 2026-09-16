@@ -1,16 +1,17 @@
 package edu.pitt.cs;
 public class Value {
-	private int val = 0;
+	// TODO: Fill in!
 
 	private void setVal(int val) {
-		this.val = val;
+		// TODO: Fill in!
 	}
 
 	public void incVal() {
-		setVal(getVal() + 1);
+		// TODO: Fill in!
 	}
 
 	public int getVal() {
-		return val;
+		// TODO: Fill in!
+		return 0;
 	}
 }
