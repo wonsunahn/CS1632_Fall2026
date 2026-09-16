@@ -457,9 +457,15 @@ test cases, it should look similar to the following images:
 
 At this stage, you will notice that your instruction coverage for CatImpl.java
 is sufficient but not for RentACatImpl.java (for example, the above image shows
-a coverage of only 47\%.  Add more test cases to RentACatIntegrationTest.java
-to hit the coverage target of 90\%.  You will have to add tests to test the
-main method of RentACatImpl.java to hit that target.
+a coverage of only 47\%.  You will notice that the bulk of the missing coverage
+is in the main method of RentACatImpl.java.
+
+Create a new JUnit test class SystemsTest.java under test/java/edu/pitt/cs
+alongside the other JUnit test classes.  In that file, add JUnit tests that
+test the main method to improve coverage.  If there any other methods missing
+coverage, they can be tested through the main method as part of the systems
+test.  Systems tests test your entire application end-to-end, and therefore are
+a type of integration test.
 
 For each test, make sure:
 
@@ -474,7 +480,7 @@ system output of the program.  Use the "out" ByteArrayOutputStream that you
 previously initialized in the setUp() method to compare the system output
 stored in the buffer against the expected output.  To elicit output from the
 main method, you will have to sometimes type in commands to stdin.  You can do
-this by using the following code snippet:
+this by using a code snippet like below:
 
 ```
 // Backup the current system input (which is stdin)
