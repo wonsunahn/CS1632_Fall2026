@@ -518,7 +518,50 @@ questions about the exercise or the GradeScope feedback.
 
 # GradeScope Feedback
 
-To be announced.
+The GradeScope autograder divided into largely 7 phases.  The first 6 phases are dedicated to testing your JUnit test classes:
+
+1. CatUnitTest on CatSolution 
+2. CatUnitTest on CatBuggy: 
+3. RentACatUnitTest on RentACatSolution
+4. RentACatUnitTest on RentACatBuggy
+5. RentACatIntegrationTest on RentACatSolution
+6. RentACatIntegrationTest on RentACatBuggy
+7. RentACatIntegrationTestSolution on RentACatImpl
+8. SystemsTest on RentACatImpl and RentACatNull
+9. CatImpl Jacoco Coverage Check
+10. RentACatImpl Jacoco Coverage Check
+
+The purpose of sections 1 to 6 is to verify the correctness of your JUnit tests
+in CatUnitTest, RentACatUnitTest, and RentACatIntegrationTest.  You will notice
+that each of your JUnit classes are run against first the solution version and
+then the buggy version of the test targets.  The expectation is that they
+should all pass the solution version and fail the buggy version with the
+exception of the aforementioned 3 cases.
+
+The purpose of section 7 (RentACatIntegrationTestSolution on RentACatImpl) is
+to test the correctness of your implementation using the solution version of
+the RentACatIntegrationTest against your code.
+
+The purpose of section 8 (SystemsTest on RentACatImpl and RentACatNull) is to
+verify the correctness of your JUnit tests in SystemsTest.  Each of your JUnit
+tests are run against first your implementation of RentACat and then a buggy
+version called RentACatNull, that does not output anything from its main method
+(and hence should fail all your systems level tests that check output).  The
+expectation is that they should all pass your implementation and fail
+RentACatNull.
+
+The purpose of sections 9 and 10 are to measure test coverage of CatImpl and
+RentACatImpl.  Again, a statement coverage of 90\% or above is required for
+full points.  The GradeScope feedback will explain the rubric for this section
+if you get deductions.
+
+The autograder will score 90/100 of your grade.  The remaining 10/100 of your
+grade will be your catimpl_jacoco.jpg and rentacatimpl_jacoco.jpg screenshots
+which will be manually graded.  You will get full points if you captured the
+correct screen, regardless of the coverage numbers.
+
+If you see deductions, read the feedback given by the autograder, fix your
+code, and retry.  Ask any questions on the Teams exercise channel.
 
 # Resources
 
