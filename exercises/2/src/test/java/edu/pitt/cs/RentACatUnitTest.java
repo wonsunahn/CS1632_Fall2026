@@ -59,7 +59,7 @@ public class RentACatUnitTest {
 		// First, make a back up of System.out (which is the stdout to the console)
 		stdout = System.out;
 		// Second, update System.out to the PrintStream created from "out"
-		// TODO: Fill in.  Refer to the textbook chapter 14.6 on Testing System Output.
+		// TODO: Fill in. Refer to the textbook chapter 14.6 on Testing System Output.
 	}
 
 	@After
@@ -86,8 +86,8 @@ public class RentACatUnitTest {
 	 * </pre>
 	 * 
 	 * Hint: You will need to use Java reflection to invoke the private getCat(int)
-	 * method. efer to the Unit Testing Part 1 lecture and the textbook appendix 
-	 * hapter on using reflection on how to do this.  Please use r.getClass() to get
+	 * method. efer to the Unit Testing Part 1 lecture and the textbook appendix
+	 * hapter on using reflection on how to do this. Please use r.getClass() to get
 	 * the class object of r instead of hardcoding it as RentACatImpl.
 	 */
 	@Test
@@ -106,8 +106,8 @@ public class RentACatUnitTest {
 	 * </pre>
 	 * 
 	 * Hint: You will need to use Java reflection to invoke the private getCat(int)
-	 * method. efer to the Unit Testing Part 1 lecture and the textbook appendix 
-	 * hapter on using reflection on how to do this.  Please use r.getClass() to get
+	 * method. efer to the Unit Testing Part 1 lecture and the textbook appendix
+	 * hapter on using reflection on how to do this. Please use r.getClass() to get
 	 * the class object of r instead of hardcoding it as RentACatImpl.
 	 */
 	@Test
@@ -156,8 +156,7 @@ public class RentACatUnitTest {
 	 * </pre>
 	 * 
 	 * Hint: You may need to use behavior verification for this one. See
-	 * sample_code/junit_example/LinkedListUnitTest.java in the course repository to
-	 * see examples.
+	 * sample_code/junit_example/ in the course repository to see examples.
 	 */
 	@Test
 	public void testRenameFailureNumCats0() {
@@ -175,8 +174,7 @@ public class RentACatUnitTest {
 	 * </pre>
 	 * 
 	 * Hint: You may need to use behavior verification for this one. See
-	 * sample_code/junit_example/LinkedListUnitTest.java in the course repository to
-	 * see examples.
+	 * sample_code/junit_example/ in the course repository to see examples.
 	 */
 	@Test
 	public void testRenameNumCat3() {
@@ -195,8 +193,7 @@ public class RentACatUnitTest {
 	 * </pre>
 	 * 
 	 * Hint: You may need to use behavior verification for this one. See
-	 * sample_code/junit_example/LinkedListUnitTest.java in the course repository to
-	 * see examples.
+	 * sample_code/junit_example/ in the course repository to see examples.
 	 */
 	@Test
 	public void testRentCatNumCats3() {
@@ -216,8 +213,7 @@ public class RentACatUnitTest {
 	 * </pre>
 	 * 
 	 * Hint: You may need to use behavior verification for this one. See
-	 * sample_code/junit_example/LinkedListUnitTest.java in the course repository to
-	 * see examples.
+	 * sample_code/junit_example/ in the course repository to see examples.
 	 */
 	@Test
 	public void testRentCatFailureNumCats3() {
@@ -237,8 +233,7 @@ public class RentACatUnitTest {
 	 * </pre>
 	 * 
 	 * Hint: You may need to use behavior verification for this one. See
-	 * sample_code/junit_example/LinkedListUnitTest.java in the course repository to
-	 * see examples.
+	 * sample_code/junit_example/ in the course repository to see examples.
 	 */
 	@Test
 	public void testReturnCatNumCats3() {
@@ -257,8 +252,7 @@ public class RentACatUnitTest {
 	 * </pre>
 	 * 
 	 * Hint: You may need to use behavior verification for this one. See
-	 * sample_code/junit_example/LinkedListUnitTest.java in the course repository to
-	 * see examples.
+	 * sample_code/junit_example/ in the course repository to see examples.
 	 */
 	@Test
 	public void testReturnFailureCatNumCats3() {
