@@ -449,9 +449,9 @@ class or the RentACatImpl class, which are the classes under test which we are
 interested in measuring instruction coverage for.  If you have implemented all the
 test cases, it should look similar to the following images:
 
-<img alt="Code Coverage Jacoco" src=imgs/code_coverage_cat.png width=700>
+<img alt="Code Coverage CatImpl" src=imgs/code_coverage_cat.png width=700>
 
-<img alt="Code Coverage Jacoco" src=imgs/code_coverage_rentacat.png width=700>
+<img alt="Code Coverage RentACatImpl" src=imgs/code_coverage_rentacat.png width=700>
 
 ## Task 3: Improving Test Coverage for RentACat
 
@@ -460,12 +460,25 @@ is sufficient but not for RentACatImpl.java (for example, the above image shows
 a coverage of only 47\%.  You will notice that the bulk of the missing coverage
 is in the main method of RentACatImpl.java.
 
+To see where the missing coverage is at a line-by-line granularity, try
+clicking on one of the methods in the Jacoco RentACatImpl page shown above.
+You will see some source code lines highlighted in green and some highlighted
+in red like the below:
+
+<img alt="Code Coverage Highlighting" src=imgs/jacoco_highlighting.png width=700>
+
+The green-highlighted lines are the lines that were covered (executed) by one
+or more JUnit tests during testing.  The red-highlighted lines are the lines
+that were never touched by testing, and these are the lines that you should
+focus upon to improve your test coverage.
+
 Create a new JUnit test class SystemsTest.java under test/java/edu/pitt/cs
 alongside the other JUnit test classes.  In that file, add JUnit tests that
 test the main method to improve coverage.  If there any other methods missing
 coverage, they can be tested through the main method as part of the systems
-test.  Systems tests test your entire application end-to-end, and therefore are
-a type of integration test.
+test.  Systems tests is a type of integration test that tests your entire
+application end-to-end, so any line of code in your software should be
+reachable by testing the main method.
 
 For each test, make sure:
 
