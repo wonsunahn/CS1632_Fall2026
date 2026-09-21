@@ -465,7 +465,7 @@ clicking on one of the methods in the Jacoco RentACatImpl page shown above.
 You will see some source code lines highlighted in green and some highlighted
 in red like the below:
 
-<img alt="Code Coverage Highlighting" src=imgs/jacoco_highlighting.png width=700>
+<img alt="Code Coverage Highlighting" src=imgs/jacoco_highlighting.png width=500>
 
 The green-highlighted lines are the lines that were covered (executed) by one
 or more JUnit tests during testing.  The red-highlighted lines are the lines
