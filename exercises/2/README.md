@@ -467,10 +467,11 @@ in red like the below:
 
 <img alt="Code Coverage Highlighting" src=imgs/jacoco_highlighting.png width=500>
 
-The green-highlighted lines are the lines that were covered (executed) by one
-or more JUnit tests during testing.  The red-highlighted lines are the lines
-that were never touched by testing, and these are the lines that you should
-focus upon to improve your test coverage.
+The green-highlighted lines in the addCat method are the lines that were
+covered (executed) by one or more JUnit tests during testing.  The
+red-highlighted lines in the getCat method are the lines that were never
+touched by testing, and these are the lines that you should focus upon to
+improve your test coverage.
 
 Create a new JUnit test class SystemsTest.java under test/java/edu/pitt/cs
 alongside the other JUnit test classes.  In that file, add JUnit tests that
