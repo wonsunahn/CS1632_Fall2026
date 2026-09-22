@@ -532,7 +532,9 @@ questions about the exercise or the GradeScope feedback.
 
 Please don't forget to save your coverage reports under jacoco_reports/ and
 also please submit the transcript of your interaction with the socratic AI
-tutor in the file socratic_tutor_transcript.txt.
+tutor in the file socratic_tutor_transcript.txt.  I'm going to be looking for
+at least some minimal interaction --- answering at least three questions posed
+by the AI.
 
 # GradeScope Feedback
 
