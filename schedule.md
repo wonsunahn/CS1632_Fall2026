@@ -48,14 +48,14 @@ AFIST = [_A Friendly Introduction to Software Testing_](software-quality-assuran
   * Lecture: Unit Testing Part 2 (READING: AFIST, Chapter 14)
   
 * Class 2
-  * Assignment due before class: [Exercise 2: Unit Testing](exercises/2)
-  * Quiz: Unit Testing
   * Lecture: Behavior Driven Development
   * Assignment release: [Exercise 3: Behavior Driven Development](exercises/3)
 
 ## WEEK 6 (Week of 28 SEP)
 
 * Class 1
+  * Assignment due before class: [Exercise 2: Unit Testing](exercises/2)
+  * Quiz: Unit Testing
   * Lecture: Automated System Testing
   * Assignment release: [Exercise 4: Automated System Testing](exercises/4)
 
