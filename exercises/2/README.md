@@ -530,6 +530,10 @@ fix your code based on the feedback and resubmit.  Repeat until you don't get
 deductions.  Pleaes post on the Exercise 2 MS Teams channel if you have any
 questions about the exercise or the GradeScope feedback.
 
+Please don't forget to save your coverage reports under jacoco_reports/ and
+also please submit the transcript of your interaction with the socratic AI
+tutor in the file socratic_tutor_transcript.txt.
+
 # GradeScope Feedback
 
 The GradeScope autograder divided into largely 7 phases.  The first 6 phases are dedicated to testing your JUnit test classes:
