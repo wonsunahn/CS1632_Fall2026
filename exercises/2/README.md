@@ -8,6 +8,7 @@
   * [Testing the Program](#testing-the-program)
     + [Using VSCode](#using-vscode-1)
     + [Using Commandline](#using-commandline-1)
+  * [Task 0: Use socratic AI tutor to review unit testing concepts](#task-0-use-socratic-ai-tutor-to-review-unit-testing-concepts)
   * [Task 1: Use Test Driven Development (TDD) to complete RentACat](#task-1-use-test-driven-development-tdd-to-complete-rentacat)
     + [Writing JUnit Tests](#writing-junit-tests)
     + [Verifying JUnit Tests](#verifying-junit-tests)
@@ -314,6 +315,24 @@ https://www.eclemma.org/jacoco/trunk/doc/check-mojo.html We will talk more
 about Jacoco later in the [Measuring Code Coverage](#measuring-code-coverage)
 section.
 
+## Task 0: Use socratic AI tutor to review unit testing concepts
+
+Please upload the socratic_tutor.md file to a new chat in an LLM with a prompt
+"Be the tutor described in the document.".  The tutor will begin by asking you
+to write your full name and date.  Then it is going to get you started on the
+exercise by asking you a bunch of [socratic
+questions](https://en.wikipedia.org/wiki/Socratic_questioning).  There are 3
+problems that you have to work through.  After you are done, the AI tutor will
+produce a summary.  Please copy that summary and paste it into a file named
+**socratic_tutor_summary.txt** at the root of your exercise submission repository.
+You need to be done with all 3 problems to receive the summary.
+
+The purpose of socratic questioning is to guide you towards understanding by
+asking you questions.  Hence it is will not give out any answers even if you
+ask it to.  If you don't know the answer, then you can just say so and the
+tutor will give you guidance on where to find the answer or in what direction
+to think.
+
 ## Task 1: Use Test Driven Development (TDD) to complete RentACat
 
 Now we know how to run the program and test the program, it is time to get to
@@ -531,10 +550,8 @@ deductions.  Pleaes post on the Exercise 2 MS Teams channel if you have any
 questions about the exercise or the GradeScope feedback.
 
 Please don't forget to save your coverage reports under jacoco_reports/ and
-also please submit the transcript of your interaction with the socratic AI
-tutor in the file socratic_tutor_transcript.txt.  I'm going to be looking for
-at least some minimal interaction --- answering at least three questions posed
-by the AI.
+also please submit the summary of your interaction with the socratic AI
+tutor in the file socratic_tutor_summary.txt.  
 
 # GradeScope Feedback
 
