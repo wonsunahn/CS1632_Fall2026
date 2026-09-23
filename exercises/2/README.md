@@ -24,7 +24,8 @@ Fall Semester 2026 - Exercise 2
 
 * DUE: September 23 (Wednesday), 2026 before start of class
 
-Please use the link to accept this exercise and create your repository.
+Please use the link posted on the Teams Exercise 2 channel to accept this
+exercise and create your repository.
 
 ## Before You Begin
 
