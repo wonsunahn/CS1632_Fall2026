@@ -2,7 +2,7 @@ Feature: Rent-A-Cat returning
 
 As a user
 I want to return a cat that I rented back to the rent-a-cat facility
-So that I can be not accused of cat abduction.
+So that I cannot be accused of cat abduction.
 
 Background:
 # TODO: Include your test fixture here

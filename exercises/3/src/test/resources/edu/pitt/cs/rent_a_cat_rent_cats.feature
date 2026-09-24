@@ -2,7 +2,7 @@ Feature: Rent-A-Cat renting
 
 As a user
 I want to rent a cat from my neighborhood rent-a-cat facility
-So that I can be less lonely during the pandemic.
+So that I can feed it expired canned tuna that don't smell like expired canned tuna.
 
 Background:
 Given a rent-a-cat facility
