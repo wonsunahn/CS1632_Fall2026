@@ -236,7 +236,7 @@ Please follow these guidelines while completing the feature:
 1. For each business rule, write exactly one scenario that demonstrates the business rule.
 
 1. for each scenario, specify the system output as a postcondition ("Invalid
-   cat ID." or "Hello, <cat name>!", depending on the scenario).
+   cat ID." or "Hello, \<cat name\>!", depending on the scenario).
 
 1. For each scenario, specify the final listing containing the three cats as a
    postcondition.
