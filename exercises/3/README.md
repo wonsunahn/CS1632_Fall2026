@@ -6,8 +6,9 @@
     + [Running Cucumber Tests on Commandline](#running-cucumber-tests-on-commandline)
     + [Expected Outcome](#expected-outcome)
   * [What To Do](#what-to-do)
-    + [Edit StepDefinitions.java for the "list cats and "rent cats" features](#edit-stepdefinitionsjava-for-the-list-cats-and-rent-cats-features)
-    + [Edit StepDefinitions.java and rent\_a\_cat\_return\_cats.feature for the "return cats" feature](#edit-stepdefinitionsjava-and-rent-a-cat-return-catsfeature-for-the-return-cats-feature)
+    + [Task 1: Edit StepDefinitions.java for the "list cats and "rent cats" features](#task-1-edit-stepdefinitionsjava-for-the-list-cats-and-rent-cats-features)
+    + [Task 2: Edit StepDefinitions.java and rent\_a\_cat\_return\_cats.feature for the "return cats" feature](#task-2-edit-stepdefinitionsjava-and-rent-a-cat-return-catsfeature-for-the-return-cats-feature)
+    + [Task 3: Create a rent\_a\_cat\_rename\_cats.feature file](#task-3-create-a-rent-a-cat-rename-catsfeature-file)
   * [Verify Scenarios against RentACatBuggy.java](#verify-scenarios-against-rentacatbuggyjava)
 - [Submission](#submission)
 - [GradeScope Feedback](#gradescope-feedback)
@@ -80,9 +81,7 @@ You will get a long list of failures followed by this summary text:
 [INFO] BUILD FAILURE
 [INFO] ------------------------------------------------------------------------
 [INFO] Total time:  5.081 s
-[INFO] Finished at: 2026-01-14T01:57:21-05:00
-[INFO] ------------------------------------------------------------------------
-[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:3.1.2:test (default-test) on project RentACat-Cucumber: There are test failures.
+[INFO] Finished at: 2026-09-24T10:33:52-03:44
 ...
 ```
 
@@ -135,7 +134,7 @@ Please refer to the Exercise 2 RentACat and Cat interfaces to remind yourself
 of the APIs available to you to implement the StepDefinitions Java Cucumber
 steps.  All the places to modify have been marked by // TODO comments.
 
-### Edit StepDefinitions.java for the "list cats and "rent cats" features
+### Task 1: Edit StepDefinitions.java for the "list cats and "rent cats" features
 
 Read the src/test/resources/edu/pitt/cs/rent\_a\_cat\_list\_cats.feature and
 src/test/resources/edu/pitt/cs/rent\_a\_cat\_rent\_cats.feature files to see if
@@ -158,7 +157,7 @@ Tests run: 14, Failures: 0, Errors: 1, Skipped: 0
 ...
 ```
 
-### Edit StepDefinitions.java and rent\_a\_cat\_return\_cats.feature for the "return cats" feature
+### Task 2: Edit StepDefinitions.java and rent\_a\_cat\_return\_cats.feature for the "return cats" feature
 
 So where did this error come from?  If you scroll up in the Cucumber output a
 little bit, you will see the following messages:
@@ -201,22 +200,64 @@ fix that, you should finally get the following:
 
 ```
 ...
-[INFO]
-[INFO] Tests run: 14, Failures: 0, Errors: 0, Skipped: 0
-[INFO]
+Tests run: 14, Failures: 14, Errors: 0, Skipped: 0
+
 [INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESS
+[INFO] BUILD FAILURE
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  5.184 s
-[INFO] Finished at: 2026-01-14T02:18:38-05:00
-[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  2.993 s
+[INFO] Finished at: 2026-09-24T10:33:52-03:50
 ...
 ```
 
-Congratulations!  
-
 Now try to complete the other 4 scenarios in rent\_a\_cat\_return\_cats.feature and
-see if you can have them pass too!
+see if you can have them pass too.
+
+### Task 3: Create a rent\_a\_cat\_rename\_cats.feature file
+
+Now it is time you try specifying a new feature from scratch.  Please create a
+new rent\_a\_cat\_rename\_cats.feature file under the appropriate folder and
+fill it in, referencing what you did for the previous features.  It will
+specify the cat renaming feature that we already tested in Exercise 2 using
+JUnit.
+
+Please follow these guidelines while completing the feature:
+
+1. Write a user story for this feature starting with "As a..." just like
+   for the other features.
+
+1. Create a test fixture consisting of a rent-a-cat facility and the three cats
+   we used for testing in the other features.
+
+1. Write two business rules for: 1) when the user attempts to rename a cat that
+   is not on the list and 2) when the user attempts to rename a cat that is on the
+   list.
+
+1. For each business rule, write exactly one scenario that demonstrates the business rule.
+
+1. for each scenario, specify the system output as a postcondition ("Invalid
+   cat ID." or "Hello, <cat name>!", depending on the scenario).
+
+1. For each scenario, specify the final listing containing the three cats as a
+   postcondition.
+
+To test the system output, you will have to redirect it to an "out" output
+stream buffer before every scenario (and also revert it back to stdout after
+every test), just like you did for Exercise 2.  Now, even though this needs to
+happen before every scenario and therefore is part of the test fixture, it is
+awkward to use the Background section in Gherkin for this purpose, as Gherkin
+is meant to be a conceptual description of the feature, and output redirection
+is just part of the plumbing that is needed for the scenarios to run.  For this
+type of test fixture, Cucumber has its own @Before and @After annotations that
+is syntactically identical to the JUnit @Before and @After annotations but are
+functionally different (the @Before in Cucumber runs before every scenario and
+the @Before and JUnit runs before every @Test method).  We want the Cucumber
+version so that's why StepDefinitions.java imports "io.cucumber.java.Before"
+and not "org.junit.Before".
+
+In terms of syntax, it is identical to JUnit, so you need to write a @Before
+method that sets up the "out" output streem buffer and an @After method that
+restores stdout, just like in Exercise 2.
 
 ## Verify Scenarios against RentACatBuggy.java
 
@@ -252,15 +293,13 @@ If you have faithfully implemented all the scenarios and steps, you should see
 ```
 ...
 [INFO]
-[ERROR] Tests run: 14, Failures: 14, Errors: 0, Skipped: 0
+[ERROR] Tests run: 16, Failures: 16, Errors: 0, Skipped: 0
 [INFO]
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD FAILURE
 [INFO] ------------------------------------------------------------------------
 [INFO] Total time:  5.182 s
-[INFO] Finished at: 2026-01-14T02:12:18-05:00
-[INFO] ------------------------------------------------------------------------
-[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:3.1.2:test (default-test) on project RentACat-Cucumber: There are test failures.
+[INFO] Finished at: 2026-09-24T10:33:52-04:00
 ...
 ```
 
