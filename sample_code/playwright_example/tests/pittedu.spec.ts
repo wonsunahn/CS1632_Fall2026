@@ -29,7 +29,7 @@ test('TEST-6-SEARCH-CSC', async ({ page }) => {
   expect(false).toBeTruthy(); // Placeholder assertion to be replaced with actual test code.
 });
 
-test('TEST-7-ABOUT-SNAPSHOT', async ({ page }) => {
+test('TEST-7-ABOUT-SCREENSHOT', async ({ page }) => {
   // TODO: Fill in.
   expect(false).toBeTruthy(); // Placeholder assertion to be replaced with actual test code.
 });

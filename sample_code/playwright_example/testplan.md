@@ -82,8 +82,8 @@ POSTCONDITIONS:
 ```
 
 ```
-IDENTIFIER: TEST-7-ABOUT-SNAPSHOT
-TEST CASE: Check that the third item when searching "csc" is the CSC Officers page.
+IDENTIFIER: TEST-7-ABOUT-SCREENSHOT
+TEST CASE: Check that the screenshot for the "About" page matches the expected screenshot, pixel by pixel.
 PRECONDITIONS: None.
 EXECUTION STEPS:
 1. Open the URL https://www.pitt.edu/ on the web browser.
@@ -92,7 +92,7 @@ POSTCONDITIONS:
 * The snapshot of the currently showing page is the same as the snapshot saved under
   the tests/pittedu.spec.ts-snapshots/ folder for the given web browser and OS.
   (Hint:
-   1. Use the "expect" assertion with the "toHaveScreenshot()" call.
+   1. Use the "expect(page).toHaveScreenshot()" call.
    2. If the toHaveScreenshot() is called without an image filename argument, it will automatically match the
       file stored under tests/pittedu.spec.ts-snapshots/ folder for the given web browser and OS.)
 ```
