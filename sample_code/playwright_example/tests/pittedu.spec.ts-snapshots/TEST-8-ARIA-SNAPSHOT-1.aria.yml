@@ -1,0 +1,408 @@
+- link "Skip to main content":
+  - /url: "#main-content"
+- banner "Site header":
+  - link "University of Pittsburgh":
+    - /url: /node/606
+    - img "University of Pittsburgh"
+  - navigation:
+    - navigation "Main menu":
+      - text: ""
+      - list:
+        - listitem:
+          - link "About":
+            - /url: /about
+        - listitem:
+          - link "Academics":
+            - /url: /academics
+        - listitem:
+          - link "Admissions":
+            - /url: /admissions
+        - listitem:
+          - link "Research":
+            - /url: /research
+        - listitem:
+          - link "Life at Pitt":
+            - /url: /life-pitt
+        - listitem:
+          - link "Athletics":
+            - /url: http://pittsburghpanthers.com/
+  - button "Toggle search": 
+  - button " Open Navigation"
+- main:
+  - article:
+    - paragraph: Hail to possible
+    - text: Play video 
+    - paragraph: /With a demonstrated spirit of tackling the unachievable for over \d+ years, Pitt is making the most innovative future imaginable today\./
+    - text: /[\d,.]+[bkmBKM]+ alumni \d+% placement post-graduation Top 2% of universities worldwide No\. 7 in NIH funding/
+    - link "More Rankings":
+      - /url: https://www.possible.pitt.edu/
+    - text: Campus snapshots
+    - link "Woman working on CPR mannequin Advancing prehospital care From the first CPR mannequin to bleeding-edge training facilities, Pitt health sciences continue to build on a legacy of pioneering education.":
+      - /url: https://www.pittmed.pitt.edu/news/prehospital-care-innovations-freedom-house-cpr-aarchiee-drones-cruise-semiautonomous-system
+      - img "Woman working on CPR mannequin"
+      - text: ""
+    - link "Adam Lowenstein A home for horror Adam Lowenstein established a first-of-its-kind interdisciplinary Horror Studies Center, right here at Pitt.":
+      - /url: https://www.pittwire.pitt.edu/features-articles/2025/10/09/horror-studies-center-adam-lowenstein-george-romero
+      - img "Adam Lowenstein"
+      - text: ""
+    - link "LaToya Walters Situated for success For students near and far considering a graduate degree, LaToya Walters knows just how to help.":
+      - /url: https://www.pittwire.pitt.edu/features-articles/2025/09/23/latoya-walters-graduate-studies-recruitment
+      - img "LaToya Walters"
+      - text: ""
+    - link "More Stories":
+      - /url: https://www.pittwire.pitt.edu/
+    - tabpanel:
+      - img "Cathedral of Learning"
+      - text: Proving Possible
+      - heading /Pitt launches \$[\d,.]+[bkmBKM]+ ‘Proving Possible’ fundraising campaign/ [level=3]
+      - paragraph:
+        - text: The University of Pittsburgh has launched Proving Possible,
+        - link "a $3 billion fundraising campaign":
+          - /url: https://www.pittwire.pitt.edu/features-articles/2026/09/25/proving-possible-campaign-announced
+        - text: designed to expand opportunities for students, strengthen support for faculty and researchers, and accelerate discoveries with impact in Pittsburgh and beyond.
+      - link "Learn more about the campaign":
+        - /url: https://www.provingpossible.pitt.edu/
+    - tablist:
+      - tab "1 of 6" [selected]
+      - tab "2 of 6"
+      - tab "3 of 6"
+      - tab "4 of 6"
+      - tab "5 of 6"
+      - tab "6 of 6"
+    - navigation:
+      - button "Previous slide"
+      - button "Next slide"
+    - heading "Connect" [level=2]
+    - paragraph:
+      - link "Degree Programs":
+        - /url: https://www.academics.pitt.edu/
+      - link "Visit Campus":
+        - /url: https://admissions.pitt.edu/visit/schedule/
+      - link "Apply":
+        - /url: https://admissions.pitt.edu/apply/
+    - text: Picture Yourself at Pitt
+    - button " Expand Tile"
+    - img "Student sitting in quad"
+    - text: Schenley Quad
+    - paragraph:
+      - link "Schenley Quadrangle":
+        - /url: https://www.tour.pitt.edu/tour/schenley-quadrangle-residences
+      - text: /contains five of Pitt’s \d+ residence halls\./
+    - button " Expand Tile"
+    - img "Frick Fountain next to Schenley Park"
+    - text: Schenley Park
+    - paragraph:
+      - link "Schenley Park":
+        - /url: https://pittsburghparks.org/explore-your-parks/regional-parks/schenley-park/
+      - text: /, with \d+ acres of trails, woods and attractions, is a quick walk or bike ride from the Pittsburgh campus\./
+    - button " Expand Tile"
+    - img "Cathedral of Learning"
+    - text: Cathedral of Learning
+    - paragraph:
+      - text: /The \d+-story/
+      - link "Cathedral of Learning":
+        - /url: https://en.wikipedia.org/wiki/Cathedral_of_Learning
+      - text: (“Cathy” to many students) stands at the heart of the Pittsburgh campus.
+    - button " Expand Tile"
+    - img "Students cheering at Acrisure stadium"
+    - text: Acrisure Stadium
+    - paragraph:
+      - text: Acrisure Stadium is home to
+      - link "Pitt Panthers football":
+        - /url: https://pittsburghpanthers.com/sports/football
+      - text: .
+    - button " Expand Tile"
+    - img "The Allegheny river with the bridge and skyline in focus"
+    - text: The Allegheny River
+    - paragraph: /Pittsburgh is home to \d+-plus bridges—more than any other city, even Venice—and three rivers\./
+    - button " Expand Tile"
+    - img "A student smiling with the Panther statue"
+    - text: Panther Statue
+    - paragraph: Students rub the nose of the Pitt Panther statue on campus for good luck on exams.
+- contentinfo:
+  - contentinfo:
+    - link "University of Pittsburgh shield":
+      - /url: /
+      - img "University of Pittsburgh shield"
+    - navigation "Footer 1":
+      - text: ""
+      - list:
+        - listitem:
+          - link "Apply":
+            - /url: https://admissions.pitt.edu/apply/
+        - listitem:
+          - link "Visit":
+            - /url: https://admissions.pitt.edu/visit/unscripted/
+        - listitem:
+          - link "Map":
+            - /url: https://www.map.pitt.edu/
+        - listitem:
+          - link "myPitt":
+            - /url: https://my.pitt.edu/
+        - listitem:
+          - link "Give":
+            - /url: https://www.giveto.pitt.edu/s/1729/18/home-giving.aspx?gid=2&pgid=2135
+        - listitem:
+          - link "Careers":
+            - /url: https://www.join.pitt.edu/
+    - navigation "Main Navigation":
+      - text: ""
+      - list:
+        - listitem:
+          - link "About":
+            - /url: /about
+        - listitem:
+          - link "Academics":
+            - /url: /academics
+        - listitem:
+          - link "Admissions":
+            - /url: /admissions
+        - listitem:
+          - link "Research":
+            - /url: /research
+        - listitem:
+          - link "Life at Pitt":
+            - /url: /life-pitt
+        - listitem:
+          - link "Athletics":
+            - /url: http://pittsburghpanthers.com/
+    - navigation "Resources":
+      - text: ""
+      - list:
+        - listitem:
+          - link "Accessibility Statement":
+            - /url: https://www.wellbeing.pitt.edu/disability-resources-services/accessibility-statement
+        - listitem:
+          - link "Affordability":
+            - /url: https://www.affordability.pitt.edu/
+        - listitem:
+          - link "Careers":
+            - /url: https://www.join.pitt.edu/
+        - listitem:
+          - link "Consumer Info/Achievement":
+            - /url: /about/general-info
+        - listitem:
+          - link "Contact Us":
+            - /url: /about/contact
+        - listitem:
+          - link "Departments A-Z":
+            - /url: https://www.academics.pitt.edu/programs/a-z
+        - listitem:
+          - link "Find People":
+            - /url: https://find.pitt.edu/
+        - listitem:
+          - link "Information Technology":
+            - /url: https://www.technology.pitt.edu/
+        - listitem:
+          - link "Nondiscrimination and Anti-Harassment Policy":
+            - /url: https://www.diversity.pitt.edu/notice-nondiscrimination-and-anti-harassment-policy-statement
+        - listitem:
+          - link "Privacy Policy":
+            - /url: /privacy-policy
+        - listitem:
+          - link "Promoting Accountability and Trust":
+            - /url: /accountability
+        - listitem:
+          - link "myPitt":
+            - /url: http://my.pitt.edu/
+    - navigation "Colleges & Schools":
+      - text: ""
+      - list:
+        - listitem:
+          - link "Arts & Sciences":
+            - /url: https://www.as.pitt.edu/
+        - listitem:
+          - link "Business":
+            - /url: https://www.business.pitt.edu/
+        - listitem:
+          - link "Computing & Information":
+            - /url: https://www.sci.pitt.edu/
+        - listitem:
+          - link "Dental Medicine":
+            - /url: https://www.dental.pitt.edu/
+        - listitem:
+          - link "Education":
+            - /url: https://www.education.pitt.edu/
+        - listitem:
+          - link "Engineering":
+            - /url: https://www.engineering.pitt.edu
+        - listitem:
+          - link "General Studies":
+            - /url: https://www.cgs.pitt.edu/
+        - listitem:
+          - link "Health & Rehabilitation":
+            - /url: https://www.shrs.pitt.edu/
+        - listitem:
+          - link "Honors College":
+            - /url: https://www.frederickhonors.pitt.edu/
+        - listitem:
+          - link "Law":
+            - /url: https://www.law.pitt.edu/
+        - listitem:
+          - link "Medicine":
+            - /url: https://www.medschool.pitt.edu/
+        - listitem:
+          - link "Nursing":
+            - /url: https://www.nursing.pitt.edu/
+        - listitem:
+          - link "Pharmacy":
+            - /url: https://www.pharmacy.pitt.edu/
+        - listitem:
+          - link "Public & Intl Affairs":
+            - /url: https://www.spia.pitt.edu/
+        - listitem:
+          - link "Public Health":
+            - /url: https://www.publichealth.pitt.edu/
+        - listitem:
+          - link "Social Work":
+            - /url: https://www.socialwork.pitt.edu/
+    - navigation "Regional Campuses":
+      - text: ""
+      - list:
+        - listitem:
+          - link "Bradford":
+            - /url: https://upb.pitt.edu/
+        - listitem:
+          - link "Greensburg":
+            - /url: http://www.greensburg.pitt.edu/
+        - listitem:
+          - link "Johnstown":
+            - /url: https://www.johnstown.pitt.edu/
+        - listitem:
+          - link "Titusville":
+            - /url: https://www.titusville.pitt.edu/
+    - paragraph: /\d+ Fifth Ave\. Pittsburgh, PA \d+/
+    - paragraph: /\+1 \d+-\d+-\d+/
+    - link "Follow Pitt on Instagram":
+      - /url: https://www.instagram.com/pittofficial/
+    - link "Pitt on LinkedIn":
+      - /url: https://www.linkedin.com/school/university-of-pittsburgh/posts/?feedView=all
+    - link "Find Pitt on Facebook":
+      - /url: https://www.facebook.com/h2pitt
+    - link "Pitt on YouTube":
+      - /url: https://www.youtube.com/@pittofficial
+  - dialog " Close Navigation About Academics Admissions Research Life at Pitt Athletics Connect Apply Visit Map myPitt Give Careers Colleges & Schools Arts & Sciences Business Computing & Information Dental Medicine Education Engineering General Studies Health & Rehabilitation Honors College Law Medicine Nursing Pharmacy Public & Intl Affairs Public Health Social Work Highlights Alumni Pittwire Events Community Sustainability Global":
+    - navigation:
+      - button " Close"
+      - navigation "Navigation":
+        - text: ""
+        - list:
+          - listitem:
+            - link "About":
+              - /url: /about
+          - listitem:
+            - link "Academics":
+              - /url: /academics
+          - listitem:
+            - link "Admissions":
+              - /url: /admissions
+          - listitem:
+            - link "Research":
+              - /url: /research
+          - listitem:
+            - link "Life at Pitt":
+              - /url: /life-pitt
+          - listitem:
+            - link "Athletics":
+              - /url: http://pittsburghpanthers.com/
+      - navigation "Connect":
+        - text: ""
+        - list:
+          - listitem:
+            - link "Apply":
+              - /url: https://admissions.pitt.edu/apply/
+          - listitem:
+            - link "Visit":
+              - /url: https://admissions.pitt.edu/visit/unscripted/
+          - listitem:
+            - link "Map":
+              - /url: https://www.map.pitt.edu/
+          - listitem:
+            - link "myPitt":
+              - /url: https://my.pitt.edu/
+          - listitem:
+            - link "Give":
+              - /url: https://www.giveto.pitt.edu/s/1729/18/home-giving.aspx?gid=2&pgid=2135
+          - listitem:
+            - link "Careers":
+              - /url: https://www.join.pitt.edu/
+      - navigation "Colleges & Schools":
+        - text: ""
+        - list:
+          - listitem:
+            - link "Arts & Sciences":
+              - /url: https://www.as.pitt.edu/
+          - listitem:
+            - link "Business":
+              - /url: https://www.business.pitt.edu/
+          - listitem:
+            - link "Computing & Information":
+              - /url: https://www.sci.pitt.edu/
+          - listitem:
+            - link "Dental Medicine":
+              - /url: https://www.dental.pitt.edu/
+          - listitem:
+            - link "Education":
+              - /url: https://www.education.pitt.edu/
+          - listitem:
+            - link "Engineering":
+              - /url: https://www.engineering.pitt.edu
+          - listitem:
+            - link "General Studies":
+              - /url: https://www.cgs.pitt.edu/
+          - listitem:
+            - link "Health & Rehabilitation":
+              - /url: https://www.shrs.pitt.edu/
+          - listitem:
+            - link "Honors College":
+              - /url: https://www.frederickhonors.pitt.edu/
+          - listitem:
+            - link "Law":
+              - /url: https://www.law.pitt.edu/
+          - listitem:
+            - link "Medicine":
+              - /url: https://www.medschool.pitt.edu/
+          - listitem:
+            - link "Nursing":
+              - /url: https://www.nursing.pitt.edu/
+          - listitem:
+            - link "Pharmacy":
+              - /url: https://www.pharmacy.pitt.edu/
+          - listitem:
+            - link "Public & Intl Affairs":
+              - /url: https://www.spia.pitt.edu/
+          - listitem:
+            - link "Public Health":
+              - /url: https://www.publichealth.pitt.edu/
+          - listitem:
+            - link "Social Work":
+              - /url: https://www.socialwork.pitt.edu/
+      - navigation "Highlights":
+        - text: ""
+        - list:
+          - listitem:
+            - link "Alumni":
+              - /url: https://www.alumni.pitt.edu
+          - listitem:
+            - link "Pittwire":
+              - /url: https://www.pittwire.pitt.edu/
+          - listitem:
+            - link "Events":
+              - /url: https://calendar.pitt.edu/
+          - listitem:
+            - link "Community":
+              - /url: https://www.community.pitt.edu/
+          - listitem:
+            - link "Sustainability":
+              - /url: https://www.sustainable.pitt.edu/
+          - listitem:
+            - link "Global":
+              - /url: /global
+      - link "Follow Pitt on Instagram":
+        - /url: https://www.instagram.com/pittofficial/
+      - link "Pitt on LinkedIn":
+        - /url: https://www.linkedin.com/school/university-of-pittsburgh/posts/?feedView=all
+      - link "Find Pitt on Facebook":
+        - /url: https://www.facebook.com/h2pitt
+      - link "Pitt on YouTube":
+        - /url: https://www.youtube.com/@pittofficial

@@ -33,3 +33,11 @@ test('TEST-7-ABOUT-SCREENSHOT', async ({ page }) => {
   // TODO: Fill in.
   expect(false).toBeTruthy(); // Placeholder assertion to be replaced with actual test code.
 });
+
+test('TEST-8-ARIA-SNAPSHOT', async ({ page }) => {
+  // TODO: Fill in.
+  await page.goto('https://www.pitt.edu/');
+  await page.getByRole('button', { name: 'Decline' }).click();
+  await page.getByRole('button', { name: ' Open Navigation' }).click();
+  await expect(page).toMatchAriaSnapshot();
+});
