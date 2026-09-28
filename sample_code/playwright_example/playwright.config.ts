@@ -30,8 +30,6 @@ export default defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
-    /* Set the testIdAttribute to 'id' to use the id attribute for test IDs. */
-    testIdAttribute: 'id',
   },
   expect: {
     toHaveScreenshot: { maxDiffPixelRatio: 0.02, threshold: 0.2 },
