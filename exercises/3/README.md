@@ -277,7 +277,6 @@ To do so, please use buggy instances of Cat and RentACat in StepDefinitions.java
 	@Given("a cat with ID {int} and name {string}")
 	public void aCatWithIDAndName(Integer id, String name) {
 		r.addCat(Cat.createInstance(InstanceType.BUGGY, id, name));
-		System.out.println("Created cat " + id + ". " + name);
 	}
 ```
 
