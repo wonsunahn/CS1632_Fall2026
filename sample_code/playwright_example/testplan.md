@@ -1,7 +1,6 @@
 TEST FIXTURE:
 
-1. Firefox browser version >= 105, or Chrome browser version >= 105 is installed
-   and launched.
+- Chrome browser version >= 105 is installed and launched.
 
 TEST CASES:
 
@@ -25,7 +24,7 @@ POSTCONDITIONS:
 * A logo with the alt text "University of Pittsburgh" is present on the page.
 ```
 
-<code>
+```
 IDENTIFIER: TEST-3-LOGO-IMAGE
 TEST CASE: Check that the "University of Pittsburgh" logo uses image "/sites/default/files/assets/pitt_shield_white-home.png"
 PRECONDITIONS: None.
@@ -33,8 +32,10 @@ EXECUTION STEPS:
 1. Open the URL https://www.pitt.edu/ on the web browser.
 POSTCONDITIONS:
 * The "University of Pittsburgh" logo img has an src attribute with value "/sites/default/files/assets/pitt_shield_white-home.png".
-  (Hint: Use the "expect" assertion with the "getByRole" locator call to find an 'img' with the name 'University of Pittsburgh' followed by the "toHaveAttribute" locator assertion API.)
-</code>
+  (Hint:
+   1. Use the "expect" assertion with the "getByRole" locator call to find an 'img' with the name 'University of Pittsburgh'
+   2. The use the "toHaveAttribute" locator assertion API to compare the 'src' attribute with the image path.)
+```
 
 ```
 IDENTIFIER: TEST-4-SCHOOLS-SCI
