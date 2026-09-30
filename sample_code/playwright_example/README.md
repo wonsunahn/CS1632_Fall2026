@@ -31,7 +31,7 @@ https://www.pitt.edu/
    Then install the chromium browser as our test target:
 
    ```
-   npx -y playwright install --with-deps chromium
+   npx -y playwright install --with-deps chromium firefox webkit
    ```
 
 # Task 1: Get acquainted with Playwright
