@@ -13,9 +13,9 @@ PRECONDITIONS: The value of cookies "1", "2", and "3" are set to "true" (cats ID
 EXECUTION STEPS:
 1. Press the "Reset" link.
 POSTCONDITIONS: 
-1. The first item in the cat listing is "ID 1. Jennyanydots".
-2. The second item in the cat listing is "ID 2. Old Deuteronomy".
-3. The third item in the cat listing is "ID 3. Mistoffelees".
+1. The first item in the cat names listing is "ID 1. Jennyanydots".
+2. The second item in the cat names listing is "ID 2. Old Deuteronomy".
+3. The third item in the cat names listing is "ID 3. Mistoffelees".
 ```
 
 ```
@@ -24,7 +24,7 @@ TEST CASE: Check that the second item in the catalog is an image named "cat2.jpg
 PRECONDITIONS: None.
 EXECUTION STEPS:
 1. Press the "Catalog" link.
-POSTCONDITIONS: The source of the second image in the catalog is "/images/cat2.jpg".
+POSTCONDITIONS: The source of the image in the second item in the cat photos listing is "/images/cat2.jpg".
 ```
 
 ```
@@ -34,8 +34,8 @@ PRECONDITIONS: None.
 EXECUTION STEPS:
 1. Press the "Catalog" link.
 POSTCONDITIONS: 
-1. There are exactly three items in the listing.
-2. The text in the third item is "ID 3. Mistoffelees".
+1. There are exactly three items in the cat names listing.
+2. The text in the third item in the cat names listing is "ID 3. Mistoffelees".
 ```
 
 ```
@@ -58,9 +58,9 @@ EXECUTION STEPS:
 2. Enter "1" into the input box for the rented cat ID.
 3. Press the "Rent" button.
 POSTCONDITIONS: 
-1. The first item in the cat listing is "Rented out".
-2. The second item in the cat listing is "ID 2. Old Deuteronomy".
-3. The third item in the cat listing is "ID 3. Mistoffelees".
+1. The first item in the cat names listing is "Rented out".
+2. The second item in the cat names listing is "ID 2. Old Deuteronomy".
+3. The third item in the cat names listing is "ID 3. Mistoffelees".
 4. The text "Success!" is displayed in the element with ID "rentResult"
 ```
 
@@ -73,10 +73,10 @@ EXECUTION STEPS:
 2. Enter "2" into the input box for the returned cat ID.
 3. Press the "Return" button.
 POSTCONDITIONS: 
-1. The first item in the cat listing is "ID 1. Jennyanydots".
-2. The second item in the cat listing is "ID 2. Old Deuteronomy".
-3. The third item in the cat listing is "Rented out".
-4. The text "Success!" is displayed in the element with ID "returnResult"
+1. The first item in the cat names listing is "ID 1. Jennyanydots".
+2. The second item in the cat names listing is "ID 2. Old Deuteronomy".
+3. The third item in the cat names listing is "Rented out".
+4. The text "Success!" is displayed in the page.
 ```
 
 ```
@@ -98,7 +98,7 @@ EXECUTION STEPS:
 2. Enter "6" into the input box for number of catnips.
 3. Press the "Feed" button.
 POSTCONDITIONS: 
-1. The text "Nom, nom, nom." is displayed in the element with ID "feedResult"
+1. The text "Nom, nom, nom." is displayed in the page.
 ```
 
 ```
