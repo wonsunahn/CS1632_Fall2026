@@ -66,66 +66,66 @@ AFIST = [_A Friendly Introduction to Software Testing_](software-quality-assuran
 ## WEEK 7 (Week of 5 OCT)
 
 * Class 1
-  * Assignment due before class: [Exercise 4: Automated System Testing](exercises/4)
-  * Quiz: Behavior Driven Development / Automated Systems Testing
   * Lecture: Writing Testable Code Lecture (READING: AFIST, Chapter 16)
   * Assignment release: [Exercise 5: Performance Testing](exercises/5)
 
 * Class 2
+  * Assignment due before class: [Exercise 4: Automated System Testing](exercises/4)
+  * Quiz: Behavior Driven Development / Automated Systems Testing
   * Lecture: Performance Testing (READING: AFIST, Chapter 19)
 
 ## WEEK 8 (Week of 12 OCT)
 
 * Class 1
-  * Assignment due before class: [Exercise 5: Performance Testing](exercises/5)
-  * Quiz: Performance Testing
   * Lecture: Stochastic and Property-Based Testing Lecture (READING: AFIST, Chapter 18)
   * Assignment release: [Exercise 6: Property-based Testing](exercises/6)
 
 * Class 2
+  * Assignment due before class: [Exercise 5: Performance Testing](exercises/5)
+  * Quiz: Performance Testing
   * cont'd
 
 ## WEEK 9 (Week of 19 OCT)
 
 * Class 1
-  * Assignment due before class: [Exercise 6: Property-based Testing](exercises/6)
-  * Quiz: Property-based Testing
   * Lecture: Software QA and Nondeterminism
   * Assignment release: [Exercise 7: Testing Nondeterministic Software](exercises/7)
 
 * Class 2
+  * Assignment due before class: [Exercise 6: Property-based Testing](exercises/6)
+  * Quiz: Property-based Testing
   * cont'd
 
 ## WEEK 10 (Week of 26 OCT)
 
 * Class 1
-  * Assignment due before class: [Exercise 7: Testing Nondeterministic Software](exercises/7)
-  * Quiz: Testing Nondeterministic Software - Memory Errors and Race Conditions
   * Lecture: Static Analysis Part 1
   * In-class exercise: [Exercise 8 Part 1: Linters and Bug Finders](exercises/8)
 
 * Class 2
+  * Assignment due before class: [Exercise 7: Testing Nondeterministic Software](exercises/7)
+  * Quiz: Testing Nondeterministic Software - Memory Errors and Race Conditions
   * Lecture: Software QA and Nondeterminism (cont'd)
 
 ## WEEK 11 (Week of 2 NOV)
 
 * Class 1
-  * Assignment due before class: [Exercise 8 Part 1: Linters and Bug Finders](exercises/8)
   * Lecture: Static Analysis Part 2
   * Assignment release: [Exercise 8 Part 2: Model Checking](exercises/8)
 
 * Class 2
+  * Assignment due before class: [Exercise 8 Part 1: Linters and Bug Finders](exercises/8)
   * cont'd
 
 ## WEEK 12 (Week of 9 NOV)
 
 * Class 1
-  * Assignments due before class: [Exercise 8 Part 2:  Model Checking](exercises/8)
-  * Quiz: Static Analysis
   * Lecture: Smoke and Exploratory Testing (READING: AFIST, Chapters 10-11)
   * Assignment release: [Exercise 9 Part 1: CI Pipelines](exercises/9)
 
 * Class 2
+  * Assignments due before class: [Exercise 8 Part 2:  Model Checking](exercises/8)
+  * Quiz: Static Analysis
   * Assignment release: [Exercise 9 Part 2: Dockers](exercises/9)
 
 ## WEEK 13 (Week of 16 NOV)
