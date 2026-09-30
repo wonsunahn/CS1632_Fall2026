@@ -1,5 +1,7 @@
 TEST FIXTURE:
-1. Firefox browser version >= 105, or Chrome browser version >= 105 is installed and launched.
+
+1. Firefox browser version >= 105, or Chrome browser version >= 105 is installed
+   and launched.
 
 TEST CASES:
 
@@ -19,20 +21,20 @@ TEST CASE: Check that the logo with alt text "University of Pittsburgh" exists.
 PRECONDITIONS: None.
 EXECUTION STEPS:
 1. Open the URL https://www.pitt.edu/ on the web browser.
-POSTCONDITIONS: 
+POSTCONDITIONS:
 * A logo with the alt text "University of Pittsburgh" is present on the page.
 ```
 
-```
+<code>
 IDENTIFIER: TEST-3-LOGO-IMAGE
 TEST CASE: Check that the "University of Pittsburgh" logo uses image "/sites/default/files/assets/pitt_shield_white-home.png"
 PRECONDITIONS: None.
 EXECUTION STEPS:
 1. Open the URL https://www.pitt.edu/ on the web browser.
-POSTCONDITIONS: 
+POSTCONDITIONS:
 * The "University of Pittsburgh" logo img has an src attribute with value "/sites/default/files/assets/pitt_shield_white-home.png".
-  (Hint: Use the "expect" assertion with the "getByAltText" locator API followed by the "toHaveAttribute" locator assertion API.)
-```
+  (Hint: Use the "expect" assertion with the "getByRole" locator call to find an 'img' with the name 'University of Pittsburgh' followed by the "toHaveAttribute" locator assertion API.)
+</code>
 
 ```
 IDENTIFIER: TEST-4-SCHOOLS-SCI
@@ -41,7 +43,7 @@ PRECONDITIONS: None.
 EXECUTION STEPS:
 1. Open the URL https://www.pitt.edu/ on the web browser.
 2. Click on the "hamburger" icon (three horizontal lines).
-POSTCONDITIONS: 
+POSTCONDITIONS:
 * The 3rd li element in the schools list is "Computing & Information".
   (Hint:
    1. Use the "expect" assertion with the "getByTestId" locator API to find school list element using the ID attribute.
@@ -56,7 +58,7 @@ PRECONDITIONS: None.
 EXECUTION STEPS:
 1. Open the URL https://www.pitt.edu/ on the web browser.
 2. Click on the "hamburger" icon (three horizontal lines).
-POSTCONDITIONS: 
+POSTCONDITIONS:
 * There are exactly 16 li elements in the schools list.
   (Hint:
    1. Use the "expect" assertion with the "getByTestId" locator API to find school list element using the ID attribute.
@@ -73,7 +75,7 @@ EXECUTION STEPS:
 2. Click on the search icon.
 3. Type "computer science club" in the search box that pops up.
 4. Click on the "SEARCH" button.
-POSTCONDITIONS: 
+POSTCONDITIONS:
 * Somewhere in the search results is the item:
   "Student Organization Spotlight: Computer Science Club (CSC)".
   (Hint:
@@ -88,7 +90,7 @@ PRECONDITIONS: None.
 EXECUTION STEPS:
 1. Open the URL https://www.pitt.edu/ on the web browser.
 2. Click on the "About" menu.
-POSTCONDITIONS: 
+POSTCONDITIONS:
 * The snapshot of the currently showing page is the same as the snapshot saved under
   the tests/pittedu.spec.ts-snapshots/ folder for the given web browser and OS.
   (Hint:
