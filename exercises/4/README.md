@@ -189,7 +189,9 @@ The GradeScope autograder works in 5 phases:
    BEHAVIOR, and OBSERVED BEHAVIOR, in that order; that the reproduction steps
    are reproducible; that the expected behavior matches the requirements; and
    that the observed behavior is recorded exactly.  Screenshots pasted into an
-   issue are shown to the AI along with the text.
+   issue are shown to the AI along with the text.  It also checks that each
+   issue reports a real defect in cs1632.appspot.com and that no two of your
+   issues report the same defect.
 
 If you get deductions, both websites are available to you, so try them out
 yourself.
