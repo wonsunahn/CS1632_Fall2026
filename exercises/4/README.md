@@ -160,7 +160,7 @@ https://github.com/{organization}/{repository}/issues/{issue number}
 
 # GradeScope Feedback
 
-The GradeScope autograder works in 3 phases:
+The GradeScope autograder works in 5 phases:
 
 1. **rentacat test on https://cs1632.appspot.com/**: This tests your
    rentacat.spec.ts script on the rentacat website as originally intended.  All
@@ -173,7 +173,23 @@ The GradeScope autograder works in 3 phases:
    your TEST-[N] test cases should fail.  You can test this yourself easily by
    changing the base URL of your test cases.
 
-1. AI feedback on your defect reports.
+1. **AI check that your tests follow the test plan**: An AI model compares
+   each of your TEST-[N] test cases with the test case of the same IDENTIFIER
+   in testplan.md.  A test passes only if it sets up every precondition,
+   performs every execution step as written, checks every postcondition and
+   nothing else, and finds each element the way the test plan describes it.
+   If a test does not pass, the feedback tells you which part is not faithful.
+
+1. **GitHub issue checks**: For each of the three issues in issue_urls.txt,
+   this checks that the issue is labeled "bug", is assigned to a person, is
+   closed, and was closed by merging a pull request.
+
+1. **AI feedback on your defect reports**: An AI model reads the three issues
+   in issue_urls.txt and checks that each has REPRODUCTION STEPS, EXPECTED
+   BEHAVIOR, and OBSERVED BEHAVIOR, in that order; that the reproduction steps
+   are reproducible; that the expected behavior matches the requirements; and
+   that the observed behavior is recorded exactly.  Screenshots pasted into an
+   issue are shown to the AI along with the text.
 
 If you get deductions, both websites are available to you, so try them out
 yourself.
