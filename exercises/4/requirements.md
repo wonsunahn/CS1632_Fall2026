@@ -18,6 +18,6 @@ FUN-FEED - If the number of catnips entered in the input box is a positive integ
 
 FUN-GREET-A-CAT - The Greet-A-Cat page (`/greet-a-cat`) shall display as many "Meow!"s as there are available cats (e.g. if there are three cats available, it shall display "Meow!Meow!Meow!".).
 
-FUN-GREET-A-CAT-WITH-NAME - If the Greet-A-Cat page is accessed with a trailing `/` and a name (e.g. `/greet-a-cat/Jennyanydots`), then the cat with the given name shall respond with a "Meow!" on the page, if available.  If the cat with the name is not available or such a name does not exist, then the page shall display the text "{name} is not here.".  The name may contain any printable character.
+FUN-GREET-A-CAT-WITH-NAME - If the Greet-A-Cat page is accessed with a trailing `/` and a name (e.g. `/greet-a-cat/Jennyanydots`), then the cat with the given name shall respond with a "Meow! from {name}." on the page if available (e.g. "Meow! from Jennyanydots.").  If the cat with the name is not available or such a name does not exist, then the page shall display the text "{name} is not here.".  The name may contain any printable character.
 
 FUN-RESET - The Reset page (`/reset`) shall immediately reset the Rent-A-Cat system such that all cats are returned and available.
