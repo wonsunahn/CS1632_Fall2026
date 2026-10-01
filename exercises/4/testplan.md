@@ -129,5 +129,5 @@ PRECONDITIONS: The value of cookies "1", "2", and "3" are set to "true" (cats ID
 EXECUTION STEPS:
 1. Press the "Feed-A-Cat" link.
 POSTCONDITIONS: 
-1. The screenshot of the body of the page matches the one in tests/rentacat.spec.ts.snapshots for the browser and OS.
+1. The screenshot of the page matches the one in tests/rentacat.spec.ts.snapshots for the browser and OS.
 ```
