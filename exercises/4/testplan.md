@@ -61,7 +61,7 @@ POSTCONDITIONS:
 1. The first item in the cat names listing is "Rented out".
 2. The second item in the cat names listing is "ID 2. Old Deuteronomy".
 3. The third item in the cat names listing is "ID 3. Mistoffelees".
-4. The text "Success!" is displayed in the element with ID "rentResult"
+4. The text "Success!" is displayed in the page.
 ```
 
 ```

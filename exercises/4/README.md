@@ -106,8 +106,8 @@ Feedback](#gradescope-feedback) section).
 For the TEST-8-FEED test case, you will notice a 7 second delay between when
 you hit the "Feed" button and when the cats go "Nom, nom, nom.".  That is
 because cats have self-respect and they will not jostle each other to get to
-the food first.  This delay may cause you to check the "feedResult" element
-prematurely before it gets populated with the response.  By default, expect
+the food first.  This delay may cause you to check for the "Nom, nom, nom."
+text prematurely before it appears on the page.  By default, expect
 assertions have a timeout of 5 seconds which is insufficient in this case.
 Extend the timeout to 10 seconds by [setting the timeout property in the
 assertion](https://playwright.dev/docs/test-timeouts).
