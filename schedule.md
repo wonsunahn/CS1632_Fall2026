@@ -147,6 +147,10 @@ AFIST = [_A Friendly Introduction to Software Testing_](software-quality-assuran
 
 * Industry Invited Lectures (TBA)
 
+* December 2, 3:00 PM @ SENSQ 6110: [CGI](https://www.cgi.com/) lecture
+  * Speaker: Laks Ranganathan, CGI Partner | Director - Consulting Services, [LinkedIn](https://www.linkedin.com/in/lakshmi-narasimhan-yeri-ranganathan-4b7b874b/)
+  * Speaker: Praveen Sone, Director Consulting Expert at CGI, [LinkedIn](https://www.linkedin.com/in/praveen-s-397bb811b/)
+
 * Final Project due Friday (12/4) 11:59 PM
 
 ## WEEK 16 (Week of 7 DEC)
