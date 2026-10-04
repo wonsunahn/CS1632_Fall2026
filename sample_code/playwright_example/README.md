@@ -1,12 +1,9 @@
-- [CS 1632 - Software Quality Assurance](#cs-1632---software-quality-assurance)
-  * [Description](#description)
-  * [Prerequisites](#prerequisites)
-  * [Task 1: Get acquainted with Playwright](#task-1-get-acquainted-with-playwright)
-  * [Task 2: Write test cases](#task-2-write-test-cases)
+- [Introduction](#introduction)
+- [Prerequisites](#prerequisites)
+- [Task 1: Get acquainted with Playwright](#task-1-get-acquainted-with-playwright)
+- [Task 2: Write test cases](#task-2-write-test-cases)
     + [Tips for selecting the best locator string](#tips-for-selecting-the-best-locator-string)
-  * [Task 3: Run test cases](#task-3-run-test-cases)
-- [Submission](#submission)
-- [GradeScope Feedback](#gradescope-feedback)
+- [Task 3: Run test cases](#task-3-run-test-cases)
 - [Resources](#resources)
 
 # Introduction 
