@@ -21,8 +21,8 @@ exercise and create your repository.
 
 ## Description
 
-For this assignment, you and a partner will write systems-level, automated
-black-box end-to-end tests for a web app using Playwright. 
+For this assignment, you will write systems-level, automated black-box
+end-to-end tests for a web app using Playwright. 
 
 The web app is located here: https://cs1632.appspot.com/
 
