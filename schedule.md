@@ -148,6 +148,8 @@ AFIST = [_A Friendly Introduction to Software Testing_](software-quality-assuran
 * Industry Invited Lectures (TBA)
 
 * November 30, 3:00 PM @ SENSQ 6110: [Aerotech](https://www.aerotech.com/) lecture
+  * Speaker: Nate Homitsky, Vice President of Information [LinkedIn](https://www.linkedin.com/in/nate-homitsky-6912a5a3/)
+  * Speaker: Ross Kabus, Software Engineering Team Lead [LinkedIn](https://www.linkedin.com/in/rkabus/)
 
 * December 2, 3:00 PM @ SENSQ 6110: [CGI](https://www.cgi.com/) lecture
   * Speaker: Laks Ranganathan, CGI Partner | Director - Consulting Services, [LinkedIn](https://www.linkedin.com/in/lakshmi-narasimhan-yeri-ranganathan-4b7b874b/)
