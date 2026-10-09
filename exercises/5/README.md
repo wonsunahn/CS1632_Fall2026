@@ -6,7 +6,6 @@
     + [Task 2: Write Pinning Tests for the Three Methods](#task-2-write-pinning-tests-for-the-three-methods)
     + [Task 3: Refactor the Three Methods](#task-3-refactor-the-three-methods)
     + [Task 4: Rerun Profiles for the Three Methods](#task-4-rerun-profiles-for-the-three-methods)
-- [Grading](#grading)
 - [Submission](#submission)
 - [GradeScope Feedback](#gradescope-feedback)
 - [Resources](#resources)
@@ -24,7 +23,7 @@ exercise and create your repository.
 For this assignment, you will profile a Conway's Game of Life simulation, and
 improve its performance by refactoring several methods (to be determined by the
 results of the profiling).  The program is assumed to be functionally correct.
-It's only problem is that certain features are too slow.  This will consist of
+Its only problem is that certain features are too slow.  This will consist of
 the following steps for each method, as we discussed in Exercise 4:
 
 1. Profiling to determine the most CPU-intensive method that is suboptimal.
@@ -71,10 +70,10 @@ background.
 There are several other buttons which invoke different features:
 
 1. Run - this will run one iteration of the Game of Life
-4. Write - This will write the state of the system to a backup file, to be loaded later.
-5. Undo - This will undo the previous iteration.  
-6. Load - This will load a previously-saved backup file (created using the Write button) to the current world.
-7. Clear - This will clear the current world.
+1. Write - This will write the state of the system to a backup file, to be loaded later.
+1. Undo - This will undo the previous iteration.  
+1. Load - This will load a previously-saved backup file (created using the Write button) to the current world.
+1. Clear - This will clear the current world.
 
 ### Task 1: Profile using VisualVM
 
@@ -106,8 +105,8 @@ There are exactly **THREE** major performance issues with **THREE** methods in
 the code.  They could be in any feature of the program!  I recommend you try
 exploratory testing to try out different features to determine which features
 may have performance problems before profiling the application.  There are
-**TWO** features that have problems out of the 6 features listed above (if you
-count "Run" and "Run Continuous" as the same feature).  Each feature can be
+**TWO** features that have problems out of the 5 features listed above.  Each
+feature can be
 invoked by pressing the corresponding button at the bottom panel.  The three
 performance problems are dispersed in those two features.
 
@@ -137,14 +136,17 @@ methods according to `Self Time (CPU)`.
 
 ### Task 2: Write Pinning Tests for the Three Methods
 
-Before doing refactoring any method, you should create "pinning tests" (as
+Before refactoring any method, you should create "pinning tests" (as
 described in the section on legacy code earlier - please review the slides on
 Writing Testable Code if you need a refresher).  These pinning tests should
 check that the behavior of a modified method was not changed by your refactor.
 The methods should work EXACTLY the same as before, except they should be
-faster and take up less CPU time.  **There should be at least one pinning test
-per method refactored.**  Write **unit tests** for the pinning tests passing in
-mocks into seams where dependencies can be injected.  
+faster and take up less CPU time.  **There should be exactly one pinning test
+per method refactored, for a total of three tests.**  Each test should test only
+the method it pins, so do not call another of the three refactored methods from
+that test.  Write **unit tests** for
+the pinning tests passing in mocks into seams where dependencies can be
+injected.  
 
 Here are some requirements for your pinning tests:
 
@@ -174,7 +176,7 @@ completing the TODOs.  Please heed the comments.
 
 Now refactor the three methods so that they are no longer performance problems.
 If you look carefully, the three methods do a lot of wasted work for no reason.
-It should be easy to refactor my removing that work.  Make sure that your
+It should be easy to refactor by removing that work.  Make sure that your
 pinning tests pass after refactoring.
 
 ### Task 4: Rerun Profiles for the Three Methods
@@ -198,7 +200,27 @@ you optimized under visualvm_profiles/ before you submit.
 
 # GradeScope Feedback
 
-TBA
+The GradeScope autograder scores your submission out of 80 points in four
+sections.  The three refactored methods are referred to as method #1, #2, and
+#3 in the feedback.
+
+1. **GameOfLife method performance tests (45 points):** 15 points for each of
+   the three methods that runs fast enough on the 5 X 5 blinker pattern.
+
+1. **GameOfLife method pinning tests (15 points):** The autograder's own
+   pinning tests check that each of your refactored methods behaves exactly as
+   before, 5 points per method.
+
+1. **GameOfLifePinningTest method tests (15 points):** Your pinning tests are run
+   against versions of the program with bugs injected into the three methods.
+   For each method, 5 points if exactly one of your tests detects every bug
+   injected into that method, no other test fails because of those bugs, and
+   that test passes on your implementation.  Each test beyond three costs 5
+   points.
+
+1. **GameOfLifePinningTest uses mocks properly (5 points):** Your tests must not
+   fail when a bug is injected into an object that should have been mocked.
+   This section is scored only after the previous section receives full points.
 
 # Resources
 
