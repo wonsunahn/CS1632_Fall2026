@@ -77,8 +77,8 @@ AFIST = [_A Friendly Introduction to Software Testing_](software-quality-assuran
 ## WEEK 8 (Week of 12 OCT)
 
 * Class 1
-  * Lecture: Stochastic and Property-Based Testing Lecture (READING: AFIST, Chapter 18)
-  * Assignment release: [Exercise 6: Property-based Testing](exercises/6)
+  * Lecture: Software QA and Nondeterminism
+  * Assignment release: [Exercise 6: Testing Nondeterministic Software](exercises/6)
 
 * Class 2
   * Assignment due before class: [Exercise 5: Performance Testing](exercises/5)
@@ -88,12 +88,12 @@ AFIST = [_A Friendly Introduction to Software Testing_](software-quality-assuran
 ## WEEK 9 (Week of 19 OCT)
 
 * Class 1
-  * Lecture: Software QA and Nondeterminism
-  * Assignment release: [Exercise 7: Testing Nondeterministic Software](exercises/7)
+  * Lecture: Stochastic and Property-Based Testing Lecture (READING: AFIST, Chapter 18)
+  * Assignment release: [Exercise 7: Property-based Testing](exercises/6)
 
 * Class 2
-  * Assignment due before class: [Exercise 6: Property-based Testing](exercises/6)
-  * Quiz: Property-based Testing
+  * Assignment due before class: [Exercise 6: Testing Nondeterministic Software](exercises/6)
+  * Quiz: Testing Nondeterministic Software - Memory Errors and Race Conditions
   * cont'd
 
 ## WEEK 10 (Week of 26 OCT)
@@ -103,8 +103,8 @@ AFIST = [_A Friendly Introduction to Software Testing_](software-quality-assuran
   * In-class exercise: [Exercise 8 Part 1: Linters and Bug Finders](exercises/8)
 
 * Class 2
-  * Assignment due before class: [Exercise 7: Testing Nondeterministic Software](exercises/7)
-  * Quiz: Testing Nondeterministic Software - Memory Errors and Race Conditions
+  * Assignment due before class: [Exercise 7: Property-based Testing](exercises/6)
+  * Quiz: Property-based Testing
   * Lecture: Software QA and Nondeterminism (cont'd)
 
 ## WEEK 11 (Week of 2 NOV)
