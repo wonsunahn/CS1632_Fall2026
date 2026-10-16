@@ -105,13 +105,13 @@ But try a longer name:
 
 ```
 $ ./bin/binary_tree.bin helloworld
-Failure: name=helloworld, tree->name=hellowor@????U
+Failure: name=helloworld, tree->name=hellowor@|WHa
 Name check result = 0
 $ ./bin/binary_tree.bin helloworld
-Failure: name=helloworld, tree->name=hellowor@????V
+Failure: name=helloworld, tree->name=hellowor@��ѻX
 Name check result = 0
 $ ./bin/binary_tree.bin helloworld
-Failure: name=helloworld, tree->name=hellowor@????V
+Failure: name=helloworld, tree->name=hellowor@� �*X
 Name check result = 0
 ```
 
@@ -125,10 +125,13 @@ the architecture of the Codespace machine, which is what `uname -m` prints, and
 
 ```
 $ setarch x86_64 -R ./bin/binary_tree.bin helloworld
-Failure: name=helloworld, tree->name=hellowor@?VUUU
+Failure: name=helloworld, tree->name=hellowor@�VUUU
 Name check result = 0
 $ setarch x86_64 -R ./bin/binary_tree.bin helloworld
-Failure: name=helloworld, tree->name=hellowor@?VUUU
+Failure: name=helloworld, tree->name=hellowor@�VUUU
+Name check result = 0
+$ setarch x86_64 -R ./bin/binary_tree.bin helloworld
+Failure: name=helloworld, tree->name=hellowor@�VUUU
 Name check result = 0
 ```
 
@@ -147,7 +150,7 @@ Let's see if ASAN can find the bug:
 
 ```
 $ ./bin/binary_tree.asan helloworld
-Failure: name=helloworld, tree->name=hellowor???
+Failure: name=helloworld, tree->name=hellowor��
 Name check result = 0
 ```
 
@@ -188,8 +191,8 @@ with the same long string?
 
 ```
 $ ./bin/binary_tree.bin Astringlongerthan24bytes
-Fatal glibc error: malloc.c:2599 (sysmalloc): assertion failed: ...
-Aborted
+Fatal glibc error: malloc.c:2599 (sysmalloc): assertion failed: (old_top == initial_top (av) && old_size == 0) || ((unsigned long) (old_size) >= MINSIZE && prev_inuse (old_top) && ((unsigned long) old_end & (pagesize - 1)) == 0)
+Aborted (core dumped)
 ```
 
 The overflow has now gone past the treeNode and trampled the bookkeeping data
