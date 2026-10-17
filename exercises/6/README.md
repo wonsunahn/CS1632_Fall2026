@@ -14,6 +14,7 @@
     + [Not Every Concurrency Bug is a Data Race](#not-every-concurrency-bug-is-a-data-race)
     + [Debugging sorted_list.c](#debugging-sorted_listc)
   * [Submission](#submission)
+  * [GradeScope Feedback](#gradescope-feedback)
   * [Resources](#resources)
 
 # CS 1632 - Software Quality Assurance
@@ -430,8 +431,7 @@ If you are stuck, here are some hints:
    different parts of the list hold different node locks, so neither of those
    locks protects a field that both threads update.  You can protect `size`
    with a dedicated mutex (`PTHREAD_MUTEX_INITIALIZER` works, as in the
-   example), or use an atomic increment/decrement such as GCC's
-   `__atomic_fetch_add`.
+   example).
 1. **AddIfAbsent**: Between the moment AddIfAbsent decides the key is absent
    and the moment it inserts the key, it holds no locks at all.  What could
    another thread do during that window?  The check and the insertion need to
@@ -483,6 +483,79 @@ Feel free to double check that your changes have been reflected on to your
 GitHub Classroom origin repository.  Please submit that repository to the
 "Exercise 6" link.  You can resubmit as many times as you wish until you get a
 perfect score on the autograder.
+
+## GradeScope Feedback
+
+The autograder runs seven tests worth 40 points in total.  It does not run
+your main() functions.  Instead, it compiles your binary_tree.c and
+sorted_list.c together with its own test programs, which call your functions
+(BottomUpTree, DeleteTree, ListInit, AddIfAbsent, Remove, ...) and check the
+results themselves.  This has two consequences:
+
+* Do not rename the given structs, fields, or functions.  If the autograder
+  cannot compile its test programs against your files, you will get 0 points
+  and the compiler errors will be shown.
+* Changing main() or the program's own checks has no effect on your grade.
+
+Each test is explained below.  When a test fails, its feedback shows the
+relevant program output, including the ASAN or TSAN report if there was one.
+
+1. **binary_tree.c: every node stores the full name (plain build)** (5
+   points): Builds trees with names of 12 different lengths, from 1
+   character up to 1,000,000 characters, using a regular build without ASAN.
+   Every node must store the complete name.  A fix that avoids the overflow
+   by cutting long names short fails this test.
+
+1. **binary_tree.c: no memory errors under AddressSanitizer** (10 points):
+   Builds and deletes the same trees with an ASAN build.  Any ASAN error
+   fails the test.  That includes memory leaks reported by LeakSanitizer: if
+   every node allocates its own copy of the name, DeleteTree must free it.
+
+The next three tests each check one of the three bugs in sorted_list.c, so
+you earn the points for each bug you fix, even if the others remain.  These
+tests call AddIfAbsent and Remove one at a time on the list 10, 20, ..., 90
+and record every lock and unlock, so their results are the same on every
+run.  All three also require that you keep the fine-grained per-node locking
+design:
+
+* Only pthread mutexes may be used for synchronization.  The source code may
+  not use atomics (`__atomic_*`, `__sync_*`, `_Atomic`, `stdatomic.h`),
+  `volatile`, inline assembly, semaphores, or system calls such as futex.
+  The only threading functions you may call are pthread_create,
+  pthread_join, pthread_mutex_init, pthread_mutex_destroy,
+  pthread_mutex_lock, and pthread_mutex_unlock.
+* Every node the operation passes through must be locked, and no node may
+  be locked while holding a mutex that is not a node lock (such as a global
+  lock).  A separate mutex for size is fine, as long as you do not hold it
+  while locking nodes.
+
+3. **sorted_list.c: Find uses hand-over-hand locking** (6 points): Find must
+   lock the head sentinel first, lock every other node only while holding
+   the lock of the node before it, and never hold more than two node locks
+   at once.
+
+1. **sorted_list.c: every update to size is protected by one lock** (6
+   points): Every change to the size field must happen while holding one
+   mutex that all changes to size hold.
+
+1. **sorted_list.c: AddIfAbsent checks and inserts in one locked window** (6
+   points): AddIfAbsent must check for the key and insert it in a single
+   transaction, without the other thread modifying the relevant nodes in between.
+
+The last two tests run the whole program under load:
+
+6. **sorted_list.c: no data races under ThreadSanitizer** (4 points): Runs 2
+   threads doing 20,000 random operations each with a TSAN build, 3 times
+   with different random seeds.  Any TSAN warning fails the test, as does a
+   failed size, accounting, or order check (the same three checks that main()
+   prints).  Remember that TSAN only sees the interleavings that actually
+   happen, so run your program several times before you submit.
+
+1. **sorted_list.c: list is consistent after a stress run (plain build)** (3
+   points): Runs 2 threads doing 1,000,000 random operations each with an
+   optimized (-O2) build without TSAN, 3 times.  The program must not crash,
+   hang, or fail the assertion in AddIfAbsent, and all three checks must
+   pass.
 
 ## Resources
 
