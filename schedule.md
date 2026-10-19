@@ -35,7 +35,7 @@ AFIST = [_A Friendly Introduction to Software Testing_](software-quality-assuran
 
 * Class 1 
   * Assignment due before class: [Exercise 1: Test Plans](exercises/1)
-  * Quiz: Test Plans and Defect Reporting
+  * Quiz 1: Test Plans and Defect Reporting
   * Lecture: Test Driven Development (READING: AFIST, Chapter 15)
   * Assignment release: [Exercise 2: Unit Testing](exercises/2)
 
@@ -55,7 +55,7 @@ AFIST = [_A Friendly Introduction to Software Testing_](software-quality-assuran
 
 * Class 1
   * Assignment due before class: [Exercise 2: Unit Testing](exercises/2)
-  * Quiz: Unit Testing
+  * Quiz 2: Unit Testing
   * Lecture: Automated Systems Testing
   * Assignment release: [Exercise 4: Automated Systems Testing](exercises/4)
 
@@ -71,7 +71,7 @@ AFIST = [_A Friendly Introduction to Software Testing_](software-quality-assuran
 
 * Class 2
   * Assignment due before class: [Exercise 4: Automated Systems Testing](exercises/4)
-  * Quiz: Behavior Driven Development / Automated Systems Testing
+  * Quiz 3: Behavior Driven Development / Automated Systems Testing
   * Lecture: Writing Testable Code (READING: AFIST, Chapter 16)
 
 ## WEEK 8 (Week of 12 OCT)
@@ -82,7 +82,7 @@ AFIST = [_A Friendly Introduction to Software Testing_](software-quality-assuran
 
 * Class 2
   * Assignment due before class: [Exercise 5: Performance Testing](exercises/5)
-  * Quiz: Performance Testing
+  * Quiz 4: Performance Testing
   * Lecture: Software QA and Nondeterminism (cont'd)
 
 ## WEEK 9 (Week of 19 OCT)
@@ -108,7 +108,7 @@ AFIST = [_A Friendly Introduction to Software Testing_](software-quality-assuran
 
 * Class 1
   * Assignment due before class: [Exercise 7: Model Checking](exercises/7)
-  * Quiz: Testing Nondeterministic Software
+  * Quiz 5: Testing Nondeterministic Software
   * Assignment release: [Exercise 8 Part 2: Docker](exercises/8)
 
 * Class 2
@@ -132,7 +132,7 @@ AFIST = [_A Friendly Introduction to Software Testing_](software-quality-assuran
 
 * Class 2
   * Assignment due before class: [Exercise 9: Property-based Testing](exercises/9)
-  * Quiz: Property-based Testing & Combinatorial Testing
+  * Quiz 6: Property-based Testing & Combinatorial Testing
   * Lecture: Security Testing (READING: AFIST, Chapter 20)
 
 ## WEEK 14 (Week of 23 NOV)
