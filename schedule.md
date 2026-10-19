@@ -8,7 +8,7 @@ AFIST = [_A Friendly Introduction to Software Testing_](software-quality-assuran
 * Class 1
   * Lecture: Course Introduction 
   * Assignment releases
-    * Partnership Contract on GradeScope
+    * Partnership Contract on Gradescope
     * [Java Assessment Exercise](exercises/0)
   
 * Class 2
@@ -18,28 +18,28 @@ AFIST = [_A Friendly Introduction to Software Testing_](software-quality-assuran
 
 * Class 1
   * Assignment due before class: [Java Assessment Exercise](exercises/0)
-  * Lecture: Test Plans Lecture (READING: AFIST, Chapters 6, 8)
+  * Lecture: Test Plans (READING: AFIST, Chapters 6, 8)
   * Assignment release: [Exercise 1: Test Plans](exercises/1)
 
 * Class 2
-  * Lecture: Defects Lecture (READING: AFIST, Chapters 9)
+  * Lecture: Defects (READING: AFIST, Chapter 9)
 
 ## WEEK 3 (Week of 7 SEP)
 
 * Class 1: NO CLASS (Labor Day)
 
 * Class 2
-  * Lecture: Requirements (READING: AFIST, Chapters 5), 
+  * Lecture: Requirements (READING: AFIST, Chapter 5)
 
 ## WEEK 4 (Week of 14 SEP)
 
 * Class 1 
   * Assignment due before class: [Exercise 1: Test Plans](exercises/1)
   * Quiz: Test Plans and Defect Reporting
-  * Lecture: Test-driven Development (READING: AFIST, Chapter 15)
+  * Lecture: Test Driven Development (READING: AFIST, Chapter 15)
   * Assignment release: [Exercise 2: Unit Testing](exercises/2)
 
-* Class 2: 
+* Class 2
   * Lecture: Unit Testing Part 1 (READING: AFIST, Chapter 13)
 
 ## WEEK 5 (Week of 21 SEP)
@@ -56,23 +56,23 @@ AFIST = [_A Friendly Introduction to Software Testing_](software-quality-assuran
 * Class 1
   * Assignment due before class: [Exercise 2: Unit Testing](exercises/2)
   * Quiz: Unit Testing
-  * Lecture: Automated System Testing
-  * Assignment release: [Exercise 4: Automated System Testing](exercises/4)
+  * Lecture: Automated Systems Testing
+  * Assignment release: [Exercise 4: Automated Systems Testing](exercises/4)
 
 * Class 2
   * Assignment due before class: [Exercise 3: Behavior Driven Development](exercises/3)
-  * Lecture: cont'd
+  * Lecture: Automated Systems Testing (cont'd)
 
 ## WEEK 7 (Week of 5 OCT)
 
 * Class 1
-  * Lecture: Writing Testable Code Lecture (READING: AFIST, Chapter 16)
+  * Lecture: Performance Testing (READING: AFIST, Chapter 19)
   * Assignment release: [Exercise 5: Performance Testing](exercises/5)
 
 * Class 2
-  * Assignment due before class: [Exercise 4: Automated System Testing](exercises/4)
+  * Assignment due before class: [Exercise 4: Automated Systems Testing](exercises/4)
   * Quiz: Behavior Driven Development / Automated Systems Testing
-  * Lecture: Performance Testing (READING: AFIST, Chapter 19)
+  * Lecture: Writing Testable Code (READING: AFIST, Chapter 16)
 
 ## WEEK 8 (Week of 12 OCT)
 
@@ -83,58 +83,56 @@ AFIST = [_A Friendly Introduction to Software Testing_](software-quality-assuran
 * Class 2
   * Assignment due before class: [Exercise 5: Performance Testing](exercises/5)
   * Quiz: Performance Testing
-  * cont'd
+  * Lecture: Software QA and Nondeterminism (cont'd)
 
 ## WEEK 9 (Week of 19 OCT)
 
 * Class 1
-  * Lecture: Stochastic and Property-Based Testing Lecture (READING: AFIST, Chapter 18)
-  * Assignment release: [Exercise 7: Property-based Testing](exercises/6)
+  * Lecture: Software QA and Nondeterminism (cont'd)
+  * Assignment release: [Exercise 7: Model Checking](exercises/7)
 
 * Class 2
   * Assignment due before class: [Exercise 6: Testing Nondeterministic Software](exercises/6)
-  * Quiz: Testing Nondeterministic Software - Memory Errors and Race Conditions
-  * cont'd
+  * Lecture: Software QA and Nondeterminism (cont'd)
 
 ## WEEK 10 (Week of 26 OCT)
 
 * Class 1
-  * Lecture: Static Analysis Part 1
-  * In-class exercise: [Exercise 8 Part 1: Linters and Bug Finders](exercises/8)
+  * Lecture: Software Verification
 
 * Class 2
-  * Assignment due before class: [Exercise 7: Property-based Testing](exercises/6)
-  * Quiz: Property-based Testing
-  * Lecture: Software QA and Nondeterminism (cont'd)
+  * Lecture: Smoke and Exploratory Testing (READING: AFIST, Chapters 10-11)
+  * Assignment release: [Exercise 8 Part 1: CI Pipelines](exercises/8)
 
 ## WEEK 11 (Week of 2 NOV)
 
 * Class 1
-  * Lecture: Static Analysis Part 2
-  * Assignment release: [Exercise 8 Part 2: Model Checking](exercises/8)
+  * Assignment due before class: [Exercise 7: Model Checking](exercises/7)
+  * Quiz: Testing Nondeterministic Software
+  * Assignment release: [Exercise 8 Part 2: Docker](exercises/8)
 
 * Class 2
-  * Assignment due before class: [Exercise 8 Part 1: Linters and Bug Finders](exercises/8)
-  * cont'd
+  * Work on finishing [Exercise 8 Part 2: Docker](exercises/8)
 
 ## WEEK 12 (Week of 9 NOV)
 
 * Class 1
-  * Lecture: Smoke and Exploratory Testing (READING: AFIST, Chapters 10-11)
-  * Assignment release: [Exercise 9 Part 1: CI Pipelines](exercises/9)
+  * Lecture: Stochastic and Property-based Testing (READING: AFIST, Chapter 18)
+  * Assignment release: [Exercise 9: Property-based Testing](exercises/9)
 
 * Class 2
-  * Assignments due before class: [Exercise 8 Part 2:  Model Checking](exercises/8)
-  * Quiz: Static Analysis
-  * Assignment release: [Exercise 9 Part 2: Dockers](exercises/9)
+  * Assignments due before class: [Exercise 8 Part 1: CI Pipelines](exercises/8), [Exercise 8 Part 2: Docker](exercises/8)
+  * Lecture: Pairwise and Combinatorial Testing (READING: AFIST, Chapter 17)
 
 ## WEEK 13 (Week of 16 NOV)
 
 * Class 1
-  * Lecture: Pairwise and Combinatorial Testing (READING: AFIST, Chapter 17)
+  * Lecture: Static Analysis
+  * Assignment release: [Exercise 10: Linters and Bug Finders](exercises/10)
 
 * Class 2
-  * Assignments due before class: [Exercise 9 Part 1: CI Pipelines](exercises/9), [Exercise 9 Part 2: Dockers](exercises/9)
+  * Assignment due before class: [Exercise 9: Property-based Testing](exercises/9)
+  * Quiz: Property-based Testing & Combinatorial Testing
   * Lecture: Security Testing (READING: AFIST, Chapter 20)
 
 ## WEEK 14 (Week of 23 NOV)
@@ -145,11 +143,16 @@ AFIST = [_A Friendly Introduction to Software Testing_](software-quality-assuran
 
 ## WEEK 15 (Week of 30 NOV)
 
-* Industry Invited Lectures (TBA)
+* Assignment due on Monday before class: [Exercise 10: Linters and Bug Finders](exercises/8)
+
+* November 30, 9:30 AM @ SENSQ 5129: TBA
 
 * November 30, 3:00 PM @ SENSQ 6110: [Aerotech](https://www.aerotech.com/) lecture
   * Speaker: Nate Homitsky, Vice President of Information [LinkedIn](https://www.linkedin.com/in/nate-homitsky-6912a5a3/)
   * Speaker: Ross Kabus, Software Engineering Team Lead [LinkedIn](https://www.linkedin.com/in/rkabus/)
+
+* December 2, 9:30 AM @ SENSQ 5129: [American Eagle](https://www.ae.com/) lecture
+  * Speaker: Uttam Kumar, Engineering Manager at American Eagle, [LinkedIn](https://www.linkedin.com/in/kumaruttam/)
 
 * December 2, 3:00 PM @ SENSQ 6110: [CGI](https://www.cgi.com/) lecture
   * Speaker: Laks Ranganathan, CGI Partner | Director - Consulting Services, [LinkedIn](https://www.linkedin.com/in/lakshmi-narasimhan-yeri-ranganathan-4b7b874b/)
@@ -160,14 +163,14 @@ AFIST = [_A Friendly Introduction to Software Testing_](software-quality-assuran
 
 ## WEEK 16 (Week of 7 DEC)
 
-* Final Exam on GradeScope
+* Final Exam on Gradescope
   * Time and Location
     * TBA
   * Steps:
     1. Do TopHat attendance at start of class.  If no attendance, grade will not be counted.
-    2. Click on assignment "Final Exam" on GradeScope (will appear at start of class).
-    3. Click on the "Start Assignment" button.  There will be a count down timer on the top right once you start.
+    2. Click on assignment "Final Exam" on Gradescope (will appear at start of class).
+    3. Click on the "Start Assignment" button.  There will be a countdown timer on the top right once you start.
     4. Finish and submit the exam within 75 minutes.  You can submit multiple times.
   * Exam is open book (Lecture slides, notes, textbook, exercises and deliverables).  All materials have to be on paper.
   * No internet access.  No generative AI.
-  * You should have only the GradeScope on the screen at all times.
+  * You should have only Gradescope on the screen at all times.
