@@ -7,9 +7,11 @@ search.multiple_errors = true
 search.properties = gov.nasa.jpf.vm.NoUncaughtExceptionsProperty
 
 # Other checks you can enable (remove the leading # on the setting line):
+# Java assert statements: off by default, as in the JVM; this turns them on in all classes.
+#vm.enable_assertions = *
 # Deadlock: all threads are blocked.
 #search.properties+=,gov.nasa.jpf.vm.NotDeadlockedProperty
-# Data race: unsynchronized conflicting accesses to a field or array element.
+# Data race: unsynchronized conflicting field accesses; arrays need cg.threads.break_arrays=true.
 #listener+=,gov.nasa.jpf.listener.PreciseRaceDetector
 # Assertion failure: an AssertionError is thrown, even if the program catches it.
 #listener+=,gov.nasa.jpf.listener.AssertionProperty

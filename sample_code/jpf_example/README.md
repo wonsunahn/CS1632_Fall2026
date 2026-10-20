@@ -584,8 +584,10 @@ property at that point of execution.  There are two options to insert these
 assertions:
 
 1. The assertions can be embedded in your program code in the form of Java
-   assert statements.  It is sometimes useful to have these assertions
-checked while your system is deployed in the production site, especially if
+   assert statements (which, as in the regular JVM, JPF ignores unless you
+enable them with vm.enable_assertions in the .jpf file).  It is sometimes
+useful to have these assertions checked while your system is deployed in the
+production site, especially if
 the assertions can prevent a catastrophic event.  But this has the drawback
 that your testing code is mixed in with your implementation code which is
 not good for code readability and/or maintenance.  
@@ -622,6 +624,9 @@ To run JPF on DrunkCarnivalShooterTest, do (.bat for Windows, .sh for Mac/Linux)
 ```
 bash runTest.sh edu.pitt.cs.DrunkCarnivalShooterTest
 ```
+
+Run this test only with runTest, not from the VS Code Testing panel, which can
+report it as passing even when JPF never ran.
 
 As of now, it should show one test method "testShoot" passing:
 

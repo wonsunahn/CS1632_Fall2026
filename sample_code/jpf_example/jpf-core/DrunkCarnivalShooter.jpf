@@ -1,4 +1,5 @@
-# Target class main method to run.  In this case, we are invoking the main method of DrunkCarnivalShooterImpl with the argument "test".
+# Target class main method to run.  In this case, we are invoking the main method of
+# DrunkCarnivalShooterImpl with the argument "test".
 target = edu.pitt.cs.DrunkCarnivalShooterImpl
 target.args = test
 
@@ -10,9 +11,11 @@ search.class = .search.heuristic.BFSHeuristic
 search.properties = gov.nasa.jpf.vm.NoUncaughtExceptionsProperty
 
 # Other checks you can enable (remove the leading # on the setting line):
+# Java assert statements: off by default, as in the JVM; this turns them on in all classes.
+#vm.enable_assertions = *
 # Deadlock: all threads are blocked.
 #search.properties+=,gov.nasa.jpf.vm.NotDeadlockedProperty
-# Data race: unsynchronized conflicting accesses to a field or array element.
+# Data race: unsynchronized conflicting field accesses; arrays need cg.threads.break_arrays=true.
 #listener+=,gov.nasa.jpf.listener.PreciseRaceDetector
 # Assertion failure: an AssertionError is thrown, even if the program catches it.
 #listener+=,gov.nasa.jpf.listener.AssertionProperty
