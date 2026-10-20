@@ -1,0 +1,24 @@
+$ java --add-opens java.base/jdk.internal.misc=ALL-UNNAMED -jar build/RunTest.jar edu.pitt.cs.DrunkCarnivalShooterTest
+
+......................................... testing testShoot()
+  running jpf with args:
+JavaPathfinder core system v8.0 (rev 1a704e1d6c3d92178504f8cdfe57b068b4e22d9c) - (C) 2005-2014 United States Government. All rights reserved.
+
+
+====================================================== system under test
+edu.pitt.cs.DrunkCarnivalShooterTest.runTestMethod()
+
+====================================================== search started: 3/19/24, 2:35 AM
+[WARNING] orphan NativePeer method: jdk.internal.misc.Unsafe.getUnsafe()Lsun/misc/Unsafe;
+
+====================================================== results
+no errors detected
+
+====================================================== search finished: 3/19/24, 2:35 AM
+......................................... testShoot: Ok
+
+......................................... execution of testsuite: edu.pitt.cs.DrunkCarnivalShooterTest SUCCEEDED
+.... [1] testShoot: Ok
+......................................... tests: 1, failures: 0, errors: 0
+
+tested classes: 1, passed: 1
