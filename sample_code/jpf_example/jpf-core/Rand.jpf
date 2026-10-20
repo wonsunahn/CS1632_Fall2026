@@ -2,3 +2,24 @@ target = edu.pitt.cs.Rand
 
 # Don't stop at the first error.  Report all errors.
 search.multiple_errors = true
+
+# Properties checked on every state.  Only uncaught exceptions are enabled here.
+search.properties = gov.nasa.jpf.vm.NoUncaughtExceptionsProperty
+
+# Other checks you can enable (remove the leading # on the setting line):
+# Deadlock: all threads are blocked.
+#search.properties+=,gov.nasa.jpf.vm.NotDeadlockedProperty
+# Data race: unsynchronized conflicting accesses to a field or array element.
+#listener+=,gov.nasa.jpf.listener.PreciseRaceDetector
+# Assertion failure: an AssertionError is thrown, even if the program catches it.
+#listener+=,gov.nasa.jpf.listener.AssertionProperty
+# Endless loop: a loop keeps repeating without changing program state.
+#listener+=,gov.nasa.jpf.listener.EndlessLoopDetector
+# State cycle: search revisits a state on its path (possible hang); needs DFSearch.
+#listener+=,gov.nasa.jpf.listener.NoStateCycles
+# Value range: a field or local variable leaves a range set with range.* settings.
+#listener+=,gov.nasa.jpf.listener.NumericValueChecker
+# Heap limit: heap exceeds heap.size_limit bytes or heap.live_limit live objects.
+#listener+=,gov.nasa.jpf.listener.HeapTracker
+# Output check: program output violates an output spec set with pom.* settings.
+#listener+=,gov.nasa.jpf.listener.PathOutputMonitor

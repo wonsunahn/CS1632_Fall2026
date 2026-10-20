@@ -55,7 +55,7 @@ public class DrunkCarnivalShooterTest extends TestJPF {
 	 *                shooter is instantiated with new DrunkCarnivalShooterImpl() with preconfigured targets.
 	 *                builder is instantiated with new StringBuilder().
 	 * Execution steps: Call shooter.shoot(targetChoice, builder);
-	 * Invariant: The number of targets which returns true on shooter.isTargetStanding(i)
+	 * Invariant: The number of targets for which shooter.isTargetStanding(i) returns true
 	 *            where i = 0 ... 3 is equal to shooter.getRemainingTargetNum().
 	 * </pre>
 	 */

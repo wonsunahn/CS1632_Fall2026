@@ -15,7 +15,8 @@ Java programs.  It works in exactly the same way we learned in class: it does
 an exhaustive and systematic exploration of program state space to check for
 correctness.  Unlike dynamic testing, which only checks the executions you
 happen to try, this allows JPF to *prove* that certain correctness properties
-hold for all situations, even for programs with random behavior.
+hold for every execution over the inputs you ask it to explore, even for
+programs with random behavior.
 
 The program we will test is DrunkCarnivalShooter, a simple text-based game
 where the player goes to a carnival shooting range and tries to win the prize
@@ -275,21 +276,21 @@ loaded code:        classes=66,methods=1371
 ====================================================== search finished: 3/15/24 1:52 PM
 ```
 
-Since you enabled both error and trace output on [jpf.properties](jpf-core/jpf.properties):
+Since both error and trace output are enabled in [jpf.properties](jpf-core/jpf.properties):
 
 ```
 report.console.property_violation=error,trace
 ```
 
 The console output will include a description of the error whenever a
-property violation (i.e. Java exception) occurs, as well as the execution
+property violation (e.g. an uncaught Java exception) occurs, as well as the execution
 trace leading up to that error.
 
 You can see from the screen output that JPF systematically explores all
 possible states, thereby finding the two states with division-by-0 exception
 errors.  So, now we know that there are two defective states, how do we
 debug?  By looking at the trace corresponding to each error, you can see all
-the Java statement executed leading up to the error and all the choices it
+the Java statements executed leading up to the error and all the choices it
 has made at points where there are nondeterministic choices.  The choices
 are marked as "transitions" in the trace.
 
@@ -297,7 +298,7 @@ Let's take a close look at trace #1.  Transition #0 happens with
 ThreadChoiceFromSet.  At this point JPF chooses one thread to start
 executing out of all the threads in the program (to try out all the possible
 thread interleavings as we discussed in class).  In this case, it is a
-single-threaded program, so there is only thread to choose from: the main
+single-threaded program, so there is only one thread to choose from: the main
 thread.
 
 Transition #1 looks like the following:
@@ -570,9 +571,12 @@ not cover all the possible 16 states.  And somehow the game is able to
 terminate after 2 rounds.  So the game now does not throw any exceptions but
 still malfunctions.
 
-JPF can only check for system properties that it knows about while traversing
-the program state space.  If you don't tell it anything, the only thing JPF
-knows about a Java program is that it should not throw exceptions at any point.
+JPF can only check for the system properties it is configured to check while
+traversing the program state space.  In
+[DrunkCarnivalShooter.jpf](jpf-core/DrunkCarnivalShooter.jpf), only
+NoUncaughtExceptionsProperty (the program never throws an uncaught exception)
+is enabled.  The file also lists, commented out, the other checks JPF provides,
+such as deadlocks, data races, and endless loops.
 If you want to check that your program behaves in a certain way according to
 the requirements, you need to tell JPF about these additional properties.  The
 way to encode properties is through assertions that assert the given invariant
@@ -774,11 +778,8 @@ random number generation for the fuzzing.  You can also see on the
 trace remainingTargetNum, a key variable in this defect, getting decremented
 twice.
 
-Debug DrunkCarnivalShooterImpl using this trace.  Now if you play the
-game, you should not see any defects.
-
-Once you have fixed DrunkCarnivalShooterImpl, run DrunkCarnivalShooterTest one
-more time:
+Debug DrunkCarnivalShooterImpl using this trace, then run
+DrunkCarnivalShooterTest one more time:
 
 ```
 .\runTest.bat edu.pitt.cs.DrunkCarnivalShooterTest
@@ -788,10 +789,10 @@ OR
 bash runTest.sh edu.pitt.cs.DrunkCarnivalShooterTest
 ```
 
-JPF should no longer find any test failures.  Compare your output against
-[jpf_junit_run.txt](jpf_junit_run.txt).  Minor details like elapsed time
-statistics can differ but the search output and the results output should look
-mostly similar.
+JPF should no longer find any test failures.  The output should look like the
+passing output shown at the beginning of this task, without the "Failure in
+Round #0" line (assuming you commented out the println as instructed in the
+test).  Now if you play the game, you should not see any defects.
 
 ## Lessons on Model Checking
 
