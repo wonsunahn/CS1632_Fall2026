@@ -3,6 +3,11 @@
 - [How to Run DrunkCarnivalShooter](#how-to-run-drunkcarnivalshooter)
 - [Task 1: Apply JPF on Rand](#task-1-apply-jpf-on-rand)
 - [Task 2: Apply JPF on DrunkCarnivalShooter](#task-2-apply-jpf-on-drunkcarnivalshooter)
+  * [State Space Explosion](#state-space-explosion)
+  * [Filtering Out State with @FilterField](#filtering-out-state-with-filterfield)
+  * [Enumerating User Input with Verify](#enumerating-user-input-with-verify)
+  * [Debugging the Exception Using the JPF Trace](#debugging-the-exception-using-the-jpf-trace)
+  * [A Bug JPF Cannot See](#a-bug-jpf-cannot-see)
 - [Task 3: Apply JPF on JUnit to Unit Test DrunkCarnivalShooter](#task-3-apply-jpf-on-junit-to-unit-test-drunkcarnivalshooter)
   * [Lessons on Model Checking](#lessons-on-model-checking)
 - [Resources](#resources)
@@ -327,7 +332,10 @@ the code and identify why each error occurred.
 Now let's once again work on DrunkCarnivalShooter.  Stay in the jpf-core
 folder, since that is where the JPF scripts and DrunkCarnivalShooter.jpf are.
 
-To run JPF on DrunkCarnivalShooter do (.bat for Windows, .sh for Mac/Linux):
+## State Space Explosion
+
+To run JPF on DrunkCarnivalShooter do (.bat for Windows, .sh for Mac/Linux),
+but be ready to quickly press Ctrl+C:
 
 ```
 .\runApp.bat DrunkCarnivalShooter.jpf
@@ -336,13 +344,112 @@ To run JPF on DrunkCarnivalShooter do (.bat for Windows, .sh for Mac/Linux):
 bash runApp.sh DrunkCarnivalShooter.jpf
 ```
 
-But stop right there.  If you run that command, you will fall into an
-infinite loop at this point!
+Press Ctrl+C now, or your process is going to run out of memory!  JPF never
+finishes, and the rounds keep going on and on:
+
+```
+JavaPathfinder core system v8.0 (rev 1a704e1d6c3d92178504f8cdfe57b068b4e22d9c) - (C) 2005-2014 United States Government. All rights reserved.
+
+
+====================================================== system under test
+edu.pitt.cs.DrunkCarnivalShooterImpl.main("test")
+
+====================================================== search started: 10/21/26, 2:03 PM
+[WARNING] orphan NativePeer method: jdk.internal.misc.Unsafe.getUnsafe()Lsun/misc/Unsafe;
+Round #0:  ||    ||    ||    ||  
+Choose your target (0-3): 
+You aimed at target #1 but the Force pulls your bullet to the left.
+You hit target #0! "The Force is strong with this one.", Darth opines.
+
+Round #1:        ||    ||    ||  
+Choose your target (0-3): 
+You aimed at target #1 but the Force pulls your bullet to the left.
+You miss! "Do or do not. There is no try.", Yoda chides.
+
+Round #2:        ||    ||    ||  
+Choose your target (0-3): 
+You aimed at target #1 but the Force pulls your bullet to the left.
+You miss! "Do or do not. There is no try.", Yoda chides.
+
+Round #3:        ||    ||    ||  
+Choose your target (0-3): 
+You aimed at target #1 but the Force pulls your bullet to the left.
+You miss! "Do or do not. There is no try.", Yoda chides.
+...
+```
+
+It looks like JPF keeps coming back to the same state, with 3 targets
+standing.  That is because by default JPF does a Depth-First Search (DFS) of
+the state space.  At each choice, it takes the first ("left-most") option,
+which here is the random number generator pulling the bullet to the left, and
+keeps going deeper and deeper until it can proceed no further.
+
+But although it appears like JPF is coming back to the same state, it is not.
+If it were the same state, JPF would have detected a state match: it would
+know that it has already explored everything reachable from that state, so it
+would backtrack and move on to some other choice, such as the bullet going
+straight.  Note that an infinite loop by itself does not mean an infinite
+number of states.  So something must be causing a new state to be created at
+each round.  What is different from round to round?  Take a close look at the
+output before reading on.
+
+## Filtering Out State with @FilterField
+
+It is the round number!  The round number is just a counter statistic, and it
+is not central to verifying the game logic.  The state that we are really
+interested in is the state of the 4 targets.  Now if you think about it, the 4
+targets can only be in a handful of states: 2 * 2 * 2 * 2 = 16 states
+(standing or toppled for each).  And this is true no matter how many rounds
+you go through.  The round number, which changes every single round, is the
+culprit leading to the state explosion.  So, let's filter that state out!
+
+Import the appropriate JPF library at the top of DrunkCarnivalShooterImpl.java:
+
+```
+import gov.nasa.jpf.annotation.FilterField;
+```
+
+And now, let's annotate roundNum such that it is filtered out:
+
+```
+@FilterField private int roundNum;
+```
+
+Now JPF will ignore roundNum when comparing states.  Let's recompile (from the
+root directory):
+
+```
+mvn compile
+```
+
+And try running JPF one more time (from the jpf-core folder):
+
+```
+.\runApp.bat DrunkCarnivalShooter.jpf
+```
+```
+bash runApp.sh DrunkCarnivalShooter.jpf
+```
+
+This time, JPF terminates after a handful of rounds and declares that there
+are no errors:
+
+```
+====================================================== results
+no errors detected
+```
+
+## Enumerating User Input with Verify
+
+But wait, didn't the game sometimes crash with an exception when we played it
+in [How to Run DrunkCarnivalShooter](#how-to-run-drunkcarnivalshooter)?  Why is
+JPF not detecting the exception?
 
 That is because in the DrunkCarnivalShooterImpl main method, if the argument
 "test" is passed (meaning that we are in JPF test mode), I removed all
 calls to Scanner which scans user input, and hard coded the user selected
-target to "1" when in test mode:
+target to "1" when in test mode.  That is why every round in the above log
+says "You aimed at target #1":
 
 ```
 Scanner scanner = null;
@@ -375,16 +482,8 @@ to specify the set of user input(s) we want to test.  Then, it **exhaustively
 tests the program for each user input**, by creating a new path to explore
 for each input.
 
-The reason that JPF falls into an infinite loop in this case is because the
-t is hard coded to 1, and when repeatedly choosing target 1, the bullet can keep
-missing forever, so there are execution paths where the game never
-terminates.  Now not all programs with infinite loops generate an
-infinite number of program states, so there is something about this program
-that generates an infinite number of states... but more on that later. :)
-
-For now, let's use the Verify APIs to fix the problem.  In order to be able
-to use them, we first have to import the class at the top of
-DrunkCarnivalShooterImpl.java:
+In order to be able to use the Verify APIs, we first have to import the class
+at the top of DrunkCarnivalShooterImpl.java:
 
 ```
 import gov.nasa.jpf.vm.Verify;
@@ -417,8 +516,10 @@ And try running JPF one more time (from the jpf-core folder):
 bash runApp.sh DrunkCarnivalShooter.jpf
 ```
 
-This will show a new error message due to an exception (line numbers in your
-output may differ depending on your code):
+## Debugging the Exception Using the JPF Trace
+
+This time, JPF shows an error message due to an exception (line numbers in
+your output may differ depending on your code):
 
 ```
 ====================================================== search started: 3/15/24 4:24 PM
@@ -494,15 +595,16 @@ case where the user chose target 0 and the randomness of the shooting pulled
 the bullet to the left.  What's on the left side of target 0?  That should help
 you track down the problem.  **Hint: What happens when t becomes -1 in isTargetStanding?**
 
+## A Bug JPF Cannot See
+
 Once you fix the bug (remember that the bullet can also veer right of target
-#3), try running JPF one more time (but be ready to quickly press Ctrl+C
-because it is going to fall into an infinite loop).  Recompile from the root directory:
+#3), recompile from the root directory:
 
 ```
 mvn compile
 ```
 
-Then one of the below from the jpf-core folder:
+Then run JPF again from the jpf-core folder:
 
 ```
 .\runApp.bat DrunkCarnivalShooter.jpf
@@ -511,65 +613,23 @@ Then one of the below from the jpf-core folder:
 bash runApp.sh DrunkCarnivalShooter.jpf
 ```
 
-Press Ctrl+C now, or your process is going to run out of memory!  Since JPF does 
-not encounter any exceptions it will run indefinitely and also generate an infinite
-number of states (observed by the infinite number of rounds):
+JPF should once again declare "no errors detected".  So is the game correct
+now?  Try playing it a few times:
 
 ```
-...
-Round #20:  ||    ||    ||      
-Choose your target (0-3):
-You aimed at target #0 but the Force pulls your bullet to the left.
-You miss! "Do or do not. There is no try.", Yoda chides.
-
-Round #21:        ||    ||    ||  
-Choose your target (0-3):
-You miss! "Do or do not. There is no try.", Yoda chides.
-
-... (to infinity)
+java -cp target/classes edu.pitt.cs.DrunkCarnivalShooterImpl
 ```
 
-There is no theoretical limit to the number of rounds a player can play, hence
-the state explosion.  How can we deal with this explosion and still verify our
-program?
-
-We have to somehow narrow down the amount of state we test, or we will be
-forced to cut JPF off after testing only a limited set of rounds.  Let's say
-the state that we are really interested in relation to the specifications is
-the state of the 4 targets.  Now if you think about it, the 4 targets can only
-be in a handful of states: 2 * 2 * 2 * 2 = 16 states (standing or toppled for
-each).  And this is true no matter how many rounds you go through.  The only
-thing that constantly changes every round is the round number --- and that is
-the culprit leading to the state explosion.  The round number is not something
-we are interested in verifying right now.  So, let's filter that state out!
-
-Import the appropriate JPF library at the top of DrunkCarnivalShooterImpl.java again:
-
-```
-import gov.nasa.jpf.annotation.FilterField;
-```
-
-And now, let's annotate roundNum such that it is filtered out:
-
-```
-@FilterField private int roundNum;
-```
-
-Now if we recompile and run runApp.bat (or runApp.sh) again, JPF will only go up to Round #2 and stop and declare "no errors detected".
-
-```
-...
-Choose your target (0-3):
-
-====================================================== results
-no errors detected
-```
-
-But why Round #2?  We would expect that 4 rounds would be needed to cover all
-the 16 possible states.  In fact, if you see the output, you can see it does
-not cover all the possible 16 states.  And somehow the game is able to
-terminate after 2 rounds.  So the game now does not throw any exceptions but
+You will notice that the game sometimes ends prematurely, declaring "You
+decimate all the targets" even when there are targets remaining.  In fact, the
+same thing happens in the JPF output.  Look for "You decimate all the targets"
+in the output.  The round string printed just before it shows three targets
+standing, and only one of them gets hit, so the game terminates even when two
+targets are still standing.  So the game now does not throw any exceptions but
 still malfunctions.
+
+Why did JPF not catch this?  The property that the game ends only when all the
+targets are down is specific to this program, and JPF knows nothing about it.
 
 JPF can only check for the system properties it is configured to check while
 traversing the program state space.  In
