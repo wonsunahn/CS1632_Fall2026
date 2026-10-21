@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
+import gov.nasa.jpf.annotation.FilterField;
+
 /**
  * Code by @author Wonsun Ahn.
  * 
@@ -87,7 +89,7 @@ public class DrunkCarnivalShooterImpl {
 		if (takeDownTarget(newT)) {
 			builder.append("You hit target #" + newT
 					+ "! \"The Force is strong with this one.\", Darth opines.\n");
-			remainingTargetNum--;
+			// remainingTargetNum--;
 			return true;
 		} else {
 			builder.append("You miss! \"Do or do not. There is no try.\", Yoda chides.\n");
@@ -166,6 +168,7 @@ public class DrunkCarnivalShooterImpl {
 
 			// If no remaining targets, game over!
 			if (shooter.getRemainingTargetNum() == 0) {
+				System.out.println(shooter.getRoundString());
 				System.out.println("You decimate all the targets. Where is my prize?");
 				break;
 			}
