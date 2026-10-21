@@ -582,8 +582,8 @@ represents a different program state.
 1. When the program is multithreaded (parallel), JPF is also presented at each
    instruction with a choice of whether to context switch and execute another
 thread.  This is what transition #0 is.  This is how JPF can exhaustively
-explore all thread interleavings.  If you don't know what that means, don't
-worry about it.  It is beyond the scope of this example.  Feel free to ask if you are curious :).
+explore all thread interleavings.  You will be an example of JPF making a
+choice between multiple threads when you do the exercise. :)
 
 In the above trace, it is important to understand transitions #1 and #2.  What
 would be transition #1 with choice interval 0..3?  It would be the
