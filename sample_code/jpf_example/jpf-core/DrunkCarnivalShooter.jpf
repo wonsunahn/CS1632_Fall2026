@@ -3,10 +3,6 @@
 target = edu.pitt.cs.DrunkCarnivalShooterImpl
 target.args = test
 
-# Do a BFS (Breadth First Search) of the state space, overriding the default
-# gov.nasa.jpf.search.DFSearch (Depth First Search) set in jpf.properties.
-search.class = .search.heuristic.BFSHeuristic
-
 # Properties checked on every state.  Only uncaught exceptions are enabled here.
 search.properties = gov.nasa.jpf.vm.NoUncaughtExceptionsProperty
 
