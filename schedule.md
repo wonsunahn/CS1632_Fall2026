@@ -165,7 +165,8 @@ AFIST = [_A Friendly Introduction to Software Testing_](software-quality-assuran
 
 * Final Exam on Gradescope
   * Time and Location
-    * TBA
+    * 1270 Section: Wednesday (12/9), 10:00 - 11:50 AM @ SENSQ 5129
+    * 1080 Section: Wednesday (12/9), 12:00 - 1:50 PM @ SENSQ 5129
   * Steps:
     1. Do TopHat attendance at start of class.  If no attendance, grade will not be counted.
     2. Click on assignment "Final Exam" on Gradescope (will appear at start of class).
