@@ -91,7 +91,7 @@ recent submission will be graded.
 
 ### Quizzes
 
-You can expect 7 quizzes to happen throughout the semester, according to the
+You can expect 6 quizzes to happen throughout the semester, according to the
 schedule.  The quizzes are open book, but limited only to hard copies --- no
 electronic devices are allowed other than your laptop showing the quiz on
 GradeScope at all times.  That means by extension that searching the web and
@@ -149,7 +149,7 @@ signing it, you are agreeing to its terms so please read carefully.
 ### Grading
 
 * Exercises (30%): 3% * 10 exercises
-* Quizzes (30%): 5% * 6 quizzes (one quiz with lowest score dropped)
+* Quizzes (30%): 6% * 5 quizzes (one quiz with lowest score dropped)
 * Final Exam (10%)
 * Final Project (20%)
 * Participation (10%)
