@@ -154,7 +154,7 @@ signing it, you are agreeing to its terms so please read carefully.
 * Final Project (20%)
 * Participation (10%)
   * TopHat attendance - 5%
-  * In class / Teams activity - 5%
+  * In class activity (includes TopHat questions) / Teams activity - 5%
 
 Quizzes will NOT be allowed to be made up except for emergencies outside of
 your control (medical or family emergencies only).  You need to contact your
