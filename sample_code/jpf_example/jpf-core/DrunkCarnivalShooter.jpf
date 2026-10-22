@@ -17,7 +17,7 @@ search.properties = gov.nasa.jpf.vm.NoUncaughtExceptionsProperty
 #listener+=,gov.nasa.jpf.listener.AssertionProperty
 # Endless loop: a loop keeps repeating without changing program state.
 #listener+=,gov.nasa.jpf.listener.EndlessLoopDetector
-# State cycle: search revisits a state on its path (possible hang); needs DFSearch, not BFS.
+# State cycle: search revisits a state on its path (possible hang); needs DFSearch.
 #listener+=,gov.nasa.jpf.listener.NoStateCycles
 # Value range: a field or local variable leaves a range set with range.* settings.
 #listener+=,gov.nasa.jpf.listener.NumericValueChecker
