@@ -6,6 +6,15 @@ search.multiple_errors = true
 # Properties checked on every state.  Only uncaught exceptions are enabled here.
 search.properties = gov.nasa.jpf.vm.NoUncaughtExceptionsProperty
 
+# On each error, print the violated property and the trace of how JPF got there.
+report.console.property_violation=error,trace
+
+# Log the whole search: each step forward, backtrack, and choice JPF makes.
+listener+=,gov.nasa.jpf.listener.ExecTracker
+et.print_insn = false
+et.print_src = false
+et.show_shared = false
+
 # Other checks you can enable (remove the leading # on the setting line):
 # Java assert statements: off by default, as in the JVM; this turns them on in all classes.
 #vm.enable_assertions = *
