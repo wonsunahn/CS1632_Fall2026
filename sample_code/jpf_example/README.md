@@ -153,7 +153,7 @@ we are going to use model checking to find these bugs systematically instead.
 # Task 1: Apply JPF on Rand
 
 Let's first try out JPF on the simple Rand program that we saw in the
-[Nondeterminism and QA](lectures/CS1632_Lecture13_Nondeterminism_and_QA.pdf)
+[Nondeterminism and QA](/lectures/CS1632_Lecture13_Nondeterminism_and_QA.pdf)
 lecture on model checking.
 
 <img src="img/jpf.png" alt="Rand program from the model checking lecture" title="Rand program from the model checking lecture" width="400">
@@ -335,8 +335,6 @@ arrows show the order in which JPF traverses them, including backtracking:
 
 There are only 6 states, not one per node of the tree:
 
-* States 1 and 4 are different states even though both are about to choose
-  b, because the local variable a is still alive and holds a different value.
 * All four normal endings arrive at the same state 2.  Once main returns, its
   local variables a, b, and c are gone, and what the program printed is not
   part of the state, so the four finished programs look exactly the same to
