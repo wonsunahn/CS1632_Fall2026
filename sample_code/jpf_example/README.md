@@ -150,7 +150,7 @@ we are going to use model checking to find these bugs systematically instead.
 # Task 1: Apply JPF on Rand
 
 Let's first try out JPF on the simple Rand program that we saw in the
-[Nondeterminism and QA](lectures/CS1632_Lecture13_Nondeterminism_and_QA.pdf)
+[Nondeterminism and QA](/lectures/CS1632_Lecture13_Nondeterminism_and_QA.pdf)
 lecture on model checking.
 
 <img src="img/jpf.png" alt="Rand program from the model checking lecture" title="Rand program from the model checking lecture" width="400">
