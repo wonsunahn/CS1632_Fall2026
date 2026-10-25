@@ -2,6 +2,9 @@
 - [Prerequisites](#prerequisites)
 - [How to Run DrunkCarnivalShooter](#how-to-run-drunkcarnivalshooter)
 - [Task 1: Apply JPF on Rand](#task-1-apply-jpf-on-rand)
+  * [Watching JPF Search the State Space](#watching-jpf-search-the-state-space)
+  * [The Real State Machine Inside JPF](#the-real-state-machine-inside-jpf)
+  * [Debugging with Error Traces](#debugging-with-error-traces)
 - [Task 2: Apply JPF on DrunkCarnivalShooter](#task-2-apply-jpf-on-drunkcarnivalshooter)
   * [State Space Explosion](#state-space-explosion)
   * [Filtering Out State with @FilterField](#filtering-out-state-with-filterfield)
@@ -150,7 +153,7 @@ we are going to use model checking to find these bugs systematically instead.
 # Task 1: Apply JPF on Rand
 
 Let's first try out JPF on the simple Rand program that we saw in the
-[Nondeterminism and QA](/lectures/CS1632_Lecture13_Nondeterminism_and_QA.pdf)
+[Nondeterminism and QA](lectures/CS1632_Lecture13_Nondeterminism_and_QA.pdf)
 lecture on model checking.
 
 <img src="img/jpf.png" alt="Rand program from the model checking lecture" title="Rand program from the model checking lecture" width="400">
@@ -167,6 +170,8 @@ which is the divide-by-zero exception on the calculation for "c".
 
 Using JPF, you can *always* deterministically find the defect using systematic
 state space exploration.
+
+## Watching JPF Search the State Space
 
 To run JPF on Rand, first cd into the jpf-core folder:
 ```
@@ -195,75 +200,86 @@ root directory and try again:
 If you see the following output, JPF is running correctly:
 
 ```
-$ java --add-opens java.base/jdk.internal.misc=ALL-UNNAMED -jar build/RunJPF.jar Rand.jpf
-JavaPathfinder core system v8.0 (rev 471fa3b7c6a9df330160844e6c2e4ebb4bf06b6c) - (C) 2005-2014 United States Government. All rights reserved.
+----------------------------------- search started
+      [skipping static init instructions]
+JavaPathfinder core system v8.0 (rev 1a704e1d6c3d92178504f8cdfe57b068b4e22d9c) - (C) 2005-2014 United States Government. All rights reserved.
 
 
 ====================================================== system under test
 edu.pitt.cs.Rand.main()
 
-====================================================== search started: 3/15/24 1:52 PM
+====================================================== search started: 10/25/26, 3:53 PM
+                 # choice: gov.nasa.jpf.vm.choice.ThreadChoiceFromSet {id:"ROOT" ,1/1,isCascaded:false}
+[WARNING] orphan NativePeer method: jdk.internal.misc.Unsafe.getUnsafe()Lsun/misc/Unsafe;
 computing c = a/(b+a - 2)..
+                 # garbage collection
+----------------------------------- [1] forward: 0 new
+                 # choice: gov.nasa.jpf.vm.choice.IntIntervalGenerator[id="verifyGetInt(II)",isCascaded:false,0..1,delta=+1,cur=0]
 a=0
+                 # garbage collection
+----------------------------------- [2] forward: 1 new
+                 # choice: gov.nasa.jpf.vm.choice.IntIntervalGenerator[id="verifyGetInt(II)",isCascaded:false,0..2,delta=+1,cur=0]
   b=0       , a=0
 =>  c=0     , b=0, a=0
+                 # thread terminated: main index: 0
+                 # garbage collection
+----------------------------------- [3] forward: 2 new end
+----------------------------------- [2] backtrack: 1
+                 # choice: gov.nasa.jpf.vm.choice.IntIntervalGenerator[id="verifyGetInt(II)",isCascaded:false,0..2,delta=+1,cur=1]
   b=1       , a=0
 =>  c=0     , b=1, a=0
+                 # thread terminated: main index: 0
+                 # garbage collection
+----------------------------------- [3] forward: 2 visited end
+----------------------------------- [2] backtrack: 1
+                 # choice: gov.nasa.jpf.vm.choice.IntIntervalGenerator[id="verifyGetInt(II)",isCascaded:false,0..2,delta=+1,cur=2]
   b=2       , a=0
+                                 # exception: java.lang.ArithmeticException@315 in MethodInfo[edu.pitt.cs.Rand.main([Ljava/lang/String;)V]
+----------------------------------- [3] forward: 3 new
 
 ====================================================== error 1
 gov.nasa.jpf.vm.NoUncaughtExceptionsProperty
 java.lang.ArithmeticException: division by zero
         at edu.pitt.cs.Rand.main(edu/pitt/cs/Rand.java:42)
 
-
-====================================================== trace #1
------------------------------------------------------- transition #0 thread: 0
-gov.nasa.jpf.vm.choice.ThreadChoiceFromSet {id:"ROOT" ,1/1,isCascaded:false}
-      [3168 insn w/o sources]
-  edu/pitt/cs/Rand.java:31       : System.out.println("computing c = a/(b+a - 2)..");
-...
------------------------------------------------------- transition #1 thread: 0
-gov.nasa.jpf.vm.choice.IntIntervalGenerator[id="verifyGetInt(II)",isCascaded:false,0..1,delta=+1,cur=0]
-      [2 insn w/o sources]
-  edu/pitt/cs/Rand.java:34       : int a = random.nextInt(2); // (2)
-...
------------------------------------------------------- transition #2 thread: 0
-gov.nasa.jpf.vm.choice.IntIntervalGenerator[id="verifyGetInt(II)",isCascaded:false,0..2,delta=+1,cur=2]
-      [2 insn w/o sources]
-  edu/pitt/cs/Rand.java:39       : int b = random.nextInt(3); // (3)
-...
-  edu/pitt/cs/Rand.java:42       : int c = a / (b + a - 2); // (4)
+----------------------------------- [2] backtrack: 1
+----------------------------------- [2] done: 1
+----------------------------------- [1] backtrack: 0
+                 # choice: gov.nasa.jpf.vm.choice.IntIntervalGenerator[id="verifyGetInt(II)",isCascaded:false,0..1,delta=+1,cur=1]
 a=1
+                 # garbage collection
+----------------------------------- [2] forward: 4 new
+                 # choice: gov.nasa.jpf.vm.choice.IntIntervalGenerator[id="verifyGetInt(II)",isCascaded:false,0..2,delta=+1,cur=0]
   b=0       , a=1
 =>  c=-1     , b=0, a=1
+                 # thread terminated: main index: 0
+                 # garbage collection
+----------------------------------- [3] forward: 2 visited end
+----------------------------------- [2] backtrack: 4
+                 # choice: gov.nasa.jpf.vm.choice.IntIntervalGenerator[id="verifyGetInt(II)",isCascaded:false,0..2,delta=+1,cur=1]
   b=1       , a=1
+                                 # exception: java.lang.ArithmeticException@315 in MethodInfo[edu.pitt.cs.Rand.main([Ljava/lang/String;)V]
+----------------------------------- [3] forward: 5 new
 
 ====================================================== error 2
 gov.nasa.jpf.vm.NoUncaughtExceptionsProperty
 java.lang.ArithmeticException: division by zero
         at edu.pitt.cs.Rand.main(edu/pitt/cs/Rand.java:42)
 
-
-====================================================== trace #2
------------------------------------------------------- transition #0 thread: 0
-gov.nasa.jpf.vm.choice.ThreadChoiceFromSet {id:"ROOT" ,1/1,isCascaded:false}
-      [3168 insn w/o sources]
-  edu/pitt/cs/Rand.java:31       : System.out.println("computing c = a/(b+a - 2)..");
-...
------------------------------------------------------- transition #1 thread: 0
-gov.nasa.jpf.vm.choice.IntIntervalGenerator[id="verifyGetInt(II)",isCascaded:false,0..1,delta=+1,cur=1]
-      [2 insn w/o sources]
-  edu/pitt/cs/Rand.java:34       : int a = random.nextInt(2); // (2)
-...
------------------------------------------------------- transition #2 thread: 0
-gov.nasa.jpf.vm.choice.IntIntervalGenerator[id="verifyGetInt(II)",isCascaded:false,0..2,delta=+1,cur=1]
-      [2 insn w/o sources]
-  edu/pitt/cs/Rand.java:39       : int b = random.nextInt(3); // (3)
-...
-  edu/pitt/cs/Rand.java:42       : int c = a / (b + a - 2); // (4)
+----------------------------------- [2] backtrack: 4
+                 # choice: gov.nasa.jpf.vm.choice.IntIntervalGenerator[id="verifyGetInt(II)",isCascaded:false,0..2,delta=+1,cur=2]
   b=2       , a=1
 =>  c=1     , b=2, a=1
+                 # thread terminated: main index: 0
+                 # garbage collection
+----------------------------------- [3] forward: 2 visited end
+----------------------------------- [2] backtrack: 4
+----------------------------------- [2] done: 4
+----------------------------------- [1] backtrack: 0
+----------------------------------- [1] done: 0
+----------------------------------- [0] backtrack: -1
+----------------------------------- [0] done: -1
+----------------------------------- search finished
 
 ====================================================== results
 error #1: gov.nasa.jpf.vm.NoUncaughtExceptionsProperty "java.lang.ArithmeticException: division by zero  a..."
@@ -274,34 +290,155 @@ elapsed time:       00:00:00
 states:             new=6,visited=3,backtracked=9,end=4
 search:             maxDepth=3,constraints=0
 choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=3
-heap:               new=950,released=52,maxLive=619,gcCycles=7
-instructions:       3545
-max memory:         979MB
-loaded code:        classes=66,methods=1371
+heap:               new=1095,released=65,maxLive=754,gcCycles=7
+instructions:       9542
+max memory:         508MB
+loaded code:        classes=86,methods=1795
 
-====================================================== search finished: 3/15/24 1:52 PM
+====================================================== search finished: 10/25/26, 3:53 PM
 ```
 
-Since both error and trace output are enabled in [jpf.properties](jpf-core/jpf.properties):
+[Rand.jpf](jpf-core/Rand.jpf) turns on the ExecTracker listener, which logs
+every step JPF takes while exploring the state space.  For now, error reporting
+is set to print only the error itself, not how JPF got there:
+
+```
+report.console.property_violation=error
+```
+
+Here is how to read the ExecTracker lines:
+
+* `[depth] forward: <state> new` means JPF executed one transition and arrived
+  at a state it has never seen before.  The depth is the number of transitions
+  from the start of the program.
+* `forward: <state> visited` means JPF arrived at a state it has already
+  explored, so there is no need to go any deeper from there.
+* `end` means the program finished in that state.
+* `backtrack: <state>` means JPF went back to an earlier state to try that
+  state's next choice, and `done: <state>` means every choice at that state has
+  been tried.
+* `# choice: ...cur=N` shows which value JPF is choosing next.  For example,
+  `0..1,delta=+1,cur=0` means "the values 0 through 1, currently trying 0".
+
+The `# garbage collection` and `# thread terminated` lines are also printed by
+ExecTracker, and the remaining lines are the program's own output.
+
+## The Real State Machine Inside JPF
+
+The picture from the lecture shows a tree with one node per value of a and b.
+Here is how the state machine really looks inside JPF, drawn from the log
+above, with the state numbers that appear in the log.  The solid arrows are
+state transitions labeled with the random value chosen.  The numbered dotted
+arrows show the order in which JPF traverses them, including backtracking:
+
+<img src="img/jpf_rand_states.png" alt="JPF's real state machine for Rand, with the depth-first search order" title="JPF's real state machine for Rand, with the depth-first search order" width="600">
+
+There are only 6 states, not one per node of the tree:
+
+* States 1 and 4 are different states even though both are about to choose
+  b, because the local variable a is still alive and holds a different value.
+* All four normal endings arrive at the same state 2.  Once main returns, its
+  local variables a, b, and c are gone, and what the program printed is not
+  part of the state, so the four finished programs look exactly the same to
+  JPF.  This is the "different paths can converge into the same state" that
+  we learned in the lecture.  Only the first arrival is "new"; the other three
+  are "visited".
+* States 3 and 5 are different error states, because the exception is thrown
+  with different values of a and b on the stack.
+
+Each numbered step in the picture corresponds to lines in the log:
+
+| Steps | What happens | Log lines |
+|---|---|---|
+| 1 | Startup, to state 0 | `[1] forward: 0 new` |
+| 2 | a=0, to state 1 | `[2] forward: 1 new` |
+| 3-4 | b=0 to state 2, and back | `[3] forward: 2 new end`, `[2] backtrack: 1` |
+| 5-6 | b=1 to state 2, and back | `[3] forward: 2 visited end`, `[2] backtrack: 1` |
+| 7-8 | b=2 to state 3 (error 1), and back | `[3] forward: 3 new`, `[2] backtrack: 1` |
+| 9 | State 1 done, back to state 0 | `[2] done: 1`, `[1] backtrack: 0` |
+| 10 | a=1, to state 4 | `[2] forward: 4 new` |
+| 11-12 | b=0 to state 2, and back | `[3] forward: 2 visited end`, `[2] backtrack: 4` |
+| 13-14 | b=1 to state 5 (error 2), and back | `[3] forward: 5 new`, `[2] backtrack: 4` |
+| 15-16 | b=2 to state 2, and back | `[3] forward: 2 visited end`, `[2] backtrack: 4` |
+| 17 | State 4 done, back to state 0 | `[2] done: 4`, `[1] backtrack: 0` |
+| 18 | State 0 done, back to state -1 | `[1] done: 0`, `[0] backtrack: -1` |
+
+You can check the statistics at the end of the log against the picture as
+well: new=6 (states 0 through 5), visited=3 (steps 5, 11, and 15), end=4 (the
+four arrivals at state 2), backtracked=9 (the nine dotted arrows going back
+up), and maxDepth=3 (the bottom row).
+
+## Debugging with Error Traces
+
+So now we know that there are two defective states.  How do we debug?  For
+each error, JPF can print a trace: all the Java statements executed leading up
+to the error and all the choices it made at points where there are
+nondeterministic choices.  In [Rand.jpf](jpf-core/Rand.jpf), enable the trace
+by uncommenting the first line below and commenting out the second, so that
+they look like this:
 
 ```
 report.console.property_violation=error,trace
+# report.console.property_violation=error
 ```
 
-The console output will include a description of the error whenever a
-property violation (e.g. an uncaught Java exception) occurs, as well as the execution
-trace leading up to that error.
+Then rerun Rand.jpf:
 
-You can see from the screen output that JPF systematically explores all
-possible states, thereby finding the two states with division-by-0 exception
-errors.  So, now we know that there are two defective states, how do we
-debug?  By looking at the trace corresponding to each error, you can see all
-the Java statements executed leading up to the error and all the choices it
-has made at points where there are nondeterministic choices.  The choices
-are marked as "transitions" in the trace.
+```
+.\runApp.bat Rand.jpf
+```
+```
+bash runApp.sh Rand.jpf
+```
 
-Let's take a close look at trace #1.  Transition #0 happens with
-ThreadChoiceFromSet.  At this point JPF chooses one thread to start
+This time, each error in the log is followed by a trace.  Here is error 1 with
+its trace:
+
+```
+====================================================== error 1
+gov.nasa.jpf.vm.NoUncaughtExceptionsProperty
+java.lang.ArithmeticException: division by zero
+        at edu.pitt.cs.Rand.main(Rand.java:42)
+
+
+====================================================== trace #1
+------------------------------------------------------ transition #0 thread: 0
+gov.nasa.jpf.vm.choice.ThreadChoiceFromSet {id:"ROOT" ,1/1,isCascaded:false}
+      [9165 insn w/o sources]
+  edu/pitt/cs/Rand.java:31       : System.out.println("computing c = a/(b+a - 2)..");
+      [2 insn w/o sources]
+  edu/pitt/cs/Rand.java:32       : Random random = new Random(); // (1)
+      [2 insn w/o sources]
+  edu/pitt/cs/Rand.java:32       : Random random = new Random(); // (1)
+  edu/pitt/cs/Rand.java:34       : int a = random.nextInt(2); // (2)
+      [1 insn w/o sources]
+------------------------------------------------------ transition #1 thread: 0
+gov.nasa.jpf.vm.choice.IntIntervalGenerator[id="verifyGetInt(II)",isCascaded:false,0..1,delta=+1,cur=0]
+      [2 insn w/o sources]
+  edu/pitt/cs/Rand.java:34       : int a = random.nextInt(2); // (2)
+  edu/pitt/cs/Rand.java:35       : System.out.printf("a=%d%n", a);
+      [2 insn w/o sources]
+  edu/pitt/cs/Rand.java:35       : System.out.printf("a=%d%n", a);
+      [2 insn w/o sources]
+  edu/pitt/cs/Rand.java:35       : System.out.printf("a=%d%n", a);
+  edu/pitt/cs/Rand.java:39       : int b = random.nextInt(3); // (3)
+      [1 insn w/o sources]
+------------------------------------------------------ transition #2 thread: 0
+gov.nasa.jpf.vm.choice.IntIntervalGenerator[id="verifyGetInt(II)",isCascaded:false,0..2,delta=+1,cur=2]
+      [2 insn w/o sources]
+  edu/pitt/cs/Rand.java:39       : int b = random.nextInt(3); // (3)
+  edu/pitt/cs/Rand.java:40       : System.out.printf("  b=%d       , a=%d%n", b, a);
+      [2 insn w/o sources]
+  edu/pitt/cs/Rand.java:40       : System.out.printf("  b=%d       , a=%d%n", b, a);
+      [2 insn w/o sources]
+  edu/pitt/cs/Rand.java:40       : System.out.printf("  b=%d       , a=%d%n", b, a);
+      [2 insn w/o sources]
+  edu/pitt/cs/Rand.java:40       : System.out.printf("  b=%d       , a=%d%n", b, a);
+  edu/pitt/cs/Rand.java:42       : int c = a / (b + a - 2); // (4)
+```
+
+The choices are marked as "transitions" in the trace.  Transition #0 happens
+with ThreadChoiceFromSet.  At this point JPF chooses one thread to start
 executing out of all the threads in the program (to try out all the possible
 thread interleavings as we discussed in class).  In this case, it is a
 single-threaded program, so there is only one thread to choose from: the main
@@ -315,18 +452,67 @@ The IntIntervalGenerator enumerates all integers in a range of values and
 goes down the program path for each generated integer.  You can see that it
 was invoked in response to the following program statement:
 ```
-  Rand.java:34                   : int a = random.nextInt(2); // (2)
+  edu/pitt/cs/Rand.java:34       : int a = random.nextInt(2); // (2)
 ```
 What JPF does is to generate two integers in the range "0..1" with a delta
 of 1, so two integers 0 and 1.  It will try out both possibilities.  The
 current choice is given in "cur=0".  So you can tell that the error occurred
-when "int a = 0;".
+when "int a = 0;".  Following the same logic, transition #2 has "0..2" and
+"cur=2" for "int b = random.nextInt(3);", so b = 2.  The first divide-by-zero
+exception occurred when a = 0 and b = 2, which is exactly the path to state 3
+in the picture above: transitions #0, #1, and #2 are the dotted steps 1, 2,
+and 7.
 
-If you follow trace #1 using this logic, you can tell that the first
-divide-by-zero exception occurred when a = 0 and b = 2.  If you follow
-trace #2, you can tell that the second exception occurred when a = 1 and b = 1.
-In this way, even without the help of program output, you can trace through
-the code and identify why each error occurred.
+Here is error 2 with its trace:
+
+```
+====================================================== error 2
+gov.nasa.jpf.vm.NoUncaughtExceptionsProperty
+java.lang.ArithmeticException: division by zero
+        at edu.pitt.cs.Rand.main(Rand.java:42)
+
+
+====================================================== trace #2
+------------------------------------------------------ transition #0 thread: 0
+gov.nasa.jpf.vm.choice.ThreadChoiceFromSet {id:"ROOT" ,1/1,isCascaded:false}
+      [9165 insn w/o sources]
+  edu/pitt/cs/Rand.java:31       : System.out.println("computing c = a/(b+a - 2)..");
+      [2 insn w/o sources]
+  edu/pitt/cs/Rand.java:32       : Random random = new Random(); // (1)
+      [2 insn w/o sources]
+  edu/pitt/cs/Rand.java:32       : Random random = new Random(); // (1)
+  edu/pitt/cs/Rand.java:34       : int a = random.nextInt(2); // (2)
+      [1 insn w/o sources]
+------------------------------------------------------ transition #1 thread: 0
+gov.nasa.jpf.vm.choice.IntIntervalGenerator[id="verifyGetInt(II)",isCascaded:false,0..1,delta=+1,cur=1]
+      [2 insn w/o sources]
+  edu/pitt/cs/Rand.java:34       : int a = random.nextInt(2); // (2)
+  edu/pitt/cs/Rand.java:35       : System.out.printf("a=%d%n", a);
+      [2 insn w/o sources]
+  edu/pitt/cs/Rand.java:35       : System.out.printf("a=%d%n", a);
+      [2 insn w/o sources]
+  edu/pitt/cs/Rand.java:35       : System.out.printf("a=%d%n", a);
+  edu/pitt/cs/Rand.java:39       : int b = random.nextInt(3); // (3)
+      [1 insn w/o sources]
+------------------------------------------------------ transition #2 thread: 0
+gov.nasa.jpf.vm.choice.IntIntervalGenerator[id="verifyGetInt(II)",isCascaded:false,0..2,delta=+1,cur=1]
+      [2 insn w/o sources]
+  edu/pitt/cs/Rand.java:39       : int b = random.nextInt(3); // (3)
+  edu/pitt/cs/Rand.java:40       : System.out.printf("  b=%d       , a=%d%n", b, a);
+      [2 insn w/o sources]
+  edu/pitt/cs/Rand.java:40       : System.out.printf("  b=%d       , a=%d%n", b, a);
+      [2 insn w/o sources]
+  edu/pitt/cs/Rand.java:40       : System.out.printf("  b=%d       , a=%d%n", b, a);
+      [2 insn w/o sources]
+  edu/pitt/cs/Rand.java:40       : System.out.printf("  b=%d       , a=%d%n", b, a);
+  edu/pitt/cs/Rand.java:42       : int c = a / (b + a - 2); // (4)
+```
+
+This time transition #1 has "cur=1" for a, and transition #2 has "cur=1" for
+b, so the second exception occurred when a = 1 and b = 1.  That is the path to
+state 5 in the picture: dotted steps 1, 10, and 13.  In this way, even without
+the help of program output, you can trace through the code and identify why
+each error occurred.
 
 # Task 2: Apply JPF on DrunkCarnivalShooter
 
