@@ -1,7 +1,5 @@
 package edu.pitt.cs;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
 
 import gov.nasa.jpf.util.test.TestJPF;
