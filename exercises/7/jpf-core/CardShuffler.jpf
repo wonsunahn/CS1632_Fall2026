@@ -1,0 +1,14 @@
+# Target class main method to run: shuffle a hand of three cards.
+target = edu.pitt.cs.CardShuffler
+target.args = A,K,Q
+
+# Enumerate every value Random.nextInt can return (already the default in jpf.properties).
+cg.enumerate_random = true
+
+# Properties checked on every state.
+search.properties = gov.nasa.jpf.vm.NoUncaughtExceptionsProperty
+
+# TODO: Check that every ordering of the cards is a possible output.
+# Uncomment the two lines below after writing shuffle_spec.txt (see the README).
+#listener = gov.nasa.jpf.listener.PathOutputMonitor
+#pom.all = ${config_path}/shuffle_spec.txt
