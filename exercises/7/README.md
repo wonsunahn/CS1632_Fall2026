@@ -43,6 +43,9 @@ thread interleaving.  By the end, you will have:
 
 1. Used JPF error traces to find bugs that break checked properties.
 
+1. Used JPF to check that every possible output can occur, exposing a flaw in a
+   program's design.
+
 1. Used JPF's data race detector and removed the races using software locks.
 
 1. Run into deadlocks while using locks, and seen why "locks don't compose".
@@ -119,6 +122,9 @@ Implement the testShuffled() method in
 according to the test case description in its Javadoc comment.  Keep the
 following in mind while writing the test:
 
+* Do not pass any JPF settings to verifyNoPropertyViolation() in this test.  The
+  autograder runs your test with JPF's default settings.
+
 * Use only the assertions that TestJPF provides, which your test class
   inherits: assertEquals, assertTrue, assertFalse, assertNull, assertNotNull,
   assertSame, and fail.  JUnit's org.junit.Assert class is not on JPF's
@@ -176,10 +182,9 @@ bash runApp.sh CardShuffler.jpf
 ```
 
 JPF never finishes.  The shuffler keeps printing results, while the cards cycle
-through the same three orderings.  At
-each choice, the depth-first search tries the first option first: it cuts the
-deck at position 0, which moves the bottom card to the top, and stops, printing
-the result.  Then it backtracks to the coin flip, tries "keep cutting" instead,
+through the same three orderings.  At each choice, the depth-first search tries
+the first option first: it cuts the deck at position 0, which moves the bottom
+card to the top, and stops, printing the result.  Then it backtracks to the coin flip, tries "keep cutting" instead,
 and does the same thing one cut deeper, over and over again.  As in Task 2 of
 the example, it looks like JPF keeps coming back to the same states, but it is
 not.  What is different from one cut to the next?
@@ -191,9 +196,9 @@ the states from matching, using @FilterField.  The JPF library for it is
 already imported at the top of CardShuffler.java.  Which field of CardShuffler
 changes on every cut, but does not matter for whether the shuffle is correct?
 Annotate that field with @FilterField, recompile, and run CardShuffler.jpf
-again.  If you chose correctly, JPF finishes the search, and CardShufflerTest
-should now pass as well.  If JPF still never finishes, the field you filtered
-is not the one causing the explosion, so try another.
+again.  If you chose correctly, CardShufflerTest should now pass as well.  If
+JPF still never finishes, the field you filtered is not the one causing the
+explosion, so try another.
 
 Choose carefully, though.  @FilterField is a promise to JPF that two states
 that differ only in that field are the same state.  Only filter fields that do
@@ -315,7 +320,7 @@ java -cp target/classes edu.pitt.cs.Bank
 ... and the system responds with:
 
 ```
-Usage: Bank <number of accounts> <account initial balanace>
+Usage: Bank <number of accounts> <account initial balance>
 ```
 
 Let's create a bank with 4 accounts with $100 in each account:
@@ -353,10 +358,9 @@ Goodbye!
 ```
 
 The application seems to work fine doing manual testing but don't be fooled,
-there are multiple data races hiding in the shadows.  The only reason that you
-didn't observe the data races is because the probability that the relative
-speeds of the threads being just right in order to trigger the data races is
-exceedingly low.
+there are multiple data races hiding in the shadows.  The only reason you didn't
+observe them is that the threads rarely run at exactly the right relative speeds
+to trigger them.
 
 ### Writing a Property-based Test
 
@@ -385,7 +389,10 @@ settings in a .jpf file:
   stuck.  If the "states: new=" count in the statistics keeps going up, JPF is
   making progress.
 
-In order to more rigorously test the banking system, we want to add another
+Do not add or remove any of these arguments, since the autograder runs your
+test with them.  You may change the probe interval if you like.
+
+In order to more rigorously test the banking system, we want to add a
 property-based test that checks some fundamental invariant according to the
 semantics of the program.
 
@@ -408,14 +415,14 @@ If you implemented testTransfer() properly, you should see a data race property 
 
 ```
 ......................................... testing testTransfer()
-  running jpf with args:
+  running jpf with args: +listener=gov.nasa.jpf.listener.PreciseRaceDetector +report.probe_interval=10
 JavaPathfinder core system v8.0 (rev 1a704e1d6c3d92178504f8cdfe57b068b4e22d9c) - (C) 2005-2014 United States Government. All rights reserved.
 
 
 ====================================================== system under test
 edu.pitt.cs.BankTest.runTestMethod()
 
-====================================================== search started: 3/28/24, 7:44 AM
+====================================================== search started: 10/27/26, 2:51 PM
 [WARNING] orphan NativePeer method: jdk.internal.misc.Unsafe.getUnsafe()Lsun/misc/Unsafe;
 [WARNING] orphan NativePeer method: jdk.internal.reflect.Reflection.getCallerClass(I)Ljava/lang/Class;
 
@@ -432,12 +439,13 @@ race for field edu.pitt.cs.Transaction.transactionCount
 ------------------------------------------------------ transition #0 thread: 0
 gov.nasa.jpf.vm.choice.ThreadChoiceFromSet {id:"ROOT" ,1/1,isCascaded:false}
       [9202 insn w/o sources]
-  edu/pitt/cs/BankTest.java:18   : public class BankTest extends TestJPF {
+  edu/pitt/cs/BankTest.java:17   : public class BankTest extends TestJPF {
       [2 insn w/o sources]
-  edu/pitt/cs/BankTest.java:18   : public class BankTest extends TestJPF {
+  edu/pitt/cs/BankTest.java:17   : public class BankTest extends TestJPF {
   edu/pitt/cs/BankTest.java:3    : import org.junit.Test;
       [18 insn w/o sources]
-  edu/pitt/cs/BankTest.java:37   : if (verifyNoPropertyViolation() == false) {
+  edu/pitt/cs/BankTest.java:40   : if (verifyNoPropertyViolation("+listener=gov.nasa.jpf.listener.PreciseRaceDetector",
+  edu/pitt/cs/BankTest.java:41   : "+report.probe_interval=10") == false) {
 
 ...
 
@@ -446,27 +454,32 @@ gov.nasa.jpf.vm.choice.ThreadChoiceFromSet {id:"START" ,2/3,isCascaded:false}
       [1 insn w/o sources]
   edu/pitt/cs/Transaction.java:1 : package edu.pitt.cs;
   edu/pitt/cs/Transaction.java:45 : transactionCount++;
------------------------------------------------------- transition #4 thread: 1
-gov.nasa.jpf.vm.choice.ThreadChoiceFromSet {id:"SHARED_CLASS" ,2/3,isCascaded:false}
+------------------------------------------------------ transition #4 thread: 0
+gov.nasa.jpf.vm.choice.ThreadChoiceFromSet {id:"SHARED_CLASS" ,1/3,isCascaded:false}
+
+...
+
+------------------------------------------------------ transition #5 thread: 1
+gov.nasa.jpf.vm.choice.ThreadChoiceFromSet {id:"TERMINATE" ,1/2,isCascaded:false}
   edu/pitt/cs/Transaction.java:45 : transactionCount++;
------------------------------------------------------- transition #5 thread: 2
-gov.nasa.jpf.vm.choice.ThreadChoiceFromSet {id:"SHARED_CLASS" ,3/3,isCascaded:false}
+------------------------------------------------------ transition #6 thread: 2
+gov.nasa.jpf.vm.choice.ThreadChoiceFromSet {id:"SHARED_CLASS" ,2/2,isCascaded:false}
       [1 insn w/o sources]
   edu/pitt/cs/Transaction.java:1 : package edu.pitt.cs;
   edu/pitt/cs/Transaction.java:45 : transactionCount++;
------------------------------------------------------- transition #6 thread: 0
-gov.nasa.jpf.vm.choice.ThreadChoiceFromSet {id:"SHARED_CLASS" ,1/3,isCascaded:false}
-      [1 insn w/o sources]
+------------------------------------------------------ transition #7 thread: 1
+gov.nasa.jpf.vm.choice.ThreadChoiceFromSet {id:"SHARED_CLASS" ,1/2,isCascaded:false}
+  edu/pitt/cs/Transaction.java:45 : transactionCount++;
 
 ====================================================== results
 error #1: gov.nasa.jpf.listener.PreciseRaceDetector "race for field edu.pitt.cs.Transaction.transaction..."
 
-====================================================== search finished: 3/28/24, 7:54 AM
+====================================================== search finished: 10/27/26, 2:51 PM
 java.lang.AssertionError: JPF found unexpected errors: gov.nasa.jpf.listener.PreciseRaceDetector
         at gov.nasa.jpf.util.test.TestJPF.fail(TestJPF.java:164)
         at gov.nasa.jpf.util.test.TestJPF.noPropertyViolation(TestJPF.java:816)
         at gov.nasa.jpf.util.test.TestJPF.verifyNoPropertyViolation(TestJPF.java:830)
-        at edu.pitt.cs.BankTest.testTransfer(BankTest.java:37)
+        at edu.pitt.cs.BankTest.testTransfer(BankTest.java:40)
         at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
         at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
         at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -484,7 +497,6 @@ java.lang.AssertionError: JPF found unexpected errors: gov.nasa.jpf.listener.Pre
 ......................................... execution of testsuite: edu.pitt.cs.BankTest FAILED
 .... [1] testTransfer: Failed
 ......................................... tests: 1, failures: 1, errors: 0
-
 ```
 
 Note the error reported for the data race on transactionCount.  It shows that
@@ -512,20 +524,14 @@ private static Lock countLock = new ReentrantLock();
 ```
 
 A ReentrantLock is just a fancy word for a mutex.  If you want to know more, here
-is the Java 8 reference:
-https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/locks/ReentrantLock.html
+is the Java 11 reference:
+https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/concurrent/locks/ReentrantLock.html
 
-Functionally speaking, the above is no different from doing:
-
-```
-synchronized (countLock) {
-	transactionCount++;
-}
-```
-
-... which you may be more familiar with.  I used the "lock()" and "unlock()"
-API because it gives you more flexibility on when to lock and unlock, which is
-going to become important in other data races you have to debug.
+You may be more familiar with synchronized blocks, but we use the "lock()" and
+"unlock()" API because it lets you lock and unlock at any point, which is going
+to become important in other data races you have to debug.  (You may not use
+synchronized in this exercise: see [Restrictions while
+Fixing](#restrictions-while-fixing).)
 
 ### Fixing Other Data Races
 
@@ -533,24 +539,24 @@ After inserting the synchronization using "countLock", you will see the data rac
 
 ```
 ......................................... testing testTransfer()
-  running jpf with args:
+  running jpf with args: +listener=gov.nasa.jpf.listener.PreciseRaceDetector +report.probe_interval=10
 JavaPathfinder core system v8.0 (rev 1a704e1d6c3d92178504f8cdfe57b068b4e22d9c) - (C) 2005-2014 United States Government. All rights reserved.
 
 
 ====================================================== system under test
 edu.pitt.cs.BankTest.runTestMethod()
 
-====================================================== search started: 3/28/24, 7:57 AM
+====================================================== search started: 10/27/26, 2:55 PM
 [WARNING] orphan NativePeer method: jdk.internal.misc.Unsafe.getUnsafe()Lsun/misc/Unsafe;
 [WARNING] orphan NativePeer method: jdk.internal.reflect.Reflection.getCallerClass(I)Ljava/lang/Class;
 
 ====================================================== error 1
 gov.nasa.jpf.listener.PreciseRaceDetector
-race for field edu.pitt.cs.Account@237.balance
-  main at edu.pitt.cs.Account.getBalance(Account.java:36)
-                "return balance;"  READ:  getfield edu.pitt.cs.Account.balance
+race for field edu.pitt.cs.Account@23b.balance
   Thread-1 at edu.pitt.cs.Account.withdraw(Account.java:28)
                 "balance -= amount;"  WRITE: putfield edu.pitt.cs.Account.balance
+  Thread-2 at edu.pitt.cs.Account.deposit(Account.java:24)
+                "balance += amount;"  READ:  getfield edu.pitt.cs.Account.balance
 ...
 ```
 Apparently, there is a data race on the "balance" variable.  I will leave it to
@@ -560,22 +566,23 @@ does not display any errors.
 ### Restrictions while Fixing
 
 The only lock that you are allowed to use for synchronization to remove the
-remaining data races is "lock" variable in
+remaining data races is the "lock" variable in
 [Account.java](src/main/java/edu/pitt/cs/Account.java), accessible through the
 "getLock()" method.  Note that the lock belongs to each individual account, so
 if there are 4 accounts, there are 4 locks you can play with.  As you probably
 learned, mutual exclusion only happens when you attempt to lock the same mutex
 object.
 
-In order to get credit, you cannot use any other synchronization other than to
-lock or unlock the aforementioned "lock" variable.  That means:
+In order to get credit, you cannot use any other synchronization.  That means:
 
 1. You cannot create any more lock objects.  The 4 locks for the 4 accounts are
 all the locks you need to do correct synchronization.
 
-2. You cannot do Thread.join() to wait for a transaction thread to terminate.
-This has the effect of serializing all execution, making it a de facto
-single-threaded program.
+2. You cannot do Thread.join(), or anything else that waits for a transaction
+thread to finish, such as looping on isAlive() or calling sleep().  This has the
+effect of serializing all execution, making it a de facto single-threaded
+program.  For the same reason, leave Bank.transfer() as it is: it must keep
+running each transfer in its own thread.
 
 ### Hints while Fixing
 
@@ -605,4 +612,16 @@ resubmit.  Repeat until you don't get deductions.
 
 ## GradeScope Feedback
 
-TBA
+The autograder runs the following checks.  Each check's feedback explains what
+went wrong, along with the relevant part of JPF's output.
+
+| Check | Points |
+|---|---|
+| CardShuffler: the solution CardShufflerTest on your CardShuffler, with @FilterField on the right field | 15 |
+| CardShuffler: every ordering of "A K Q" is possible with your CardShuffler | 10 |
+| CardShuffler: your CardShufflerTest catches each of the two cut() bugs (10 points each) | 20 |
+| CardShuffler: your shuffle_spec.txt | 5 |
+| Bank: the solution BankTest on your Bank, following the [restrictions](#restrictions-while-fixing) | 35 |
+| Bank: your BankTest catches a total balance that is wrong while a transfer is in progress | 15 |
+
+Your tests only get credit for catching a bug if they pass on a correct program.
