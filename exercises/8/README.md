@@ -24,6 +24,7 @@
     + [Add CI Test Workflow](#add-ci-test-workflow)
     + [Add Docker Publish Workflow](#add-docker-publish-workflow)
     + [Pull published Docker image and launch from desktop](#pull-published-docker-image-and-launch-from-desktop)
+    + [(Optional) Run Maven CI inside a Container](#optional-run-maven-ci-inside-a-container)
     + [Submission](#submission-1)
 
 # CS 1632 - Software Quality Assurance
@@ -64,13 +65,13 @@ while still maintaining high quality.  We will learn how to build a fully
 functioning pipeline for the [Rent-A-Cat application](../2) that
 we tested for Exercise 2 on our GitHub repository.
 
-In Part 2, we will learn how to use Docker to both test and deploy
-software as part of a CI/CD pipeline.  Docker containers are lightweight,
-isolated execution environments which can reproduce the execution environments
-in the deployment sites (OS userland, libraries, webservers, databases, etc.)
-so that software can be tested in situ.  In our case, we will create a docker image out of the
-[Rent-A-Cat website](https://cs1632.appspot.com/) that we tested for Deliverable 3
-for testing and deployment.
+In Part 2, we will learn how to use Docker to both test and deploy software as
+part of a CI/CD pipeline.  Docker containers are lightweight, isolated
+execution environments which can reproduce the execution environments in the
+deployment sites (OS userland, libraries, webservers, databases, etc.) so that
+software can be tested in situ.  In our case, we will create a docker image
+out of the [Rent-A-Cat website](https://cs1632.appspot.com/) that we tested
+for Deliverable 3 for testing and deployment.
 
 ## Part 1: CI/CD Pipelines
 
@@ -175,16 +176,17 @@ the job and you should see the below screen:
 
 <img alt="Manual workflow greet job" src=img/manual_workflow_2.png>
 
-As you see, the job is composed of 3 steps: "Set up job", "Send greeting",
-and "Complete job".  The steps "Set up job" and "Complete job" are implicitly
+As you see, the job is composed of 3 steps: "Set up job", "Send greeting", and
+"Complete job".  The steps "Set up job" and "Complete job" are implicitly
 inserted into every job even though they are not specified in the YAML file.
-I've expanded the first two steps for viewing.  The purpose of "Set up job"
-is to set up the Runner virtual machine within which the job is to run.
-You can see that the Runner was created using the ubuntu-20.04 runner image,
-and that is because "runs-on: ubuntu-latest" was specified on the YAML file
-and 20.04 happened to be the latest version when this screenshot was taken
-(ubuntu-latest has since moved on to newer Ubuntu LTS releases).  The "Send greeting" step
-runs the commandline specified in the "run:" entry in the YAML file.
+I've expanded the first two steps for viewing.  The purpose of "Set up job" is
+to set up the Runner virtual machine within which the job is to run.  You can
+see that the Runner was created using the ubuntu-20.04 runner image, and that
+is because "runs-on: ubuntu-latest" was specified on the YAML file and 20.04
+happened to be the latest version when this screenshot was taken
+(ubuntu-latest has since moved on to newer Ubuntu LTS releases).  The "Send
+greeting" step runs the commandline specified in the "run:" entry in the YAML
+file.
 
 The reason that we were able to trigger this workflow manually was because
 of the following lines on the YAML file:
@@ -381,14 +383,14 @@ the previous checkout action?
 ```
 
 Besides, weren't we able to successfully run "mvn test" because there was a
-pom.xml file present?  The answer is again, you need to remember that these are
-two different jobs which run on different Runners (separate virtual machines).
-The "update_dependence_graph" job starts on a fresh Runner created from the
-ubuntu-latest runner image, and hence will not have the pom.xml file.  One way to
-solve this issue is to checkout the repository again within this job as well,
-and that is a perfectly valid solution.  An alternative solution is to pass on
-the checked out repository via shared storage between jobs called GitHub
-Caches.
+pom.xml file present?  The answer is again, you need to remember that these
+are two different jobs which run on different Runners (separate virtual
+machines).  The "update_dependence_graph" job starts on a fresh Runner created
+from the ubuntu-latest runner image, and hence will not have the pom.xml file.
+One way to solve this issue is to checkout the repository again within this
+job as well, and that is a perfectly valid solution.  An alternative solution
+is to pass on the checked out repository via shared storage between jobs
+called GitHub Caches.
 
 #### GitHub Caches
 
@@ -418,15 +420,15 @@ Note the entry "cache: maven".  To find out what it does, you can read the
 following section on the Setup Java JDK action page:
 https://github.com/marketplace/actions/setup-java-jdk#caching-packages-dependencies
 
-Essentially, it caches all Maven package dependencies (the packages that
-Maven downloads into ~/.m2/repository) and associates all those files with the key "setup-java-${{ platform }}-${{
-packageManager }}-${{ fileHash }}", where the fileHash is the hash of the
-pom.xml file.  It makes sense to associate the files with the hash of
-pom.xml since the package files would not change unless pom.xml changes.  We
-are caching those files so that the next time a job sets up Java with Maven
-caching, it can just restore the packages from the cache instead of downloading
-them again from Maven Central.  Try manually running the
-"Maven CI" workflow and you can confirm that is indeed what happens:
+Essentially, it caches all Maven package dependencies (the packages that Maven
+downloads into ~/.m2/repository) and associates all those files with the key
+"setup-java-${{ platform }}-${{ packageManager }}-${{ fileHash }}", where the
+fileHash is the hash of the pom.xml file.  It makes sense to associate the
+files with the hash of pom.xml since the package files would not change unless
+pom.xml changes.  We are caching those files so that the next time a job sets
+up Java with Maven caching, it can just restore the packages from the cache
+instead of downloading them again from Maven Central.  Try manually running
+the "Maven CI" workflow and you can confirm that is indeed what happens:
 
 <img alt="setup-java cache restored" src=img/maven_ci_caches_restored.png>
 
@@ -628,9 +630,9 @@ Now we can be confident that all our dependent packages are up-to-date and
 do not contain any known vulnerabilities.  Of course, new vulnerabilities are
 discovered all the time, which is why Dependabot keeps checking every week.
 
-Dependabot was instrumental in mitigating the damage due to the Log4j (Log4Shell)
-vulnerability of December 2021 by [alerting thousands of repositories and creating thousands
-of pull
+Dependabot was instrumental in mitigating the damage due to the Log4j
+(Log4Shell) vulnerability of December 2021 by [alerting thousands of
+repositories and creating thousands of pull
 requests](https://github.blog/2021-12-14-using-githubs-security-features-identify-log4j-exposure-codebase/).
 
 ### Add CodeQL TaaS Workflow
@@ -661,14 +663,14 @@ workflow.
    ```
 
    For a little bit of background, CodeQL is a code analysis engine developed
-by GitHub (originally by Semmle, which was later acquired by GitHub). It treats
-code as data in a database, upon which you can perform queries in a domain
-specific language called CodeQL similar to SQL to find bugs and security
-vulnerabilities.  By default, the workflow runs only CodeQL's default query
-suite, which focuses on high-precision security queries.  Uncommenting the above
-line adds the "security-extended" and "security-and-quality" suites, which
-include additional security queries as well as code quality queries (such as
-the "Missing Override annotation" issues you will see below).
+by GitHub (originally by Semmle, which was later acquired by GitHub). It
+treats code as data in a database, upon which you can perform queries in a
+domain specific language called CodeQL similar to SQL to find bugs and
+security vulnerabilities.  By default, the workflow runs only CodeQL's default
+query suite, which focuses on high-precision security queries.  Uncommenting
+the above line adds the "security-extended" and "security-and-quality" suites,
+which include additional security queries as well as code quality queries
+(such as the "Missing Override annotation" issues you will see below).
 
 1. Now click on "Commit changes".  This will trigger a new workflow due to the
 push trigger on the YAML file.
@@ -727,9 +729,10 @@ jobs:
         GITHUB_TOKEN: ${{ github.token }}
 ```
 
-Create a new workflow file maven-publish.yml using the above text in exactly
-the same way you created maven-ci.yml previously.  Note that this workflow
-is now triggered when a new release is created.  It uses the `${{ github.token }}` to authenticate and publish the package.  The GitHub
+Create a new workflow file .github/workflows/maven-publish.yml using the above
+text in exactly the same way you created maven-ci.yml previously.  Note that
+this workflow is now triggered when a new release is created.  It uses the
+`${{ github.token }}` to authenticate and publish the package.  The GitHub
 pre-defined variable `${{ github.token }}` is automatically generated on each
 workflow run and is given the permissions specified in the "permissions:"
 entry.
@@ -917,10 +920,10 @@ containers.  A container is launched from a Docker image, which is a binary
 file that contains the file system that the container is launched from.  You
 can think of Docker images as comparable to virtual machine disk images,
 except that they contain only the OS userland (libraries, tools, and files)
-and not an OS kernel: containers share the kernel of the host machine.  Docker images can
-be built from any operating system version supported by Docker and can come
-with any software or files pre-installed.  As such, Docker images are the
-preferred method of deployment for many software organizations.  A Docker
+and not an OS kernel: containers share the kernel of the host machine.  Docker
+images can be built from any operating system version supported by Docker and
+can come with any software or files pre-installed.  As such, Docker images are
+the preferred method of deployment for many software organizations.  A Docker
 image can run reliably on any user machine or on a cloud service provider
 without a hitch since everything the software needs can come pre-packaged.
 
@@ -945,7 +948,8 @@ accept this exercise and create your repository.
 1. Make sure you have Node.js, a JDK, and Maven installed on your machine (you
    should already have them from Exercise 2 and Deliverable 3).
 
-1. Install the Playwright Test package as a dev dependency in the Node.js project:
+1. Install the Playwright Test package as a dev dependency in the Node.js
+   project:
 
    ```
    npm install -D @playwright/test
@@ -1028,15 +1032,17 @@ EXPOSE 8080
 CMD ["/bin/sh", "-c", "mvn spring-boot:run"]
 ```
 
-The description of the base image maven:3.9.14-eclipse-temurin-11-noble can be found here:
+The description of the base image maven:3.9.14-eclipse-temurin-11-noble can be
+found here:
 https://hub.docker.com/layers/library/maven/3.9.14-eclipse-temurin-11-noble/
 
 If you navigate to the above URL, you will see that a Docker image is
 constructed in layers, starting from the base operating system layer (note
 that a Docker image does not include an OS kernel; containers share the kernel
 of the host machine).  Each command that copies files or installs software
-packages creates a new layer on top of the previous layers.  This layered structure [allows one or more layers to be shared
-between multiple images, improving storage
+packages creates a new layer on top of the previous layers.  This layered
+structure [allows one or more layers to be shared between multiple images,
+improving storage
 efficiency](https://docs.docker.com/get-started/docker-concepts/building-images/understanding-image-layers/).
 As such, our image builds several layers on top of the base image, so if there
 was another image using the same base image, the base image layers would be
@@ -1160,9 +1166,10 @@ Detailed test results are under the playwright-report/ folder.
 ### Add CI Test Workflow
 
 Now let's automate the test environment setup for the web app and the testing
-itself in a CI pipeline.  Add a new workflow file named docker-ci.yml to your
-GitHub repository with the following content (if you forgot how to do that
-already, review the [instructions for Maven CI](#add-maven-ci-workflow)):
+itself in a CI pipeline.  Add a new workflow file named
+.github/workflows/docker-ci.yml to your GitHub repository with the following
+content (if you forgot how to do that already, review the [instructions for
+Maven CI](#add-maven-ci-workflow)):
 
 ```
 name: Docker CI
@@ -1301,7 +1308,8 @@ on the screen.  More important for our purposes, it returns an exit code of
 0 if successful and a non-zero value if not (just like most Linux tools).
 So the script will poll the URL every second until it can fetch the page.
 
-Save the above script to a file named "wait-for-webserver.sh".  And insert
+Save the above script to a file named "wait-for-webserver.sh" at the root of
+your repository.  And insert
 the invocation of that script right before running the Playwright tests.  I'll
 leave it to you to name the step however you want.  A few tips:
 
@@ -1340,7 +1348,8 @@ Try downloading it and opening the index.html file in a browser.
 ### Add Docker Publish Workflow
 
 Now that we have CI tests all set up and passing, it is time to create the
-delivery workflow.  Create a new docker-publish.yml file with the following content:
+delivery workflow.  Create a new workflow file
+.github/workflows/docker-publish.yml with the following content:
 
 ```
 name: Docker Publish
@@ -1411,10 +1420,10 @@ CPU architectures, so that the same image can run on Intel/AMD machines
 (linux/amd64) as well as ARM machines such as Apple Silicon Macs
 (linux/arm64).
 
-Note that, unlike the Maven Publish workflow (where "mvn deploy" runs the JUnit
-tests as part of the Maven lifecycle), this workflow publishes the image without
-running the Playwright tests.  In a real CI/CD pipeline, you would want to gate
-delivery on the tests passing, for example by adding the
+Note that, unlike the Maven Publish workflow (where "mvn deploy" runs the
+JUnit tests as part of the Maven lifecycle), this workflow publishes the image
+without running the Playwright tests.  In a real CI/CD pipeline, you would
+want to gate delivery on the tests passing, for example by adding the
 "test_dockerized_webserver" job to this workflow and making the "build" job
 depend on it using "needs:".
 
@@ -1430,10 +1439,12 @@ package link, you should see something like the below:
 ### Pull published Docker image and launch from desktop
 
 If your package is private, you need to authenticate to the GitHub Container
-Registry before pulling the package (if it is public, logging in does no harm).
-You can use the PAT (Personal Access Token) that you generated previously in
-Part 1 for this purpose.  If you have not yet generated the token, please refer to the [Deploy Maven package
-and use in your Maven project](#deploy-maven-package-and-use-in-your-maven-project) section in Part 1.
+Registry before pulling the package (if it is public, logging in does no
+harm).  You can use the PAT (Personal Access Token) that you generated
+previously in Part 1 for this purpose.  If you have not yet generated the
+token, please refer to the [Deploy Maven package and use in your Maven
+project](#deploy-maven-package-and-use-in-your-maven-project) section in
+Part 1.
 
 Now on the commandline do:
 
@@ -1474,6 +1485,92 @@ Try removing the container you created from your locally built image (if you
 haven't already), and then run the published image (taking care that you map
 port 8080 in "Optional Settings").  Now if you load http://localhost:8080/ on
 your browser, it should work as expected.
+
+### (Optional) Run Maven CI inside a Container
+
+This subsection is optional and will not be graded, but I encourage you to try
+it since it ties Part 1 and Part 2 together.  In Part 1, our Maven CI workflow
+ran directly on the Runner virtual machine and used the setup-java action to
+install JDK 11 on it.  GitHub Actions also lets you run a job's steps inside a
+Docker container on the Runner, using the "container:" keyword.  Let's try
+that with the same base image that we used in our Dockerfile.
+
+Go back to your Part 1 repository and add a new workflow file named
+maven-ci-container.yml with the following content:
+
+```
+name: Maven CI Container
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  # Runs the Maven test phase on the project inside a container
+  maven_test_container:
+
+    runs-on: ubuntu-latest
+
+    # Run all the steps inside this container instead of directly on the
+    # Runner virtual machine.  This is the same base image as our Dockerfile.
+    container: maven:3.9.14-eclipse-temurin-11-noble
+
+    permissions:
+      contents: read
+
+    steps:
+
+    - name: Checkout repository
+      uses: actions/checkout@v6
+
+    # Note there is no "Set up JDK 11" step: the image already comes with
+    # Temurin JDK 11 and Maven preinstalled.
+    - name: Test with Maven
+      run: mvn -B test
+
+    - name: Upload jacoco results as artifact
+      uses: actions/upload-artifact@v6
+      with:
+        name: Jacoco coverage results (container)
+        path: target/site/jacoco
+```
+
+Commit and push, and both the original Maven CI workflow and the new Maven CI
+Container workflow will be triggered.  Peek inside the maven_test_container
+job of the new workflow and you will see an extra "Initialize containers" step
+where the Runner pulls the image and starts the container, and you will see
+that the "Set up JDK 11" step is gone.  You may also want to try adding a step
+that runs "mvn -v" to both workflows and compare the Maven and Java versions
+that each reports.
+
+So what did we gain?  First, **control of the environment**.  In maven-ci.yml,
+the job starts from GitHub's runner image and we set up only the pieces we
+explicitly asked for (JDK 11).  Everything else, such as the OS release,
+system libraries, the Maven version, and the hundreds of other preinstalled
+tools, is whatever GitHub ships in the runner image, and that changes over
+time.  In maven-ci-container.yml, the entire environment is defined by an
+image that we chose.  It is the same image we used in our Dockerfile, and the
+same image you can run on your own laptop using Docker Desktop, so the
+environment in which CI runs your tests can be identical to the one on your
+machine.
+
+Second, **speed and reliability of setup**.  Prebuilt images replace setup
+steps that install software on every run, and each of those steps takes time
+and can fail (for example, when a download server is down).  However, for this
+particular example, the bare virtual machine is likely competitive or even
+faster.  The setup-java action is quick and its "cache: maven" option restores
+the Maven dependencies from the GitHub cache.  On the other hand, the
+container job has to pull the image on every run (remember, the Runner is a
+virtual machine newly created for each job), and since it does not use
+setup-java's caching, Maven downloads all the dependencies again.  The
+equation changes as the setup gets more complex.  If your job needs many
+tools, specific versions of system packages, or libraries that must be
+compiled from source, a single image pull can replace a long list of slow and
+fragile installation steps.
 
 ### Submission
 
