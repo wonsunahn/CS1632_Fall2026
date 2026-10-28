@@ -1,6 +1,7 @@
 - [CS 1632 - Software Quality Assurance](#cs-1632---software-quality-assurance)
   * [Description](#description)
   * [Part 1: CI/CD Pipelines](#part-1-cicd-pipelines)
+    + [Create Classroom50 Repository](#create-classroom50-repository)
     + [Add Hello World Workflow](#add-hello-world-workflow)
     + [Add Maven CI Workflow](#add-maven-ci-workflow)
     + [View results of Maven CI Workflow maven_test job](#view-results-of-maven-ci-workflow-maven_test-job)
@@ -12,7 +13,9 @@
     + [Add CodeQL TaaS Workflow](#add-codeql-taas-workflow)
     + [Add Maven Publish Workflow](#add-maven-publish-workflow)
     + [Deploy Maven package and use in your Maven project](#deploy-maven-package-and-use-in-your-maven-project)
+    + [Submission](#submission)
   * [Part 2: Dockers](#part-2-dockers)
+    + [Create Classroom50 Repository](#create-classroom50-repository-1)
     + [Prerequisites](#prerequisites)
     + [Do some sanity tests](#do-some-sanity-tests)
     + [Create Docker image](#create-docker-image)
@@ -21,7 +24,7 @@
     + [Add CI Test Workflow](#add-ci-test-workflow)
     + [Add Docker Publish Workflow](#add-docker-publish-workflow)
     + [Pull published Docker image and launch from desktop](#pull-published-docker-image-and-launch-from-desktop)
-- [Submission](#submission)
+    + [Submission](#submission-1)
 
 # CS 1632 - Software Quality Assurance
 Fall Semester 2026 - Exercise 8 
@@ -53,38 +56,44 @@ In Part 1 of this exercise, we will learn how to build an automated
 "pipeline" of events that get triggered automatically under certain
 conditions (e.g. a source code push).  A pipeline can automate the entire
 process from source code push to software delivery to end users, making sure
-that a suite of tests are invooked as part of the process before software is
+that a suite of tests are invoked as part of the process before software is
 delivered.  Pipelines that are built for this purpose are called CI/CD
 (Continuous Integration / Continuous Delivery) pipelines, because they
-enable continuous delivery of software to the end user at at high velocity
+enable continuous delivery of software to the end user at high velocity
 while still maintaining high quality.  We will learn how to build a fully
-functioning pipeline for the (Rent-A-Cat application)[../exercises/2] that
+functioning pipeline for the [Rent-A-Cat application](../2) that
 we tested for Exercise 2 on our GitHub repository.
 
-In Part 2, we will learn how to use dockers to both test and deploy
-software as part of a CI/CD pipeline.  Dockers are virtualized execution
-environments which can emulate the execution environments in the deployment
-sites (OS, libraries, webservers, databases, etc.) so that software can be
-tested in situ.  In our case, we will create a docker image out of the
-(Rent-A-Cat website)[cs1632.appspot.com] that we tested for Deliverable 3
+In Part 2, we will learn how to use Docker to both test and deploy
+software as part of a CI/CD pipeline.  Docker containers are lightweight,
+isolated execution environments which can reproduce the execution environments
+in the deployment sites (OS userland, libraries, webservers, databases, etc.)
+so that software can be tested in situ.  In our case, we will create a docker image out of the
+[Rent-A-Cat website](https://cs1632.appspot.com/) that we tested for Deliverable 3
 for testing and deployment.
 
 ## Part 1: CI/CD Pipelines
-
-**GitHub Classroom Link:** https://classroom.github.com/a/kF5jRqHs
 
 In Part 1, you will learn how to create a pipeline from scratch based on the
 Rent-A-Cat application for Exercise 2, using the CI/CD support provided by
 your GitHub repository through GitHub Actions.  GitHub Actions is just one
 example CI/CD framework.  Other widely used CI/CD frameworks include GitLab
-Pipelines and Jenkins.  Regardless of which you choose, they work in mostly
-similar ways: there is a YAML configuration file that describes actions in
-the pipeline and the actions are performed on one or more Runner machines
-which are typically Docker containers.  The only thing that differs is the
-YAML file syntax.  Hence, by learning GitHub Actions, you will be able to
-translate that knowledge to other frameworks as well.  In GitHub Actions
-lingo, pipelines are called **workflows**, and the two terms will be used
-interchangeably.
+CI/CD and Jenkins.  Regardless of which you choose, they work in mostly
+similar ways: there is a configuration file that describes actions in the
+pipeline (written in YAML for GitHub Actions and GitLab CI/CD, and in a
+Groovy-based language in a Jenkinsfile for Jenkins) and the actions are
+performed on one or more Runner machines, which are virtual machines or Docker
+containers depending on how the framework is configured (GitHub-hosted Runners
+are virtual machines that are newly created for each job and discarded
+afterwards).  The main thing that differs is the configuration file syntax.
+Hence, by learning GitHub Actions, you will be able to translate that
+knowledge to other frameworks as well.  In GitHub Actions lingo, pipelines are
+called **workflows**, and the two terms will be used interchangeably.
+
+### Create Classroom50 Repository
+
+Please use the link for Part 1 posted on the Teams Exercise 8 channel to
+accept this exercise and create your repository.
 
 ### Add Hello World Workflow
 
@@ -95,7 +104,7 @@ the left hand side.  You will be presented with a plethora of "starter"
 workflows for different purposes.  Search for "manual" in the search box and
 you should see a single workflow named "Manual workflow" by GitHub Actions
 in the search results.  Click on the "Configure" button on the workflow.
-Then click on the "Start commit" button once you are done reviewing the
+Then click on the "Commit changes..." button once you are done reviewing the
 workflow and then commit the file.  Note that this creates a workflow YAML
 file ".github/workflows/manual.yml" under your repository.
 
@@ -144,7 +153,7 @@ which are performed on the same Runner.  The "Manual workflow" is composed
 of a single job named "greet" which is in turn composed of a single step
 "Send greeting".
 
-Now let's put this workflow into action by executing it on a Runner!  click
+Now let's put this workflow into action by executing it on a Runner!  Click
 on the "Actions" menu again and you should see a new workflow named "Manual
 workflow" on your lefthand side.  Click on it.  Then click on the "Run
 workflow" button.  You will get a pop up with an option to change "Person to
@@ -167,13 +176,14 @@ the job and you should see the below screen:
 <img alt="Manual workflow greet job" src=img/manual_workflow_2.png>
 
 As you see, the job is composed of 3 steps: "Set up job", "Send greeting",
-and "Complete job".  The steps "Setup job" and "Complete job" are implicitly
+and "Complete job".  The steps "Set up job" and "Complete job" are implicitly
 inserted into every job even though they are not specified in the YAML file.
 I've expanded the first two steps for viewing.  The purpose of "Set up job"
-is to set up the Runner Docker container within which the job is to run.
-You can see that the container was created using the ubuntu-20.04 Docker
-image, and that is because "run-on: ubuntu-latest" was specified on the YAML
-file and 20.04 happened to tbe latest version.  The "Send greeting" step
+is to set up the Runner virtual machine within which the job is to run.
+You can see that the Runner was created using the ubuntu-20.04 runner image,
+and that is because "runs-on: ubuntu-latest" was specified on the YAML file
+and 20.04 happened to be the latest version when this screenshot was taken
+(ubuntu-latest has since moved on to newer Ubuntu LTS releases).  The "Send greeting" step
 runs the commandline specified in the "run:" entry in the YAML file.
 
 The reason that we were able to trigger this workflow manually was because
@@ -206,7 +216,7 @@ button.  Now, instead of choosing a pre-existing "starter" workflow like
 before, click on the "set up a workflow yourself" link.  This will take you
 to a page for editing ".github/workflows/main.yml" from a blank slate.
 Please change the file name to "maven-ci.yml" instead and then paste the
-following into the content box before commiting the file:
+following into the content box before committing the file:
 
 ```
 name: Maven CI
@@ -235,12 +245,12 @@ jobs:
     # The uses: keyword invokes a GitHub action:
     # https://github.com/marketplace/actions/checkout
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v6
 
     # This invokes the Setup Java JDK GitHub action:
     # https://github.com/marketplace/actions/setup-java-jdk
     - name: Set up JDK 11
-      uses: actions/setup-java@v3
+      uses: actions/setup-java@v5
       with:
         java-version: '11'
         distribution: 'zulu'
@@ -251,7 +261,7 @@ jobs:
 
     # https://github.com/marketplace/actions/upload-a-build-artifact
     - name: Upload jacoco results as artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
         name: Jacoco coverage results
         path: target/site/jacoco
@@ -268,7 +278,7 @@ jobs:
 
     # https://github.com/marketplace/actions/maven-dependency-tree-dependency-submission
     - name: Update dependency graph
-      uses: advanced-security/maven-dependency-submission-action@v3
+      uses: advanced-security/maven-dependency-submission-action@v5
 
 ```
 
@@ -313,9 +323,9 @@ job failed.  We will get to failed job soon, but we should be able to view the
 results of the maven_test job since it passed.  So what are the results?  By
 default jobs do not publish any results beyond the green check mark that
 indicates that the job passed.  So what does it mean for a job to have passed?
-It means that every step in the job completely successfully including the "mvn
+It means that every step in the job completed successfully including the "mvn
 test" step.  If "mvn test" suffered a failure, it would have returned a
-none-zero [exit code](https://en.wikipedia.org/wiki/Exit_status)(like all Linux
+non-zero [exit code](https://en.wikipedia.org/wiki/Exit_status) (like all Linux
 processes do), which is detected by the workflow.  So you can be confident that
 all your JUnit tests passed.
 
@@ -359,7 +369,7 @@ definition on our maven-ci.yml file once more:
 
     # https://github.com/marketplace/actions/maven-dependency-tree-dependency-submission
     - name: Update dependency graph
-      uses: advanced-security/maven-dependency-submission-action@v2
+      uses: advanced-security/maven-dependency-submission-action@v5
 ```
 
 Note that there is nowhere that we bring in the pom.xml file!  But how about
@@ -367,14 +377,14 @@ the previous checkout action?
 
 ```
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v6
 ```
 
 Besides, weren't we able to successfully run "mvn test" because there was a
 pom.xml file present?  The answer is again, you need to remember that these are
-two different jobs which run on different Docker containers.  The
-"update_dependence_graph" job builds a new container from scratch based on the
-ubuntu-latest image, and hence will not have the pom.xml file.  One way to
+two different jobs which run on different Runners (separate virtual machines).
+The "update_dependence_graph" job starts on a fresh Runner created from the
+ubuntu-latest runner image, and hence will not have the pom.xml file.  One way to
 solve this issue is to checkout the repository again within this job as well,
 and that is a perfectly valid solution.  An alternative solution is to pass on
 the checked out repository via shared storage between jobs called GitHub
@@ -384,7 +394,7 @@ Caches.
 
 A cache is a temporary key-value storage on the cloud that can store file(s)
 or folder(s) that are accessible by later jobs, as long as they have the
-correct key.  Any cache entries that have not been access more than 7 days
+correct key.  Any cache entries that have not been accessed in over 7 days
 are automatically deleted by GitHub.  Let's see what is in our current
 cache:
 
@@ -397,7 +407,7 @@ part of the maven-ci.yml file:
     # This invokes the Setup Java JDK GitHub action:
     # https://github.com/marketplace/actions/setup-java-jdk
     - name: Set up JDK 11
-      uses: actions/setup-java@v3
+      uses: actions/setup-java@v5
       with:
         java-version: '11'
         distribution: 'zulu'
@@ -408,13 +418,14 @@ Note the entry "cache: maven".  To find out what it does, you can read the
 following section on the Setup Java JDK action page:
 https://github.com/marketplace/actions/setup-java-jdk#caching-packages-dependencies
 
-Essentially, it caches all Maven package dependencies for JDK 11 and
-associates all those files with the key "setup-java-${{ platform }}-${{
+Essentially, it caches all Maven package dependencies (the packages that
+Maven downloads into ~/.m2/repository) and associates all those files with the key "setup-java-${{ platform }}-${{
 packageManager }}-${{ fileHash }}", where the fileHash is the hash of the
 pom.xml file.  It makes sense to associate the files with the hash of
 pom.xml since the package files would not change unless pom.xml changes.  We
-are caching those files so that the next time a job needs to install JDK 11,
-it can just restore the files from the cache.  Try manually running the
+are caching those files so that the next time a job sets up Java with Maven
+caching, it can just restore the packages from the cache instead of downloading
+them again from Maven Central.  Try manually running the
 "Maven CI" workflow and you can confirm that is indeed what happens:
 
 <img alt="setup-java cache restored" src=img/maven_ci_caches_restored.png>
@@ -428,7 +439,7 @@ use is what we will leverage to transfer the pom.xml file from our first
 
    ```
    - name: Cache build
-     uses: actions/cache@v3
+     uses: actions/cache@v5
      with:
        key: cached-build-${{github.sha}}
        path: .
@@ -447,7 +458,7 @@ sense, right?
 
    ```
    - name: Restore cached build
-     uses: actions/cache@v3
+     uses: actions/cache@v5
      with:
        key: cached-build-${{github.sha}}
        path: .
@@ -458,7 +469,7 @@ the same key so that they can be used for dependence graph analysis.
 
 After making these changes, commit and push.  This will trigger a new Maven
 CI workflow as before.  Peek inside the "update_dependence_graph" job and
-you will see that is still fails, and the reason is because the cache entry
+you will see that it still fails, and the reason is because the cache entry
 was not found:
 
 <img alt="Maven CI workflow cache not found" src=img/maven_ci_workflow_8.png>
@@ -471,10 +482,16 @@ that exact cache entry with the key:
 #### Job Dependencies
 
 So then what happened?  Remember I said that jobs run in parallel by
-default?  The "maven_test" job and the "update_dependency_graph" job run
+default?  The "maven_test" job and the "update_dependence_graph" job run
 concurrently so there is no synchronization between the cache write step
 and the cache read step.  Depending on which job runs faster, the cache
-might be there or might not be there (essentially a **race condition**).  To
+might be there or might not be there (essentially a **race condition**).
+In fact, the cache action saves the cache in a "Post" step that runs only
+after all the other steps of "maven_test" are done, so in practice
+"update_dependence_graph" almost always loses this race.  (By the way, if you
+click "Re-run failed jobs" instead of pushing a new commit, the cache saved by
+the earlier "maven_test" run will already be there, which hides the race.
+That is why I asked you to commit and push.)  To
 solve this issue, insert a needs entry to enforce a dependence on the
 "maven_test" job:
 
@@ -487,7 +504,7 @@ solve this issue, insert a needs entry to enforce a dependence on the
 ```
 
 Again, commit and push maven-ci.yml, which will trigger the Maven CI
-workflow.  If you peek inside the run, this is how it looks like now:
+workflow.  If you peek inside the run, this is what it looks like now:
 
 <img alt="Maven CI workflow with sequential jobs" src=img/maven_ci_workflow_9.png>
 
@@ -520,7 +537,7 @@ If you expand the "Set up job" step in the job run, you can plainly see that
 
 <img alt="Maven CI workflow GITHUB_TOKEN permissions" src=img/maven_ci_workflow_12.png>
 
-As a a matter of security, it is good policy to have as restrictive
+As a matter of security, it is good policy to have as restrictive
 permissions as possible for any GitHub job.  Jobs often rely on 3rd party
 actions and if those action scripts are compromised, the last line of
 defense is the permissions.  By setting it to read-only, we can prevent
@@ -534,7 +551,7 @@ update the permissions as such:
       contents: write
 ```
 
-Write permissions always includes read permissions as well.  This will again
+Write permission always includes read permission as well.  This will again
 trigger a Maven CI workflow and this time, the run is finally successful!
 
 <img alt="Maven CI workflow success!" src=img/maven_ci_workflow_13.png>
@@ -552,15 +569,15 @@ to see all dependencies defined in your pom.xml file and all your workflows:
 
 <img alt="Dependency graph after upload" src=img/dependency_graph.png>
 
-The Dependabot whose job is to scour these dependencies is not enable by
-default however, and you need to go into Settings (the "Code security and
-analysis" page) to change that:
+The Dependabot whose job is to scour these dependencies is not enabled by
+default however, and you need to go into Settings (the "Advanced Security"
+page, formerly called "Code security and analysis") to change that:
 
 <img alt="Dependabot settings before changing" src=img/settings_dependabot_before.png>
 
 Click "Enable" on all the buttons that have to do with Dependabot.  When you
 click on Enable for "Dependabot version updates", you will be asked to
-create ".github/ dependabot.yml" with the following content:
+create ".github/dependabot.yml" with the following content:
 
 ```
 # To get started with Dependabot version updates, you'll need to specify which
@@ -589,7 +606,7 @@ some package versions, and corresponding pull requests for those branches:
 
 <img alt="Pull requests created by Dependabot" src=img/pull_requests.png>
 
-Those orange dots beside each pull request means that the Maven CI workflow
+Those orange dots beside each pull request mean that the Maven CI workflow
 to verify that pull request is still running.  Soon enough those orange dots
 will turn into green check marks if the CI tests pass.
 
@@ -608,10 +625,11 @@ trunk.  After all is said and done, you should see two closed pull requests:
 <img alt="Pull request checks are all closed" src=img/pull_requests_closed.png>
 
 Now we can be confident that all our dependent packages are up-to-date and
-do not contain any outstanding vulnerabilities.
+do not contain any known vulnerabilities.  Of course, new vulnerabilities are
+discovered all the time, which is why Dependabot keeps checking every week.
 
-Dependabot was instrumental in mitigating the damage due to the recent Log4j
-vulnerability by [alerting thousands of repositories and creating thousands
+Dependabot was instrumental in mitigating the damage due to the Log4j (Log4Shell)
+vulnerability of December 2021 by [alerting thousands of repositories and creating thousands
 of pull
 requests](https://github.blog/2021-12-14-using-githubs-security-features-identify-log4j-exposure-codebase/).
 
@@ -621,7 +639,7 @@ In the software industry, there are a number of companies that provide TaaS
 (Testing-as-a-Service), a type of SaaS (Software-as-a-Service).  These services
 typically perform static testing and code analysis which can be performed
 without knowing the requirements of your software.  These services are easily
-integrated into your CI/CD pipeline through the GitHub Workflow Marketplace.
+integrated into your CI/CD pipeline through the GitHub Marketplace.
 We are going to practice integrating a code quality and security analysis tool
 called CodeQL.
 
@@ -646,9 +664,11 @@ workflow.
 by GitHub (originally by Semmle, which was later acquired by GitHub). It treats
 code as data in a database, upon which you can perform queries in a domain
 specific language called CodeQL similar to SQL to find bugs and security
-vulnerabilities.  By default, the workflow does not perform any queries, so the
-above line has to be uncommented to perform a basic set of queries about
-security and code quality.
+vulnerabilities.  By default, the workflow runs only CodeQL's default query
+suite, which focuses on high-precision security queries.  Uncommenting the above
+line adds the "security-extended" and "security-and-quality" suites, which
+include additional security queries as well as code quality queries (such as
+the "Missing Override annotation" issues you will see below).
 
 1. Now click on "Commit changes".  This will trigger a new workflow due to the
 push trigger on the YAML file.
@@ -689,10 +709,10 @@ jobs:
     steps:
 
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v6
 
     - name: Set up JDK 11
-      uses: actions/setup-java@v3
+      uses: actions/setup-java@v5
       with:
         java-version: '11'
         distribution: 'zulu'
@@ -702,17 +722,26 @@ jobs:
       run: mvn -B package
 
     - name: Publish to GitHub Packages Apache Maven
-      run: mvn deploy
+      run: mvn -B deploy
       env:
         GITHUB_TOKEN: ${{ github.token }}
 ```
 
 Create a new workflow file maven-publish.yml using the above text in exactly
 the same way you created maven-ci.yml previously.  Note that this workflow
-is now triggered when a new release is created.  It uses the \$ \{\{ github.token \}\} to authenticate and publish the package.  The GitHub
-pre-defined variable \$ \{\{ github.token \}\} is automatically generated on each
+is now triggered when a new release is created.  It uses the `${{ github.token }}` to authenticate and publish the package.  The GitHub
+pre-defined variable `${{ github.token }}` is automatically generated on each
 workflow run and is given the permissions specified in the "permissions:"
 entry.
+
+You may wonder how "mvn deploy" knows to use this token.  Besides installing
+the JDK, the setup-java action generates a Maven settings.xml file containing a
+server entry whose id is "github" and whose credentials are read from the
+GITHUB_ACTOR and GITHUB_TOKEN environment variables (you can see "Creating
+settings.xml with server-id: github" in the log of that step).  That is why we
+set the GITHUB_TOKEN environment variable for the publish step, and why the
+\<id\> in the \<distributionManagement\> element below must be exactly
+"github".
 
 After the maven-publish.yml is committed and pushed, you also need to edit
 the pom.xml file and add the below text after the \<scm\>...\</scm\> element:
@@ -731,12 +760,12 @@ Replace the repository name within the \<url\>...\</url\> element with your own
 repository name.  Please make sure you leave the
 https://maven.pkg.github.com/CS1632-Fall2026/ part as-is and only change the
 repository name, as https://maven.pkg.github.com/ is the base URL for the
-BitHub Maven package registry.
+GitHub Maven package registry.
 
 You also need to find the artifactId and append your PittID to it so that it
 becomes unique.  If your PittID has a capital letter please convert it to
 lowercase (GitHub package names don't work with capital letters for some
-reason).  For example, if you PittID was wahn (like mine), please change it
+reason).  For example, if your PittID was wahn (like mine), please change it
 to:
 
 ```
@@ -744,13 +773,13 @@ to:
 ```
 
 Now we are ready to create a new release to see if this works!  Go to the
-"<> Code" tab on your GItHub repository and then click on the "Create a new
+"<> Code" tab on your GitHub repository and then click on the "Create a new
 release" link under the "Releases" section at the bottom right:
 
 <img alt="Click on create new release" src=img/create_new_release_1.png>
 
-The click on "Choose a tag", and then type "v1.0" in the box and click on "+
-Create new tag: v1.0 on publish".  The should create the "v1.0" tag.  Then
+Then click on "Choose a tag", and then type "v1.0" in the box and click on "+
+Create new tag: v1.0 on publish".  This should create the "v1.0" tag.  Then
 on the "Release title" box, write "Release v1.0".  Then click on the
 "Publish release" button.  This should create your first release:
 
@@ -768,6 +797,12 @@ If you click on the package on the bottom right, you should see the contents
 of your newly published package:
 
 <img alt="Package details" src=img/create_new_release_5.png>
+
+Note that GitHub Packages does not allow you to overwrite a package version
+that has already been published.  If you create another release (or manually
+run the workflow) without changing the \<version\> in pom.xml, the publish step
+will fail with a "409 Conflict" error.  If you want to publish again, increment
+the version in pom.xml first.
 
 
 ### Deploy Maven package and use in your Maven project
@@ -790,6 +825,12 @@ If you are using Mac:
 
 ```
 /Users/<YOUR_USER_NAME>/.m2
+```
+
+If you are using Linux:
+
+```
+/home/<YOUR_USER_NAME>/.m2
 ```
 
 Under the above folder add the settings.xml file with the following content:
@@ -849,7 +890,7 @@ After this you are ready to deploy the Maven package on a Maven project.  Let's
 try doing this on the Exercise 2 project from whence we copied the RentACat
 source code.  Open your Exercise 2 project on VSCode, and then copy the
 dependency text suggested on the package page of our published package and
-paste it within the Dependecies section.  Now, try deleting all the
+paste it within the \<dependencies\> section.  Now, try deleting all the
 implementation code under the src/main/java/edu/pitt/cs folder.  You should not
 get any compilation errors since now all those classes are supplied by your
 package.  Then try clicking on the VSCode Testing extension and running all the
@@ -857,9 +898,15 @@ tests.  All of them should pass!  Now, please do not commit the code since you
 probably still want your Exercise 2 source code.  You can discard the changes
 after you are satisfied.
 
-## Part 2: Dockers
+### Submission
 
-**GitHub Classroom Link:** https://classroom.github.com/a/zwbPSVru
+When you are done, submit your repository to GradeScope at the
+**Exercise 8 Part 1** link.  Once you submit, GradeScope will run the
+autograder to grade you and give feedback.  If you get deductions, fix your
+code based on the feedback and resubmit.  Repeat until you don't get
+deductions.
+
+## Part 2: Dockers
 
 In Part 2, we will use Docker to test and deploy the Rent-A-Cat website that we
 tested in Deliverable 3.  We will test the website using the Playwright tests
@@ -868,12 +915,14 @@ that you wrote for the assignment.
 Docker runs software in a self-contained virtualized environment called
 containers.  A container is launched from a Docker image, which is a binary
 file that contains the file system that the container is launched from.  You
-can think of Docker images as comparable to Linux images.  Docker images can
+can think of Docker images as comparable to virtual machine disk images,
+except that they contain only the OS userland (libraries, tools, and files)
+and not an OS kernel: containers share the kernel of the host machine.  Docker images can
 be built from any operating system version supported by Docker and can come
 with any software or files pre-installed.  As such, Docker images are the
-preferred method of deployment for many software organizations.  The Docker
-image is to run reliably on any user machine or on a cloud service provider
-without a hitch since everything comes pre-packaged.
+preferred method of deployment for many software organizations.  A Docker
+image can run reliably on any user machine or on a cloud service provider
+without a hitch since everything the software needs can come pre-packaged.
 
 Deploying software encapsulated in a Docker image makes testing simpler and
 more rigorous at the same time. Now the tester does not have to think about
@@ -883,12 +932,20 @@ or whether environment variables and configuration files are set with
 correct values.  And these preconditions are usually what causes software to
 fail during deployment.
 
+### Create Classroom50 Repository
+
+Please use the link for Part 2 posted on the Teams Exercise 8 channel to
+accept this exercise and create your repository.
+
 ### Prerequisites
 
 1. Download and install Docker Desktop to be able to launch Docker containers:
    https://www.docker.com/products/docker-desktop/
 
-1. install Playwright Test package as a dev dependency in the Node.js project:
+1. Make sure you have Node.js, a JDK, and Maven installed on your machine (you
+   should already have them from Exercise 2 and Deliverable 3).
+
+1. Install the Playwright Test package as a dev dependency in the Node.js project:
 
    ```
    npm install -D @playwright/test
@@ -914,8 +971,8 @@ The output from this command should end in these two lines:
 
 ```
 ...
-2026-3-25 18:33:15.380  INFO 21180 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
-2026-3-25 18:33:15.395  INFO 21180 --- [           main] c.s.ServingWebContentApplication         : Started ServingWebContentApplication in 2.46 seconds (JVM running for 2.852)
+2026-03-25 18:33:15.380  INFO 21180 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2026-03-25 18:33:15.395  INFO 21180 --- [           main] c.s.ServingWebContentApplication         : Started ServingWebContentApplication in 2.46 seconds (JVM running for 2.852)
 ```
 
 Note this starts the Tomcat web server listening on port 8080.  Try opening
@@ -933,8 +990,8 @@ Now leave the server running and open another terminal to invoke Playwright test
 npx playwright test
 ```
 
-There is a single [Playwright test](tests/rentacat.spec.ts) in this project
-that tests that the web server can service HTTP reqeusts on port 8080:
+There is a single Playwright test in tests/rentacat.spec.ts in this project
+that tests that the web server can service HTTP requests on port 8080:
 
 ```
 test('TEST-CONNECTION', async ({ page }) => {
@@ -971,20 +1028,21 @@ EXPOSE 8080
 CMD ["/bin/sh", "-c", "mvn spring-boot:run"]
 ```
 
-The description of the base image adoptopenjdk/openjdk11:ubi can be found here:
+The description of the base image maven:3.9.14-eclipse-temurin-11-noble can be found here:
 https://hub.docker.com/layers/library/maven/3.9.14-eclipse-temurin-11-noble/
 
 If you navigate to the above URL, you will see that a Docker image is
-constructed in layers, starting from the kernel layer.  Each command that
-copies files or installs software packages creates a new layer on top of the
-kernel layer.  This layered structure [allows one or more layers to be shared
+constructed in layers, starting from the base operating system layer (note
+that a Docker image does not include an OS kernel; containers share the kernel
+of the host machine).  Each command that copies files or installs software
+packages creates a new layer on top of the previous layers.  This layered structure [allows one or more layers to be shared
 between multiple images, improving storage
 efficiency](https://docs.docker.com/get-started/docker-concepts/building-images/understanding-image-layers/).
 As such, our image builds several layers on top of the base image, so if there
 was another image using the same base image, the base image layers would be
 shared.
 
-For our image, we start with a base image image with the Ubuntu 24 LTS OS
+For our image, we start with a base image with the Ubuntu 24 LTS OS
 (that's what "noble" means) preinstalled with Maven and Temurin JDK 11.  On top
 of it we copy over files required to launch our web app to the work directory
 specified as /app.  We also expose TCP port 8080 to the outside world since
@@ -992,6 +1050,13 @@ that is the port that Spring Boot is going to be using.  If we don't explicitly
 expose ports, they will not be accessible in the Docker container created out
 of this image.  Lastly, we define the command that will be executed by default
 when the image is launched in a container, which is "mvn spring-boot:run".
+
+Note that our image is not entirely self-contained.  "mvn spring-boot:run"
+downloads the Spring Boot dependencies from Maven Central every time the
+container starts, so the container needs Internet access and takes a while for
+the web server to come up (keep this in mind, as it will become important
+later!).  A production image would typically download the dependencies, or
+build the application JAR file, at image build time instead.
 
 Third party base images for popular Linux distributions and CPU architectures
 preinstalled with a variety of software packages can be found at [Docker
@@ -1076,7 +1141,7 @@ tests that test the web app.  Well, we already wrote those tests for
 Deliverable 3, so let's just import rentacat.spec.ts from that project into
 tests/rentacat.spec.ts.
 
-You need to do these three things though in rentacat.spec.ts:
+You need to do these two things though in rentacat.spec.ts:
 
 1. Replace the base URL of the web pages accessed with "http://localhost:8080".
 Please make sure you use http:// and not https://.
@@ -1121,7 +1186,7 @@ jobs:
     steps:
 
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
 
       - name: Set up Playwright
         run: npm install -D @playwright/test
@@ -1130,7 +1195,7 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Setup Docker buildx
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@v4
 
       - name: Launch Web Service
         run: docker compose up -d
@@ -1139,15 +1204,21 @@ jobs:
         run: npx playwright test --project=chromium
 
         # https://github.com/marketplace/actions/upload-a-build-artifact
+        # Upload even if the tests fail, so that you can inspect the failures
       - name: Upload Playwright results as artifact
-        uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v6
         with:
           name: Playwright results
           path: playwright-report/
 
 ```
 
-The steps are a replica of what we just did manually.
+The steps are a replica of what we just did manually.  Note the "if:"
+condition on the last step.  By default, a step is skipped if any previous step
+in the job failed, but we want the Playwright report precisely when the tests
+fail!  The condition tells GitHub to run the upload step unless the workflow
+was cancelled.
 
 Commit and push all these changes and the Docker CI workflow will trigger
 immediately.  Now, the Playwright tests may pass but it may also fail.  If you
@@ -1192,7 +1263,7 @@ Some tests fail due to net::ERR_CONNECTION_RESET and some due to other reasons.
 What's happening?  The fact that the test results are nondeterministic tells
 you that it is due to either memory errors or race conditions (the two sources
 of nondeterminism by mistake we learned in class).  It is definitely not a
-memory error since neither Java (the language the web server is written in) and
+memory error since neither Java (the language the web server is written in) nor
 TypeScript (the language the Playwright tests are written in) allow memory
 errors to happen.  So it must be a **race condition**, and you would be right.
 
@@ -1225,14 +1296,27 @@ done
 >&2 echo "Webservice is up - continuing"
 ```
 
-The curl comamndline tool fetches the page from the given URL and prints it
+The curl command line tool fetches the page from the given URL and prints it
 on the screen.  More important for our purposes, it returns an exit code of
 0 if successful and a non-zero value if not (just like most Linux tools).
 So the script will poll the URL every second until it can fetch the page.
 
 Save the above script to a file named "wait-for-webserver.sh".  And insert
 the invocation of that script right before running the Playwright tests.  I'll
-leave it to you to name the step however you want.
+leave it to you to name the step however you want.  A few tips:
+
+* Invoke the script with "sh wait-for-webserver.sh" rather than
+  "./wait-for-webserver.sh".  The latter requires the file to have execute
+  permission in Git, which is often lost when the file is committed from
+  Windows.
+
+* Make sure the file has Unix (LF) line endings.  A shell script saved with
+  Windows (CRLF) line endings will fail on the Runner with strange errors.
+  Adding the line "*.sh text eol=lf" to your .gitattributes file prevents this.
+
+* Consider adding "timeout-minutes: 5" to the step.  If the web server never
+  comes up for some reason, the script would otherwise loop until GitHub
+  kills the job at its 6-hour limit.
 
 After you push that change, try launching the workflow several times.  Now,
 you will see the workflow reliably succeeding.  In fact, if you peek into a
@@ -1255,8 +1339,8 @@ Try downloading it and opening the index.html file in a browser.
 
 ### Add Docker Publish Workflow
 
-Now we CI tests all set up and passing, time to create the delivery
-workflow.  Create a new docker-publish.yml file with the following content:
+Now that we have CI tests all set up and passing, it is time to create the
+delivery workflow.  Create a new docker-publish.yml file with the following content:
 
 ```
 name: Docker Publish
@@ -1267,7 +1351,7 @@ on:
     types: [created]
 
 env:
-  # ghcr.io is the Docker registery maintained by GitHub
+  # ghcr.io is the Docker registry maintained by GitHub
   REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
   IMAGE_NAME: ${{ github.repository }}
@@ -1283,15 +1367,15 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
 
       - name: Setup Docker buildx
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@v4
 
       # Login against a Docker registry
       # https://github.com/docker/login-action
       - name: Log into registry ${{ env.REGISTRY }}
-        uses: docker/login-action@v2
+        uses: docker/login-action@v4
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
@@ -1301,7 +1385,7 @@ jobs:
       # https://github.com/docker/metadata-action
       - name: Extract Docker metadata
         id: meta
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v6
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
@@ -1309,7 +1393,7 @@ jobs:
       # https://github.com/docker/build-push-action
       - name: Build and push Docker image
         id: build-and-push
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v7
         with:
           context: .
           push: true
@@ -1321,13 +1405,23 @@ jobs:
 ```
 
 The workflow publishes the web server Docker image to ghcr.io (the GitHub
-Docker image registery).  The docker/build-push-action@v3 GitHub action does
-all the heavy lifting.
+Docker image registry).  The docker/build-push-action@v7 GitHub action does
+all the heavy lifting.  The "platforms:" entry builds the image for multiple
+CPU architectures, so that the same image can run on Intel/AMD machines
+(linux/amd64) as well as ARM machines such as Apple Silicon Macs
+(linux/arm64).
+
+Note that, unlike the Maven Publish workflow (where "mvn deploy" runs the JUnit
+tests as part of the Maven lifecycle), this workflow publishes the image without
+running the Playwright tests.  In a real CI/CD pipeline, you would want to gate
+delivery on the tests passing, for example by adding the
+"test_dockerized_webserver" job to this workflow and making the "build" job
+depend on it using "needs:".
 
 Once this workflow is committed and pushed, trigger it by creating a new
 release on the "<> Code" tab.  Add a tag by clicking on the "Choose a tag" drop
 down, such as "v1.2" (since that is the version number in the pom.xml file).
-After the worflow completes, go to the "<> Code" tab and you should see a new
+After the workflow completes, go to the "<> Code" tab and you should see a new
 package in the Packages section on the bottom right.  If you click on the
 package link, you should see something like the below:
 
@@ -1335,10 +1429,10 @@ package link, you should see something like the below:
 
 ### Pull published Docker image and launch from desktop
 
-Since your repository is private, you need to authenticate to your GitHub
-repository before pulling the package.  You can use the PAT (Personal
-Authentication Token) that you generated previously in Part 1 for this purpose.
-If have not yet generated the token, please refer to the [Deploy Maven package
+If your package is private, you need to authenticate to the GitHub Container
+Registry before pulling the package (if it is public, logging in does no harm).
+You can use the PAT (Personal Access Token) that you generated previously in
+Part 1 for this purpose.  If you have not yet generated the token, please refer to the [Deploy Maven package
 and use in your Maven project](#deploy-maven-package-and-use-in-your-maven-project) section in Part 1.
 
 Now on the commandline do:
@@ -1348,7 +1442,7 @@ docker login ghcr.io -u <github_username>
 ```
 
 It is going to ask for your password and this is where you provide your PAT.
-This is how the interaction should look like:
+This is what the interaction should look like:
 
 ```
 $ docker login ghcr.io -u wonsunahn
@@ -1360,10 +1454,17 @@ Next, copy the "Install from the command line" text from your GitHub package
 page, which was in my case:
 
 ```
-docker pull ghcr.io/cs1632-Fall2026/exercise-8-dockers-wonsunahn:main
+docker pull ghcr.io/cs1632-fall2026/exercise-8-dockers-wonsunahn:v1.2
 ```
 
-Then your commandline on the terminal.  This will pull the published image
+Note that Docker image names must be all lowercase, even though the GitHub
+organization name has capital letters.  The part after the colon is the image
+tag.  Since we triggered the workflow by creating a release, the image is
+tagged with the release tag (v1.2 in my case) as well as "latest".  If you had
+instead run the workflow manually on the main branch, the image would have been
+tagged "main" (as in the screenshot above).
+
+Then run that command on the terminal.  This will pull the published image
 on to your Docker Desktop.  If you check the "Images" menu, you will see a new
 image created:
 
@@ -1371,9 +1472,13 @@ image created:
 
 Try removing the container you created from your locally built image (if you
 haven't already), and then run the published image (taking care that you map
-port 8080 in "Optional Settings").  Now if load http://localhost:8080/ on
+port 8080 in "Optional Settings").  Now if you load http://localhost:8080/ on
 your browser, it should work as expected.
 
-# Submission
+### Submission
 
-TBD
+When you are done, submit your repository to GradeScope at the
+**Exercise 8 Part 2** link.  Once you submit, GradeScope will run the
+autograder to grade you and give feedback.  If you get deductions, fix your
+code based on the feedback and resubmit.  Repeat until you don't get
+deductions.
