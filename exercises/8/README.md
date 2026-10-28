@@ -96,6 +96,12 @@ called **workflows**, and the two terms will be used interchangeably.
 Please use the link for Part 1 posted on the Teams Exercise 8 channel to
 accept this exercise and create your repository.
 
+When you accept the assignment, you will see a warning that the repository will
+be public, meaning that anyone on the internet will be able to see your work.
+Please ignore the warning and keep the repository public.  Some of the testing
+tools that we will use in this exercise (such as CodeQL code scanning) are free
+only for public repositories.
+
 ### Add Hello World Workflow
 
 Let's first start with a very basic workflow which prints "Hello World"
@@ -964,6 +970,9 @@ fail during deployment.
 
 Please use the link for Part 2 posted on the Teams Exercise 8 channel to
 accept this exercise and create your repository.
+
+As in Part 1, you will see a warning that the repository will be public.
+Please ignore the warning and keep the repository public, for the same reason.
 
 ### Prerequisites
 
