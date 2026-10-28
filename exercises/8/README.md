@@ -112,7 +112,7 @@ file ".github/workflows/manual.yml" under your repository.
 Please refer to the following tutorial to see exactly where to click:
 https://docs.github.com/en/actions/using-workflows/using-starter-workflows
 
-Now let's take a close look at the manual.yml YAML file.  At below are the
+Now let's take a close look at the manual.yml YAML file.  Below are the
 file contents:
 
 ```
@@ -207,7 +207,7 @@ https://docs.github.com/en/actions/quickstart
 
 Now let's get down to business and try writing a CI workflow for our Maven
 project.  This time we are going to have two jobs: 1) A "maven_test" job for
-invoking "mvn test" on our project and 2) A "update_dependence_graph" job
+invoking "mvn test" on our project and 2) An "update_dependence_graph" job
 for updating the package dependence graph in your GitHub repository.  The
 dependence graph is used by a GitHub bot called Dependabot to notify the
 repository owner of packages used by the repository that have become stale
@@ -321,7 +321,7 @@ Now let's click on the failed run link and see exactly which job(s) failed:
 <img alt="Maven CI workflow first run" src=img/maven_ci_workflow_6.png>
 
 You can see that the "maven_test" job passed, but the "update_dependence_graph"
-job failed.  We will get to failed job soon, but we should be able to view the
+job failed.  We will get to that job soon, but we should be able to view the
 results of the maven_test job since it passed.  So what are the results?  By
 default jobs do not publish any results beyond the green check mark that
 indicates that the job passed.  So what does it mean for a job to have passed?
@@ -350,7 +350,7 @@ you will see actual coverage.
 
 Now time to look at the still failing "update_dependence_graph" job:
 
-<img alt="Maven CI workflow first run" src=img/maven_ci_workflow_7.png>
+<img alt="update_dependence_graph job failure: no POM" src=img/maven_ci_workflow_7.png>
 
 Note the phrase "Goal requires a project to execute but there is no POM in
 this directory".  The depgraph Maven plugin needs the pom.xml file to
@@ -523,7 +523,7 @@ the problem.
 
 The issue is actually with resource accessibility:
 
-<img alt="Maven CI workflow cache found" src=img/maven_ci_workflow_11.png>
+<img alt="update_dependence_graph job failure: resource not accessible" src=img/maven_ci_workflow_11.png>
 
 The issue is that the job needs write permissions to the repository to
 update the dependence graph, but currently it is set up for only read
@@ -600,7 +600,7 @@ The only thing you need to do here is type "maven" for the package-ecosystem
 check for updates and security vulnerabilities for dependent packages.
 After enabling all options, the settings page should look like this:
 
-<img alt="Dependabot settings before changing" src=img/settings_dependabot_after.png>
+<img alt="Dependabot settings after changing" src=img/settings_dependabot_after.png>
 
 As soon as you commit dependabot.yml, Dependabot will kick into action and
 within a few seconds creates several branches to patch up pom.xml to update
@@ -619,12 +619,14 @@ workflow:
 
 <img alt="Pull request checks have all passed" src=img/pull_request_checks.png>
 
-You will see similar on the other pull request.  Since Maven CI has
-verified that the updated package dependencies did not break our build, we
-can safely press the "Merge pull request" to merge the branch into our main
-trunk.  After all is said and done, you should see two closed pull requests:
+You will see something similar on any other pull requests.  Since Maven CI has
+verified that the updated package dependencies did not break our build, we can
+safely press the "Merge pull request" button on each pull request to merge its
+branch into our main trunk.  After all is said and done, you should see all
+the pull requests closed (how many pull requests you get depends on how many
+dependencies happened to be out of date at the time):
 
-<img alt="Pull request checks are all closed" src=img/pull_requests_closed.png>
+<img alt="Pull requests closed after merging" src=img/pull_requests_closed.png>
 
 Now we can be confident that all our dependent packages are up-to-date and
 do not contain any known vulnerabilities.  Of course, new vulnerabilities are
@@ -754,7 +756,7 @@ the pom.xml file and add the below text after the \<scm\>...\</scm\> element:
     <repository>
       <id>github</id>
       <name>GitHub Apache Maven Packages</name>
-      <url>https://maven.pkg.github.com/CS1632-Fall2026/exercise-8-ci-cd-pipelines-wonsunahn</url>
+      <url>https://maven.pkg.github.com/CS1632-Fall2026/cs-1632-fall-2026-exercise-8-ci-cd-pipelines-wonsunahn</url>
     </repository>
   </distributionManagement>
 ```
@@ -890,7 +892,7 @@ token in Part 2 for other purposes too.  If you forgot the PAT string, you will
 have to generate the token by clicking on "Regenerate Token" button.
 
 After this you are ready to deploy the Maven package on a Maven project.  Let's
-try doing this on the Exercise 2 project from whence we copied the RentACat
+try doing this on the Exercise 2 project from which we copied the RentACat
 source code.  Open your Exercise 2 project on VSCode, and then copy the
 dependency text suggested on the package page of our published package and
 paste it within the \<dependencies\> section.  Now, try deleting all the
@@ -915,7 +917,7 @@ https://github.com/CS1632-Fall2026/{your repository name}/
 For example, mine would be:
 
 ```
-https://github.com/CS1632-Fall2026/exercise-8-ci-cd-pipelines-wonsunahn/
+https://github.com/CS1632-Fall2026/cs-1632-fall-2026-exercise-8-ci-cd-pipelines-wonsunahn/
 ```
 
 Make sure you commit and push github_url.txt to your repository before
@@ -973,7 +975,7 @@ accept this exercise and create your repository.
    npm install -D @playwright/test
    ```
 
-1. Install chromium as the Playwright test browser
+1. Install chromium as the Playwright test browser:
 
    ```
    npx playwright install --with-deps chromium
@@ -1066,7 +1068,7 @@ As such, our image builds several layers on top of the base image, so if there
 was another image using the same base image, the base image layers would be
 shared.
 
-For our image, we start with a base image with the Ubuntu 24 LTS OS
+For our image, we start with a base image with the Ubuntu 24.04 LTS OS
 (that's what "noble" means) preinstalled with Maven and Temurin JDK 11.  On top
 of it we copy over files required to launch our web app to the work directory
 specified as /app.  We also expose TCP port 8080 to the outside world since
@@ -1123,7 +1125,7 @@ Make sure the server is dead by reloading the page http://localhost:8080/ on
 your web browser and confirming that the server is not found.
 
 Now let's first start Docker Desktop, which will start Docker Engine
-included in the application.  After it is running, invoke the
+included in the application.  After it is running, invoke
 "docker compose up" to bring up the container:
 
 ```
@@ -1143,8 +1145,8 @@ Now try reloading http://localhost:8080/ again and you should see the page
 back up.  Congrats, you have created your first Docker container!
 
 To stop the container, you only need to click on the trash bin icon that
-appears when you hover over the container.  Or you can do on the
-commandline:
+appears when you hover over the container.  Or you can do so on the command
+line:
 
 ```
 docker compose down
@@ -1327,9 +1329,9 @@ on the screen.  More important for our purposes, it returns an exit code of
 So the script will poll the URL every second until it can fetch the page.
 
 Save the above script to a file named "wait-for-webserver.sh" at the root of
-your repository.  And insert
-the invocation of that script right before running the Playwright tests.  I'll
-leave it to you to name the step however you want.  A few tips:
+your repository.  And insert the invocation of that script right before
+running the Playwright tests.  I'll leave it to you to name the step however
+you want.  A few tips:
 
 * Invoke the script with "sh wait-for-webserver.sh" rather than
   "./wait-for-webserver.sh".  The latter requires the file to have execute
@@ -1354,7 +1356,7 @@ script waiting for the web server to start up:
 Only when the web server responds with a page does the script return and
 allow the workflow to continue on to Playwright testing:
 
-<img alt="Waiting for web server to start" src=img/wait_for_webserver_2.png>
+<img alt="Web server is up and the workflow continues" src=img/wait_for_webserver_2.png>
 
 Just like for Part 1, the Docker CI workflow stores Playwright test results as
 an artifact visible at the bottom of the Summary page for a workflow run:
@@ -1483,7 +1485,7 @@ Next, copy the "Install from the command line" text from your GitHub package
 page, which was in my case:
 
 ```
-docker pull ghcr.io/cs1632-fall2026/exercise-8-dockers-wonsunahn:v1.2
+docker pull ghcr.io/cs1632-fall2026/cs-1632-fall-2026-exercise-8-dockers-wonsunahn:v1.2
 ```
 
 Note that Docker image names must be all lowercase, even though the GitHub
@@ -1604,7 +1606,7 @@ https://github.com/CS1632-Fall2026/{your repository name}/
 For example, mine would be:
 
 ```
-https://github.com/CS1632-Fall2026/exercise-8-dockers-wonsunahn/
+https://github.com/CS1632-Fall2026/cs-1632-fall-2026-exercise-8-dockers-wonsunahn/
 ```
 
 Make sure you commit and push github_url.txt to your repository before
