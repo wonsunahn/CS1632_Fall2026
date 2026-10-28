@@ -891,17 +891,22 @@ package, you only need "read:packages" permissions really, but we will use this
 token in Part 2 for other purposes too.  If you forgot the PAT string, you will
 have to generate the token by clicking on "Regenerate Token" button.
 
-After this you are ready to deploy the Maven package on a Maven project.  Let's
-try doing this on the Exercise 2 project from which we copied the RentACat
-source code.  Open your Exercise 2 project on VSCode, and then copy the
-dependency text suggested on the package page of our published package and
-paste it within the \<dependencies\> section.  Now, try deleting all the
-implementation code under the src/main/java/edu/pitt/cs folder.  You should not
-get any compilation errors since now all those classes are supplied by your
-package.  Then try clicking on the VSCode Testing extension and running all the
-tests.  All of them should pass!  Now, please do not commit the code since you
-probably still want your Exercise 2 source code.  You can discard the changes
-after you are satisfied.
+After this you are ready to deploy the Maven package on a Maven project.
+Let's try doing this on the Exercise 2 project from which we copied the
+RentACat source code.  Open your Exercise 2 project on VSCode, and then copy
+the dependency text suggested on the package page of our published package and
+paste it at the beginning of the \<dependencies\> section, so that the classes
+from your package take precedence.  Now, try deleting all the implementation
+code under the src/main/java/edu/pitt/cs folder.  You should not get any
+compilation errors since now all those classes are supplied by your package.
+Then try clicking on the VSCode Testing extension and running all the tests.
+This time, most of your tests will fail!  That is expected: the package you
+published was built from the scaffolding code in your Part 1 repository, where
+RentACatImpl and CatImpl are not implemented yet and the MOCK cases in Cat and
+RentACat return null.  The failures are in fact proof that the classes are now
+coming from your package rather than from your own Exercise 2 source code.
+Now, please do not commit the code since you probably still want your
+Exercise 2 source code.  You can discard the changes after you are satisfied.
 
 ### Submission
 
