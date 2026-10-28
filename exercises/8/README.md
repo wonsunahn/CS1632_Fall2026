@@ -903,6 +903,24 @@ after you are satisfied.
 
 ### Submission
 
+Before you submit, add a file named github_url.txt at the root of your Part 1
+repository.  The file should contain a single line, which is the GitHub URL of
+the Classroom50 repository you are submitting.  The URL is formatted as
+follows:
+
+```
+https://github.com/CS1632-Fall2026/{your repository name}/
+```
+
+For example, mine would be:
+
+```
+https://github.com/CS1632-Fall2026/exercise-8-ci-cd-pipelines-wonsunahn/
+```
+
+Make sure you commit and push github_url.txt to your repository before
+submitting.
+
 When you are done, submit your repository to GradeScope at the
 **Exercise 8 Part 1** link.  Once you submit, GradeScope will run the
 autograder to grade you and give feedback.  If you get deductions, fix your
@@ -1573,6 +1591,24 @@ compiled from source, a single image pull can replace a long list of slow and
 fragile installation steps.
 
 ### Submission
+
+Before you submit, add a file named github_url.txt at the root of your Part 2
+repository.  The file should contain a single line, which is the GitHub URL of
+the Classroom50 repository you are submitting.  The URL is formatted as
+follows:
+
+```
+https://github.com/CS1632-Fall2026/{your repository name}/
+```
+
+For example, mine would be:
+
+```
+https://github.com/CS1632-Fall2026/exercise-8-dockers-wonsunahn/
+```
+
+Make sure you commit and push github_url.txt to your repository before
+submitting.
 
 When you are done, submit your repository to GradeScope at the
 **Exercise 8 Part 2** link.  Once you submit, GradeScope will run the
