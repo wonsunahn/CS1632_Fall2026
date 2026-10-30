@@ -13,6 +13,7 @@
   * [A Bug JPF Cannot See](#a-bug-jpf-cannot-see)
 - [Task 3: Apply JPF on JUnit to Unit Test DrunkCarnivalShooter](#task-3-apply-jpf-on-junit-to-unit-test-drunkcarnivalshooter)
   * [Lessons on Model Checking](#lessons-on-model-checking)
+- [Task 4: Draw State Machines for the Model Checking Examples](#task-4-draw-state-machines-for-the-model-checking-examples)
 - [Resources](#resources)
 
 # Introduction
@@ -1053,6 +1054,35 @@ explosion.  Also, the guarantee of correctness depends heavily on how much of
 the program specification you have encoded into your testing in the form of
 assertions.  If there are no assertions, JPF can only check basic things
 such as no exceptions.
+
+# Task 4: Draw State Machines for the Model Checking Examples
+
+Try drawing the state machines for the examples shown in
+[ModelChecking.pdf](ModelChecking.pdf).
+The Java source files for the slide examples are in
+`src/main/java/edu/pitt/cs/`:
+`ModelChecking_Slide3.java`, `ModelChecking_Slide5.java`,
+`ModelChecking_Slide7.java`, and `ModelChecking_Slide9.java`.
+
+First, compile the examples from the `jpf_example` project directory:
+
+```
+mvn compile
+```
+
+Then change to the `jpf-core` directory. Run the matching JPF configuration
+for each example to explore its states and print the execution log:
+
+| Slide | Windows Command Prompt | macOS/Linux |
+|---|---|---|
+| 3 | `.\runApp.bat ModelChecking_Slide3.jpf` | `bash runApp.sh ModelChecking_Slide3.jpf` |
+| 5 | `.\runApp.bat ModelChecking_Slide5.jpf` | `bash runApp.sh ModelChecking_Slide5.jpf` |
+| 7 | `.\runApp.bat ModelChecking_Slide7.jpf` | `bash runApp.sh ModelChecking_Slide7.jpf` |
+| 9 | `.\runApp.bat ModelChecking_Slide9.jpf` | `bash runApp.sh ModelChecking_Slide9.jpf` |
+
+The JPF configurations enable `ExecTracker`, which prints the search log to
+the terminal. Compare the log with your state-machine drawing to see the
+states and transitions JPF explores.
 
 # Resources
 

@@ -1,0 +1,47 @@
+target = edu.pitt.cs.ModelChecking_Slide7
+
+# Don't stop at the first error.  Report all errors.
+search.multiple_errors = true
+
+# Properties checked on every state.  Only uncaught exceptions are enabled here.
+search.properties = gov.nasa.jpf.vm.NoUncaughtExceptionsProperty
+
+# On each error, print the violated property and the trace of how JPF got there.
+# report.console.property_violation=error,trace
+report.console.property_violation=error
+
+# Log the whole search: each step forward, backtrack, and choice JPF makes.
+listener+=,gov.nasa.jpf.listener.ExecTracker
+# Various ExecTracker settings: print bytecode instructions, print Java source code, show shared variables, respectively.
+et.print_insn = false
+et.print_src = true
+et.show_shared = false
+
+# Other checks you can enable (remove the leading # on the setting line):
+
+# Java assert statements: off by default, as in the JVM; this turns them on in all classes.
+# vm.enable_assertions = *
+
+# Deadlock: all threads are blocked.
+# search.properties+=,gov.nasa.jpf.vm.NotDeadlockedProperty
+
+# Data race: unsynchronized conflicting field accesses; arrays need cg.threads.break_arrays=true.
+# listener+=,gov.nasa.jpf.listener.PreciseRaceDetector
+
+# Assertion failure: an AssertionError is thrown, even if the program catches it.
+# listener+=,gov.nasa.jpf.listener.AssertionProperty
+
+# Endless loop: a loop keeps repeating without changing program state.
+# listener+=,gov.nasa.jpf.listener.EndlessLoopDetector
+
+# State cycle: search revisits a state on its path (possible hang); needs DFSearch.
+# listener+=,gov.nasa.jpf.listener.NoStateCycles
+
+# Value range: a field or local variable leaves a range set with range.* settings.
+# listener+=,gov.nasa.jpf.listener.NumericValueChecker
+
+# Heap limit: heap exceeds heap.size_limit bytes or heap.live_limit live objects.
+# listener+=,gov.nasa.jpf.listener.HeapTracker
+
+# Output check: program output violates an output spec set with pom.* settings.
+# listener+=,gov.nasa.jpf.listener.PathOutputMonitor
