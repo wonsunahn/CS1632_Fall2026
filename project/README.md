@@ -971,8 +971,12 @@ project's checks on every push, like the Maven CI workflow in Exercise 8.
    pull request from it.  In EXTRA_CREDIT.md, link to a failed run for each
    kind of check and to a successful run on the main branch.
 
-1. Enable Dependabot version updates for the Maven dependencies, as in
-   Exercise 8.
+1. Enable Dependabot version updates for the Maven dependencies, as in Exercise
+   8, after making sure your main branch passes all checks. Merge the pull
+requests that Dependabot opens, but before you do so make sure all the CI tests
+pass --- if they don't, don't merge the pull request because it will break your
+build! For the pull requests where the CI tests failed, list each in
+EXTRA_CREDIT.md with the reason why they failed.
 
 ## Stochastic Testing (Exercise 9)
 
