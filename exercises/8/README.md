@@ -389,14 +389,15 @@ the previous checkout action?
 ```
 
 Besides, weren't we able to successfully run "mvn test" because there was a
-pom.xml file present?  The answer is again, you need to remember that these
-are two different jobs which run on different Runners (separate virtual
-machines).  The "update_dependence_graph" job starts on a fresh Runner created
-from the ubuntu-latest runner image, and hence will not have the pom.xml file.
-One way to solve this issue is to checkout the repository again within this
-job as well, and that is a perfectly valid solution.  An alternative solution
-is to pass on the checked out repository via shared storage between jobs
-called GitHub Caches.
+pom.xml file present?  The answer is again, you need to remember that these are
+two different jobs which run on different Runners (separate virtual machines).
+The "update_dependence_graph" job starts on a fresh Runner created from the
+ubuntu-latest runner image, and hence will not have the pom.xml file.  One way
+to solve this issue is to checkout the repository again within this job as
+well, and that would work. But in this exercise, we are going to pass on the
+checked out repository from the "maven_test" job via shared storage between
+jobs called GitHub Caches, since it teaches us how jobs can communicate with
+each other. 
 
 #### GitHub Caches
 
