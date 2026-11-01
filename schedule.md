@@ -145,7 +145,9 @@ AFIST = [_A Friendly Introduction to Software Testing_](software-quality-assuran
 
 * Assignment due on Monday before class: [Exercise 10: Linters and Bug Finders](exercises/8)
 
-* November 30, 9:30 AM @ SENSQ 5129: TBA
+* November 30, 9:30 AM @ SENSQ 5129: Marinus Analytics (https://www.marinusanalytics.com/) lecture
+  * Speaker: Olivia Lazarchick, Software Engineer, [LinkedIn](https://www.linkedin.com/in/olazarchick/)
+  * Speaker: William "Rocky" Oberti, Software Engineer, [LinkedIn](https://www.linkedin.com/in/williamn-oberti/)
 
 * November 30, 3:00 PM @ SENSQ 6110: [Aerotech](https://www.aerotech.com/) lecture
   * Speaker: Nate Homitsky, Vice President of Information [LinkedIn](https://www.linkedin.com/in/nate-homitsky-6912a5a3/)
