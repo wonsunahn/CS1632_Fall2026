@@ -526,6 +526,17 @@ failing?  Let's take a peek inside the job:
 As you can see, this time the cache is successfully restored so that isn't
 the problem.  
 
+Before we move on, a word about common practice.  We used a cache here because
+it teaches us how jobs can communicate with each other, but caches are mainly
+meant for speeding up dependency downloads across workflow runs (like the
+setup-java cache that we saw earlier).  GitHub may evict cache entries when a
+repository runs out of cache space, so a job should never depend on a cache
+entry being there.  In practice, to share the source code between jobs, you
+would usually just check out the repository again in each job, which is fast
+since actions/checkout fetches only the latest commit by default.  And to pass
+files produced by one job (such as build outputs) to another job, you would
+use the upload-artifact and download-artifact actions instead.
+
 #### Job Permissions
 
 The issue is actually with resource accessibility:
