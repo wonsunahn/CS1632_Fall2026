@@ -264,15 +264,17 @@ jobs:
         distribution: 'zulu'
         cache: maven
 
+    # "test" runs the JUnit tests while measuring Jacoco coverage, and "site"
+    # then generates a project website with the reports configured in pom.xml
     - name: Test with Maven
-      run: mvn test
+      run: mvn test site
 
     # https://github.com/marketplace/actions/upload-a-build-artifact
-    - name: Upload jacoco results as artifact
+    - name: Upload test report as artifact
       uses: actions/upload-artifact@v6
       with:
-        name: Jacoco coverage results
-        path: target/site/jacoco
+        name: Test report
+        path: target/site
 
   # Uploads dependency graph to GitHub to receive Dependabot alerts 
   update_dependence_graph:
@@ -326,31 +328,37 @@ Now let's click on the failed run link and see exactly which job(s) failed:
 
 <img alt="Maven CI workflow first run" src=img/maven_ci_workflow_6.png>
 
-You can see that the "maven_test" job passed, but the "update_dependence_graph"
-job failed.  We will get to that job soon, but we should be able to view the
-results of the maven_test job since it passed.  So what are the results?  By
-default jobs do not publish any results beyond the green check mark that
-indicates that the job passed.  So what does it mean for a job to have passed?
-It means that every step in the job completed successfully including the "mvn
-test" step.  If "mvn test" suffered a failure, it would have returned a
-non-zero [exit code](https://en.wikipedia.org/wiki/Exit_status) (like all Linux
-processes do), which is detected by the workflow.  So you can be confident that
-all your JUnit tests passed.
+You can see that the "maven_test" job passed, but the
+"update_dependence_graph" job failed.  We will get to that job soon, but we
+should be able to view the results of the maven_test job since it passed.  So
+what are the results?  By default jobs do not publish any results beyond the
+green check mark that indicates that the job passed.  So what does it mean for
+a job to have passed?  It means that every step in the job completed
+successfully including the "Test with Maven" step.  If any of the JUnit tests
+in that step had failed, Maven would have returned a non-zero
+[exit code](https://en.wikipedia.org/wiki/Exit_status) (like all Linux
+processes do), which is detected by the workflow.  So you can be confident
+that all your JUnit tests passed.
 
-If a job wants to publish results beyond the green check mark, then it needs to
-create what is called an **artifact**.  You can see in the above maven-ci.yml
-file that the job has a step to create an artifact out of the
-"target/site/jacoco" path that contains Jacoco code coverage analysis results.
-The artifact is available at the bottom of the workflow Summary page you are on
-if you scroll down:
+If a job wants to publish results beyond the green check mark, then it needs
+to create what is called an **artifact**.  You can see in the above
+maven-ci.yml file that the job has a step to create an artifact out of the
+"target/site" path, which contains the project website that "mvn site"
+generated from the reports configured in the \<reporting\> section of pom.xml.
+The website includes the JUnit unit test results (the Surefire report), the
+Jacoco code coverage results (under the jacoco/ folder), and the Javadoc
+documentation of the source code (under the apidocs/ folder).  The artifact is
+available at the bottom of the workflow Summary page you are on if you scroll
+down:
 
 <img alt="Maven CI workflow artifact" src=img/maven_ci_artifact.png>
 
-Click on the "Jacoco coverage results" link and that would download a zip file
-that contains the artifact.  See if you can decompress it and view the code
-coverage results.  Don't be surprised if you see zero coverage because this is
-just the scaffolding code from Exercise 2.  If you replace it with real tests,
-you will see actual coverage.
+Click on the "Test report" link and that would download a zip file
+that contains the artifact.  See if you can decompress it, open index.html in
+your web browser, and follow the links to the JUnit test results, the Jacoco
+coverage results, and the Javadoc documentation.  Don't be surprised if you
+see zero coverage because this is just the scaffolding code from Exercise 2.
+If you replace it with real tests, you will see actual coverage.
 
 ### Debug Maven CI Workflow update_dependence_graph job
 
@@ -535,7 +543,9 @@ entry being there.  In practice, to share the source code between jobs, you
 would usually just check out the repository again in each job, which is fast
 since actions/checkout fetches only the latest commit by default.  And to pass
 files produced by one job (such as build outputs) to another job, you would
-use the upload-artifact and download-artifact actions instead.
+use the upload-artifact and download-artifact actions instead.  For this
+exercise, though, please keep using the cache, since that is what we are
+practicing here.
 
 #### Job Permissions
 
@@ -1592,13 +1602,13 @@ jobs:
     # Note there is no "Set up JDK 11" step: the image already comes with
     # Temurin JDK 11 and Maven preinstalled.
     - name: Test with Maven
-      run: mvn -B test
+      run: mvn -B test site
 
-    - name: Upload jacoco results as artifact
+    - name: Upload test report as artifact
       uses: actions/upload-artifact@v6
       with:
-        name: Jacoco coverage results (container)
-        path: target/site/jacoco
+        name: Test report (container)
+        path: target/site
 ```
 
 Commit and push, and both the original Maven CI workflow and the new Maven CI
