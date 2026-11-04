@@ -1185,21 +1185,18 @@ docker compose down
 ```
 
 You may also go to the "Images" menu and delete the image if you wish to do
-so.  As long as the image is still there, you can relaunch the container
-using the "Run" button, but when you do, make sure that you open the
-"Optional Settings" and enter the port mapping 8080 on Local Host:
-
-<img alt="Port mapping to 8080" src=img/docker_3.png>
+so.  If you do, "docker compose up" will simply build it again the next time
+you invoke it.
 
 ### Import Playwright Tests
 
-If you have stopped the container, fire up the container again because we are
-going to write some tests for it.  We want to add some actual Playwright tests
-that test the web app.  Well, we already wrote those tests for Exercise 4, so
-let's just import rentacat.spec.ts from your Exercise 4 repository into
-tests/rentacat.spec.ts.  Also copy over the tests/rentacat.spec.ts-snapshots/
-folder from that repository, which contains the baseline screenshots for the
-screenshot test.
+If you have stopped the container, fire up the container again using
+"docker compose up" because we are going to write some tests for it.  We want
+to add some actual Playwright tests that test the web app.  Well, we already
+wrote those tests for Exercise 4, so let's just import rentacat.spec.ts from
+your Exercise 4 repository into tests/rentacat.spec.ts.  Also copy over the
+tests/rentacat.spec.ts-snapshots/ folder from that repository, which contains
+the baseline screenshots for the screenshot test.
 
 You need to do these two things though in rentacat.spec.ts:
 
@@ -1532,9 +1529,24 @@ image created:
 <img alt="Published Docker image pulled" src=img/docker_4.png>
 
 Try removing the container you created from your locally built image (if you
-haven't already), and then run the published image (taking care that you map
-port 8080 in "Optional Settings").  Now if you load http://localhost:8080/ on
-your browser, it should work as expected.
+haven't already) using "docker compose down", so that port 8080 is free.  This
+time, there is no docker-compose.yaml to launch a container for you, so you
+need to launch one from the published image yourself.  Go to the "Images"
+menu and click on the "Run" button for the published image.  When you do, make
+sure that you open the "Optional Settings" and enter the port mapping 8080 on
+Local Host.  Otherwise, the web server inside the container will not be
+reachable from your machine:
+
+<img alt="Port mapping to 8080" src=img/docker_3.png>
+
+Alternatively, you can do the same on the command line:
+
+```
+docker run -p 8080:8080 ghcr.io/cs1632-fall2026/cs-1632-fall-2026-exercise-8-dockers-wonsunahn:v1.2
+```
+
+Now if you load http://localhost:8080/ on your browser, it should work as
+expected.
 
 ### (Optional) Run Maven CI inside a Container
 
