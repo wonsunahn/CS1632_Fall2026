@@ -70,8 +70,8 @@ part of a CI/CD pipeline.  Docker containers are lightweight, isolated
 execution environments which can reproduce the execution environments in the
 deployment sites (OS userland, libraries, webservers, databases, etc.) so that
 software can be tested in situ.  In our case, we will create a docker image
-out of the [Rent-A-Cat website](https://cs1632.appspot.com/) that we tested
-for Deliverable 3 for testing and deployment.
+out of the [Rent-A-Cat website](https://cs1632.appspot.com/) that we tested in
+Exercise 4, and use it for testing and deployment.
 
 ## Part 1: CI/CD Pipelines
 
@@ -954,9 +954,9 @@ deductions.
 
 ## Part 2: Dockers
 
-In Part 2, we will use Docker to test and deploy the Rent-A-Cat website that we
-tested in Deliverable 3.  We will test the website using the Playwright tests
-that you wrote for the assignment.
+In Part 2, we will use Docker to test and deploy the Rent-A-Cat website that
+we tested in Exercise 4.  We will test the website using the Playwright tests
+that you wrote for that exercise.
 
 Docker runs software in a self-contained virtualized environment called
 containers.  A container is launched from a Docker image, which is a binary
@@ -986,13 +986,19 @@ accept this exercise and create your repository.
 As in Part 1, you will see a warning that the repository will be public.
 Please ignore the warning and keep the repository public, for the same reason.
 
+You will notice that your repository already comes with a CodeQL workflow
+(.github/workflows/codeql.yml) that runs on every push, along with a custom
+query for detecting Cross-Site Scripting (XSS) vulnerabilities.  We will talk
+about this workflow when we discuss XSS in the security testing lecture, so you
+can ignore it for now, including any code scanning alerts that it reports.
+
 ### Prerequisites
 
 1. Download and install Docker Desktop to be able to launch Docker containers:
    https://www.docker.com/products/docker-desktop/
 
 1. Make sure you have Node.js, a JDK, and Maven installed on your machine (you
-   should already have them from Exercise 2 and Deliverable 3).
+   should already have them from Exercise 2 and Exercise 4).
 
 1. Install the Playwright Test package as a dev dependency in the Node.js
    project:
@@ -1187,11 +1193,13 @@ using the "Run" button, but when you do, make sure that you open the
 
 ### Import Playwright Tests
 
-If you have stopped the container, fire up the container again because we
-are going to write some tests for it.  We want to add some actual Playwright
-tests that test the web app.  Well, we already wrote those tests for
-Deliverable 3, so let's just import rentacat.spec.ts from that project into
-tests/rentacat.spec.ts.
+If you have stopped the container, fire up the container again because we are
+going to write some tests for it.  We want to add some actual Playwright tests
+that test the web app.  Well, we already wrote those tests for Exercise 4, so
+let's just import rentacat.spec.ts from your Exercise 4 repository into
+tests/rentacat.spec.ts.  Also copy over the tests/rentacat.spec.ts-snapshots/
+folder from that repository, which contains the baseline screenshots for the
+screenshot test.
 
 You need to do these two things though in rentacat.spec.ts:
 
@@ -1363,10 +1371,6 @@ you want.  A few tips:
   "./wait-for-webserver.sh".  The latter requires the file to have execute
   permission in Git, which is often lost when the file is committed from
   Windows.
-
-* Make sure the file has Unix (LF) line endings.  A shell script saved with
-  Windows (CRLF) line endings will fail on the Runner with strange errors.
-  Adding the line "*.sh text eol=lf" to your .gitattributes file prevents this.
 
 * Consider adding "timeout-minutes: 5" to the step.  If the web server never
   comes up for some reason, the script would otherwise loop until GitHub
