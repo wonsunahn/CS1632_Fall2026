@@ -70,8 +70,8 @@ part of a CI/CD pipeline.  Docker containers are lightweight, isolated
 execution environments which can reproduce the execution environments in the
 deployment sites (OS userland, libraries, webservers, databases, etc.) so that
 software can be tested in situ.  In our case, we will create a docker image
-out of the [Rent-A-Cat website](https://cs1632.appspot.com/) that we tested
-for Deliverable 3 for testing and deployment.
+out of the [Rent-A-Cat website](https://cs1632.appspot.com/) that we tested in
+Exercise 4, and use it for testing and deployment.
 
 ## Part 1: CI/CD Pipelines
 
@@ -264,15 +264,17 @@ jobs:
         distribution: 'zulu'
         cache: maven
 
+    # "test" runs the JUnit tests while measuring Jacoco coverage, and "site"
+    # then generates a project website with the reports configured in pom.xml
     - name: Test with Maven
-      run: mvn test
+      run: mvn test site
 
     # https://github.com/marketplace/actions/upload-a-build-artifact
-    - name: Upload jacoco results as artifact
+    - name: Upload test report as artifact
       uses: actions/upload-artifact@v6
       with:
-        name: Jacoco coverage results
-        path: target/site/jacoco
+        name: Test report
+        path: target/site
 
   # Uploads dependency graph to GitHub to receive Dependabot alerts 
   update_dependence_graph:
@@ -326,31 +328,37 @@ Now let's click on the failed run link and see exactly which job(s) failed:
 
 <img alt="Maven CI workflow first run" src=img/maven_ci_workflow_6.png>
 
-You can see that the "maven_test" job passed, but the "update_dependence_graph"
-job failed.  We will get to that job soon, but we should be able to view the
-results of the maven_test job since it passed.  So what are the results?  By
-default jobs do not publish any results beyond the green check mark that
-indicates that the job passed.  So what does it mean for a job to have passed?
-It means that every step in the job completed successfully including the "mvn
-test" step.  If "mvn test" suffered a failure, it would have returned a
-non-zero [exit code](https://en.wikipedia.org/wiki/Exit_status) (like all Linux
-processes do), which is detected by the workflow.  So you can be confident that
-all your JUnit tests passed.
+You can see that the "maven_test" job passed, but the
+"update_dependence_graph" job failed.  We will get to that job soon, but we
+should be able to view the results of the maven_test job since it passed.  So
+what are the results?  By default jobs do not publish any results beyond the
+green check mark that indicates that the job passed.  So what does it mean for
+a job to have passed?  It means that every step in the job completed
+successfully including the "Test with Maven" step.  If any of the JUnit tests
+in that step had failed, Maven would have returned a non-zero
+[exit code](https://en.wikipedia.org/wiki/Exit_status) (like all Linux
+processes do), which is detected by the workflow.  So you can be confident
+that all your JUnit tests passed.
 
-If a job wants to publish results beyond the green check mark, then it needs to
-create what is called an **artifact**.  You can see in the above maven-ci.yml
-file that the job has a step to create an artifact out of the
-"target/site/jacoco" path that contains Jacoco code coverage analysis results.
-The artifact is available at the bottom of the workflow Summary page you are on
-if you scroll down:
+If a job wants to publish results beyond the green check mark, then it needs
+to create what is called an **artifact**.  You can see in the above
+maven-ci.yml file that the job has a step to create an artifact out of the
+"target/site" path, which contains the project website that "mvn site"
+generated from the reports configured in the \<reporting\> section of pom.xml.
+The website includes the JUnit unit test results (the Surefire report), the
+Jacoco code coverage results (under the jacoco/ folder), and the Javadoc
+documentation of the source code (under the apidocs/ folder).  The artifact is
+available at the bottom of the workflow Summary page you are on if you scroll
+down:
 
 <img alt="Maven CI workflow artifact" src=img/maven_ci_artifact.png>
 
-Click on the "Jacoco coverage results" link and that would download a zip file
-that contains the artifact.  See if you can decompress it and view the code
-coverage results.  Don't be surprised if you see zero coverage because this is
-just the scaffolding code from Exercise 2.  If you replace it with real tests,
-you will see actual coverage.
+Click on the "Test report" link and that would download a zip file
+that contains the artifact.  See if you can decompress it, open index.html in
+your web browser, and follow the links to the JUnit test results, the Jacoco
+coverage results, and the Javadoc documentation.  Don't be surprised if you
+see zero coverage because this is just the scaffolding code from Exercise 2.
+If you replace it with real tests, you will see actual coverage.
 
 ### Debug Maven CI Workflow update_dependence_graph job
 
@@ -389,14 +397,15 @@ the previous checkout action?
 ```
 
 Besides, weren't we able to successfully run "mvn test" because there was a
-pom.xml file present?  The answer is again, you need to remember that these
-are two different jobs which run on different Runners (separate virtual
-machines).  The "update_dependence_graph" job starts on a fresh Runner created
-from the ubuntu-latest runner image, and hence will not have the pom.xml file.
-One way to solve this issue is to checkout the repository again within this
-job as well, and that is a perfectly valid solution.  An alternative solution
-is to pass on the checked out repository via shared storage between jobs
-called GitHub Caches.
+pom.xml file present?  The answer is again, you need to remember that these are
+two different jobs which run on different Runners (separate virtual machines).
+The "update_dependence_graph" job starts on a fresh Runner created from the
+ubuntu-latest runner image, and hence will not have the pom.xml file.  One way
+to solve this issue is to checkout the repository again within this job as
+well, and that would work. But in this exercise, we are going to pass on the
+checked out repository from the "maven_test" job via shared storage between
+jobs called GitHub Caches, since it teaches us how jobs can communicate with
+each other. 
 
 #### GitHub Caches
 
@@ -524,6 +533,19 @@ failing?  Let's take a peek inside the job:
 
 As you can see, this time the cache is successfully restored so that isn't
 the problem.  
+
+Before we move on, a word about common practice.  We used a cache here because
+it teaches us how jobs can communicate with each other, but caches are mainly
+meant for speeding up dependency downloads across workflow runs (like the
+setup-java cache that we saw earlier).  GitHub may evict cache entries when a
+repository runs out of cache space, so a job should never depend on a cache
+entry being there.  In practice, to share the source code between jobs, you
+would usually just check out the repository again in each job, which is fast
+since actions/checkout fetches only the latest commit by default.  And to pass
+files produced by one job (such as build outputs) to another job, you would
+use the upload-artifact and download-artifact actions instead.  For this
+exercise, though, please keep using the cache, since that is what we are
+practicing here.
 
 #### Job Permissions
 
@@ -942,9 +964,9 @@ deductions.
 
 ## Part 2: Dockers
 
-In Part 2, we will use Docker to test and deploy the Rent-A-Cat website that we
-tested in Deliverable 3.  We will test the website using the Playwright tests
-that you wrote for the assignment.
+In Part 2, we will use Docker to test and deploy the Rent-A-Cat website that
+we tested in Exercise 4.  We will test the website using the Playwright tests
+that you wrote for that exercise.
 
 Docker runs software in a self-contained virtualized environment called
 containers.  A container is launched from a Docker image, which is a binary
@@ -974,13 +996,19 @@ accept this exercise and create your repository.
 As in Part 1, you will see a warning that the repository will be public.
 Please ignore the warning and keep the repository public, for the same reason.
 
+You will notice that your repository already comes with a CodeQL workflow
+(.github/workflows/codeql.yml) that runs on every push, along with a custom
+query for detecting Cross-Site Scripting (XSS) vulnerabilities.  We will talk
+about this workflow when we discuss XSS in the security testing lecture, so you
+can ignore it for now, including any code scanning alerts that it reports.
+
 ### Prerequisites
 
 1. Download and install Docker Desktop to be able to launch Docker containers:
    https://www.docker.com/products/docker-desktop/
 
 1. Make sure you have Node.js, a JDK, and Maven installed on your machine (you
-   should already have them from Exercise 2 and Deliverable 3).
+   should already have them from Exercise 2 and Exercise 4).
 
 1. Install the Playwright Test package as a dev dependency in the Node.js
    project:
@@ -1167,19 +1195,18 @@ docker compose down
 ```
 
 You may also go to the "Images" menu and delete the image if you wish to do
-so.  As long as the image is still there, you can relaunch the container
-using the "Run" button, but when you do, make sure that you open the
-"Optional Settings" and enter the port mapping 8080 on Local Host:
-
-<img alt="Port mapping to 8080" src=img/docker_3.png>
+so.  If you do, "docker compose up" will simply build it again the next time
+you invoke it.
 
 ### Import Playwright Tests
 
-If you have stopped the container, fire up the container again because we
-are going to write some tests for it.  We want to add some actual Playwright
-tests that test the web app.  Well, we already wrote those tests for
-Deliverable 3, so let's just import rentacat.spec.ts from that project into
-tests/rentacat.spec.ts.
+If you have stopped the container, fire up the container again using
+"docker compose up" because we are going to write some tests for it.  We want
+to add some actual Playwright tests that test the web app.  Well, we already
+wrote those tests for Exercise 4, so let's just import rentacat.spec.ts from
+your Exercise 4 repository into tests/rentacat.spec.ts.  Also copy over the
+tests/rentacat.spec.ts-snapshots/ folder from that repository, which contains
+the baseline screenshots for the screenshot test.
 
 You need to do these two things though in rentacat.spec.ts:
 
@@ -1352,10 +1379,6 @@ you want.  A few tips:
   permission in Git, which is often lost when the file is committed from
   Windows.
 
-* Make sure the file has Unix (LF) line endings.  A shell script saved with
-  Windows (CRLF) line endings will fail on the Runner with strange errors.
-  Adding the line "*.sh text eol=lf" to your .gitattributes file prevents this.
-
 * Consider adding "timeout-minutes: 5" to the step.  If the web server never
   comes up for some reason, the script would otherwise loop until GitHub
   kills the job at its 6-hour limit.
@@ -1516,9 +1539,24 @@ image created:
 <img alt="Published Docker image pulled" src=img/docker_4.png>
 
 Try removing the container you created from your locally built image (if you
-haven't already), and then run the published image (taking care that you map
-port 8080 in "Optional Settings").  Now if you load http://localhost:8080/ on
-your browser, it should work as expected.
+haven't already) using "docker compose down", so that port 8080 is free.  This
+time, there is no docker-compose.yaml to launch a container for you, so you
+need to launch one from the published image yourself.  Go to the "Images"
+menu and click on the "Run" button for the published image.  When you do, make
+sure that you open the "Optional Settings" and enter the port mapping 8080 on
+Local Host.  Otherwise, the web server inside the container will not be
+reachable from your machine:
+
+<img alt="Port mapping to 8080" src=img/docker_3.png>
+
+Alternatively, you can do the same on the command line:
+
+```
+docker run -p 8080:8080 ghcr.io/cs1632-fall2026/cs-1632-fall-2026-exercise-8-dockers-wonsunahn:v1.2
+```
+
+Now if you load http://localhost:8080/ on your browser, it should work as
+expected.
 
 ### (Optional) Run Maven CI inside a Container
 
@@ -1564,13 +1602,13 @@ jobs:
     # Note there is no "Set up JDK 11" step: the image already comes with
     # Temurin JDK 11 and Maven preinstalled.
     - name: Test with Maven
-      run: mvn -B test
+      run: mvn -B test site
 
-    - name: Upload jacoco results as artifact
+    - name: Upload test report as artifact
       uses: actions/upload-artifact@v6
       with:
-        name: Jacoco coverage results (container)
-        path: target/site/jacoco
+        name: Test report (container)
+        path: target/site
 ```
 
 Commit and push, and both the original Maven CI workflow and the new Maven CI
