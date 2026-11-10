@@ -42,7 +42,7 @@ us to do property-based testing.
 
 IntegerOps.java - Methods to perform simple integer arithmetic such as add and subtract (**modify**).
 
-StringsOps.java - Methods to perform some String operations such as checking whether two strings are equal and checking a string is valid HTML (**modify**).
+StringOps.java - Methods to perform some String operations such as checking whether two strings are equal and checking a string is valid HTML (**modify**).
 
 IntegerOpsTest.java - A QuickCheck JUnit class that performs property-based testing on IntegerOps (**modify**).
 
@@ -77,7 +77,7 @@ Seeds for reproduction: [2477381542838746862]
 ...
 Results :
 
-(..)ed tests:   testIsValidHTMLTrue(edu.pitt.cs.StringOpsTest): Property named 'testIsValidHTMLTrue' failed:
+Failed tests:   testIsValidHTMLTrue(edu.pitt.cs.StringOpsTest): Property named 'testIsValidHTMLTrue' failed:
 
 Tests run: 4, Failures: 1, Errors: 0, Skipped: 0
 
@@ -125,8 +125,8 @@ gain higher coverage without you having to do anything!
 
 Now it's time to fill in the method.  Fill in the code according to the
 invariant property specified in the Javadoc comment above the method.  Now
-notice that the propery starts with the condition "If x >= 0 and y >= 0".
-You may be tempted to translate this to the Java statement "If (x >= 0 && y >= 0)"
+notice that the property starts with the condition "If x >= 0 and y >= 0".
+You may be tempted to translate this to the Java statement "if (x >= 0 && y >= 0)"
 in your test code, but having an if condition in test code is always
 a code smell.  It is a sign that you have not set up some precondition
 properly and that is why you are forced to check it during execution.  When
@@ -136,7 +136,7 @@ a precondition where the randomized inputs for x and y are always
 non-negative?  There is a QuickCheck annotation @InRange just for this
 purpose:
 
-https://pholser.github.io/junit-quickcheck/site/0.6/junit-quickcheck-generators/apidocs/com/pholser/junit/quickcheck/generator/InRange.html
+https://pholser.github.io/junit-quickcheck/site/0.9/usage/constraining.html
 
 You can apply it to the testAdd method as follows:
 
@@ -171,7 +171,7 @@ testAdd x='1117167476', y='2107858960'
 ...
 ```
 
-If you observe that all values for x and y should be non-negative, now you
+If you observe that all values for x and y are non-negative, now you
 are finally ready to fill in the // TODO with an assertion for that
 property.  If you wrote the assertion properly, you should get something
 similar to the following message when you run the test again (actual numbers
@@ -190,7 +190,7 @@ arguments found to also provoke a failure"?  That's telling you that among the
 defect was found.  From those values, QuickCheck progressively refined or
 "shrunk" them to the final values [1091099725, 1056406418].  QuickCheck always
 tries to "shrink" input values to the simplest or smallest values that still
-trigger the defect to make debugging easier.  Rather that just reporting
+trigger the defect to make debugging easier.  Rather than just reporting
 [1936803025, 1056406418], [1091099725, 1056406418] gives you more information.
 1091099725 + 1056406418 = 2147506143 which is just slightly bigger than
 Integer.MAX_VALUE = 2147483647.  So this strongly suggests the defect has
@@ -212,7 +212,7 @@ testAdd x='1089451701', y='1056406418'
 ...
 testAdd x='1090899926', y='1056406418'
 testAdd x='1091033125', y='1056406418'
-testAdd x='1091099725', y='1056406418'  <--- Smallest input while still triggering defect
+testAdd x='1091099725', y='1056406418'  <--- Smallest input QuickCheck found that still triggers defect
 testAdd x='0', y='1056406418'
 testAdd x='545549862', y='1056406418'
 testAdd x='818324793', y='1056406418'
@@ -226,23 +226,28 @@ search is implemented in a method named doShrink in the IntegralGenerator.java
 class in QuickCheck, which is in charge of shrinking a failing larger integer
 into a list of smaller integers to test on the provided testAdd method:
 
-https://github.com/pholser/junit-quickcheck/blob/master/generators/src/main/java/com/pholser/junit/quickcheck/generator/IntegralGenerator.java
+https://pholser.github.io/junit-quickcheck/site/0.9/junit-quickcheck-generators/jacoco/com.pholser.junit.quickcheck.generator/IntegralGenerator.java.html
 
 You will have a chance to implement your own doShrink method later to shrink
-String values later!
+String values!
 
 ## Task 2: Debug IntegerOps
 
 Now debug IntegerOps.add(int x, int y) so that the test passes.  All you have
-to do is: if you detect integer overflow (you add two positive numbers but you
-end up with a negative number), then return 0.
+to do is: if you detect integer overflow, then return 0.  Overflow can happen
+in two directions: adding two positive numbers can wrap around to a negative
+number, and adding two negative numbers can wrap around to a non-negative
+number.  The Javadoc requires returning 0 in both cases, even though testAdd
+only checks the first one, since its inputs are non-negative.
 
-Complete testSubstract in the same way and debug IntegerOps.subtract(int x, int
-y).
+Complete testSubtract and debug IntegerOps.subtract(int x, int y) in the same
+way, with one difference.  The precondition x >= y involves both parameters, so
+it cannot be expressed with @InRange, which constrains each parameter on its
+own.  Use assumeThat instead, as explained in the comment inside testSubtract.
 
 ### IntegerOpsTest Lessons
 
-These are the three things you should have learned through this example:
+These are the four things you should have learned through this example:
 
 1. A @Property QuickCheck test goes through many randomized trials during a
    single test run where each trial is provided with randomized input values.
@@ -252,7 +257,7 @@ These are the three things you should have learned through this example:
 
 1. A property check must be an invariant assertion that is true no matter what
    randomized input values are tested.  For example, things like: the addition
-of two positive integer should result in a positive integer.
+of two non-negative integers should result in a non-negative integer.
 
 1. When a @Property test fails, not only does QuickCheck provide you with the
    set of input values triggering the defect, but it also "shrinks" them to the
@@ -270,11 +275,13 @@ public void testEquals(String s1, String s2) {
 }
 ```
 
-Note that now the randomized input parameters **s1** and **s2** are now
-strings.  A string is a form of a byte stream, since each character in the
-string is represented as an ASCII code byte.  So you can consider this to be
-an example of **fuzz testing**, a type of stochastic testing that deals with
-byte streams.
+Note that the randomized input parameters **s1** and **s2** are now strings.
+A string is a form of a byte stream, since its characters are ultimately stored
+and transmitted as bytes.  (Not necessarily one byte per character: a Java char
+is a 16-bit UTF-16 code unit, and QuickCheck's default String generator
+produces arbitrary Unicode characters, not just ASCII.)  So you can consider
+this to be an example of **fuzz testing**, a type of stochastic testing that
+deals with byte streams.
 
 When you do fuzz testing, you need to be extra careful in choosing a good
 distribution of random values, in order to get good test coverage.  Your end
@@ -287,19 +294,19 @@ for a particular equivalence class, just like we did for testAdd.
 
 For byte streams, equivalence classes cannot be simply described using a
 "range" like numbers.  For byte streams, equivalence classes are things like
-a string with only alpha-decimal characters, a string in all-caps, a string
+a string with only alphanumeric characters, a string in all-caps, a string
 in proper XML format, etc.  These cannot be expressed using the @InRange
-annotation (in the current version, there are built-in generators for only
-[date and time
-formats](https://github.com/pholser/junit-quickcheck/tree/master/generators/src/main/java/com/pholser/junit/quickcheck/generator/java/time)).
+annotation, which only works on numbers and dates, by constraining each value
+to fall between a minimum and a maximum.
 So we need to create a specialized random value generator for each
 equivalence class.  Otherwise, there is fat chance that you will hit upon a
 properly formatted XML string by dumb luck!
 
 Going back to our testEquals test, fill in the test as before based on the
-Javadoc comments.  You will have to use an if condition in the test case,
-which is, yes, a code smell (we will talk more about it at the end of this
-section).  After filling in the test, you will notice that the test passes
+Javadoc comments.  The precondition "lengths of s1 and s2 differ" involves
+both parameters, so just like the x >= y precondition in testSubtract, you
+cannot express it with an annotation.  Use assumeThat for it (we will talk more
+about this at the end of this section).  After filling in the test, you will notice that the test passes
 (and it will pass no matter how many times you run it unless you are very
 lucky).  Does that mean StringOps is bug-free?  Absolutely not!  If you see
 StringOps.equals(String s1, String s2), you can see the two strings are
@@ -308,13 +315,13 @@ is shorter than the other, but the two strings are identical up to that
 point, equals will return true.  That cannot be correct behavior.
 
 Why wasn't the defect caught during the 1000 trials?  That is because the
-defect manifests only when s1 and s2 fit a certain pattern (one is a substring
+defect manifests only when s1 and s2 fit a certain pattern (one is a prefix
 of the other).  And given uniform distribution, it is very unlikely that s1 and
 s2 will show any resemblance whatsoever.  If you uncomment System.out.println
 and observe the strings passed, you will see what I mean.
 
 That means we have to generate a distribution more likely to uncover the
-defect.  Remember in Lecture 14, I stressed that stochastic testing requires a
+defect.  Remember in Lecture 16, I stressed that stochastic testing requires a
 lot of thinking about the distribution you generate in order to be effective?
 This is just such a case.  Modify the testEquals method declaration as such to
 use @From annotations:
@@ -360,7 +367,7 @@ With arguments: [, A]
 First arguments found to also provoke a failure: [AB, ABC]
 ```
 
-Inputs [AB, ABC] has been shrunk to [, A].  You can see how this is easier to
+Inputs [AB, ABC] have been shrunk to [, A].  You can see how this is easier to
 debug.  The progressive shrinking happens as before:
 
 ```
@@ -372,13 +379,16 @@ testEquals s1='', s2='A'
 testEquals s1='', s2=''
 ```
 
-Now let's go back to the code smell of having to put in an if statement for
-the condition "If lengths of s1 and s2 are different".  Ideally, we would
-like to generate exactly those strings where lengths differ so that we don't
-need that if statement.  Unfortunately, each input value is generated
-independently of other input values so there is no way around this problem
-in the current version of QuickCheck.  So we will have to live with the code
-smell in this case (sigh).
+Now let's go back to the precondition "lengths of s1 and s2 differ".
+assumeThat is better than an if statement, since it states the precondition
+explicitly, and QuickCheck does not count a trial that fails the assumption as
+a pass.  But just like an if statement, it does not generate useful inputs: it
+merely throws away the trials where the lengths happen to be equal.  Ideally,
+we would like to generate exactly those strings where lengths differ.  That is
+not possible with two separate String parameters, since QuickCheck generates
+each parameter independently of the others.  Instead, we would have to generate
+s1 and s2 together as a single object, using a custom generator that makes
+sure their lengths differ (see the StringOpsTest Lessons below).
 
 ## Task 4: Debug StringOps equals method
 
@@ -389,7 +399,7 @@ Fix equals() based on the feedback given by QuickCheck.
 Now it's time to look at the testIsValidHTMLTrue method:
 
 A uniform distribution will not give us valid HTML strings.  So we need a different
-generator just like before, namely the HTMLStringGenerator.
+generator just like before, namely the ValidHTMLStringGenerator.
 
 ```
 @Property(trials = 1000)
@@ -399,10 +409,10 @@ public void testIsValidHTMLTrue(@From(ValidHTMLStringGenerator.class) String s) 
 }
 ```
 
-ValidHtmlStringGenerator generates randomized HTML strings with matching
+ValidHTMLStringGenerator generates randomized HTML strings with matching
 **\<b\>...\</b\>** and **\<i\>...\</i\>** tags.  All strings passed by this generator are valid
 HTML so the invariant is that they all return true when
-StringOps.isValidHTML(s) is called.  ValidHtmlStringGenerator is another custom
+StringOps.isValidHTML(s) is called.  ValidHTMLStringGenerator is another custom
 generator that is able to rigorously test your program by generating random but
 only valid HTML strings.  If you run the above, you will immediately see a
 failure.  But the failed input is probably going to be too long for easy
@@ -433,24 +443,27 @@ Debug StringOps.isValidHTML based on the feedback so that now all tests pass.
 
 ### StringOpsTest Lessons
 
-These are the two things you should have learned through this example: 1.
-Sometimes a program functions meaningfully only for a certain pattern of
-inputs.  In these situations, going with the default uniform distribution of
-inputs will lead to horrible test coverage.  1. QuickCheck allows you to create
-your own generator by inheriting from existing generators and overriding some
-methods.  This allows you to customize your own distribution.  In this example,
-we only practiced generating integers and Strings but there is nothing
-preventing you from generating objects.  For example, in the above
-StringOpsTest.testEquals(String s1, String s2) method, we could have generated
-the two strings s1 and s2 as part of the same object such that we correlate s1
-and s2 in some way rather than generating them separately.  You will have a
-chance to generate objects in the QuickCheck exercise.
+These are the two things you should have learned through this example:
+
+1. Sometimes a program functions meaningfully only for a certain pattern of
+   inputs.  In these situations, going with the default uniform distribution of
+   inputs will lead to horrible test coverage.
+
+1. QuickCheck allows you to create your own generator by extending its
+   Generator class and overriding some methods.  This allows you to customize
+   your own distribution.  In this example, we only practiced generating
+   integers and Strings but there is nothing preventing you from generating
+   objects.  For example, in the above StringOpsTest.testEquals(String s1,
+   String s2) method, we could have generated the two strings s1 and s2 as part
+   of the same object such that we correlate s1 and s2 in some way rather than
+   generating them separately.  You will have a chance to generate objects in
+   the QuickCheck exercise.
 
 # Resources
 
 * Constraining generated values using @InRange and other annotations:  
-https://pholser.github.io/junit-quickcheck/site/1.0/usage/constraining.html#
+https://pholser.github.io/junit-quickcheck/site/0.9/usage/constraining.html
 
 * Generating complex values such as strings:  
-https://pholser.github.io/junit-quickcheck/site/1.0/usage/complex-types.html
+https://pholser.github.io/junit-quickcheck/site/0.9.1/usage/complex-types.html
 
