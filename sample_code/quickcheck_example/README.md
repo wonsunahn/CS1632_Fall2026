@@ -17,8 +17,8 @@
 
 ## Description
 
-For this exercise, you will practice a software testing technique called
-property-based testing.  Please review Lecture 14: Property-based Testing
+In this example, you will practice a software testing technique called
+property-based testing.  Please review Lecture 16: Property-based Testing
 before starting on this exercise.  Property-based testing is a type of dynamic
 testing but differs from your regular unit testing in that it tests properties
 rather than individual values to check behavior.  Instead of saying: "for this
@@ -33,18 +33,7 @@ some random inputs and test them against our property!  This type of testing
 is called stochastic testing, or random testing.  Stochastic testing relies
 on property-based tests to check postconditions for a broad range of inputs.  
 
-But stochastic testing is not the only place where property-based testing is
-used.  Property-based testing is also used in the form of invariant assertions
-embedded in source code that do sanity checks during operation.  These
-assertions are often left on when the software is deployed on the client site
-so that the program will shutdown rather than perform some irrecoverable
-disastrous action when a sanity check fails.  These sanity checks have to be
-invariants because they need to pass for all inputs and all system
-configurations that are legal.  Property-based testing is also useful for model
-checking that does exhaustive program state space exploration that we will
-practice on Exercise 5.
-
-For this exercise, we are going to use a JUnit extension library called
+For our class, we are going to use a JUnit extension library called
 QuickCheck.  Existing JUnit annotations such as @Test, @Before, @After still
 apply as usual but we are going to learn about some new annotations that enable
 us to do property-based testing.
@@ -240,7 +229,7 @@ into a list of smaller integers to test on the provided testAdd method:
 https://github.com/pholser/junit-quickcheck/blob/master/generators/src/main/java/com/pholser/junit/quickcheck/generator/IntegralGenerator.java
 
 You will have a chance to implement your own doShrink method later to shrink
-String values later in the exercise!
+String values later!
 
 ## Task 2: Debug IntegerOps
 
@@ -253,7 +242,7 @@ y).
 
 ### IntegerOpsTest Lessons
 
-These are the three things you should have learned through this exercise:
+These are the three things you should have learned through this example:
 
 1. A @Property QuickCheck test goes through many randomized trials during a
    single test run where each trial is provided with randomized input values.
@@ -444,18 +433,18 @@ Debug StringOps.isValidHTML based on the feedback so that now all tests pass.
 
 ### StringOpsTest Lessons
 
-These are the two things you should have learned through this exercise:
-1. Sometimes a program functions meaningfully only for a certain pattern of
-   inputs.  In these situations, going with the default uniform distribution of
-inputs will lead to horrible test coverage.
-1. QuickCheck allows you to create your own generator by inheriting from
-   existing generators and overriding some methods.  This allows you to
-customize your own distribution.  In this exercise, we only practiced
-generating integers and Strings but there is nothing preventing you from
-generating objects.  For example, in the above StringOpsTest.testEquals(String
-s1, String s2) method, we could have generated the two strings s1 and s2 as
-part of the same object such that we correlate s1 and s2 in some way rather
-than generating them separately.
+These are the two things you should have learned through this example: 1.
+Sometimes a program functions meaningfully only for a certain pattern of
+inputs.  In these situations, going with the default uniform distribution of
+inputs will lead to horrible test coverage.  1. QuickCheck allows you to create
+your own generator by inheriting from existing generators and overriding some
+methods.  This allows you to customize your own distribution.  In this example,
+we only practiced generating integers and Strings but there is nothing
+preventing you from generating objects.  For example, in the above
+StringOpsTest.testEquals(String s1, String s2) method, we could have generated
+the two strings s1 and s2 as part of the same object such that we correlate s1
+and s2 in some way rather than generating them separately.  You will have a
+chance to generate objects in the QuickCheck exercise.
 
 # Resources
 
