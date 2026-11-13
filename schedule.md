@@ -122,7 +122,6 @@ AFIST = [_A Friendly Introduction to Software Testing_](software-quality-assuran
 
 * Class 2
   * Assignments due before class: [Exercise 8 Part 1: CI Pipelines](exercises/8), [Exercise 8 Part 2: Docker](exercises/8)
-  * Lecture: Pairwise and Combinatorial Testing (READING: AFIST, Chapter 17)
 
 ## WEEK 13 (Week of 16 NOV)
 
@@ -132,7 +131,7 @@ AFIST = [_A Friendly Introduction to Software Testing_](software-quality-assuran
 
 * Class 2
   * Assignment due before class: [Exercise 9: Property-based Testing](exercises/9)
-  * Quiz 6: Property-based Testing & Combinatorial Testing
+  * Quiz 6: Property-based Testing
   * Lecture: Security Testing (READING: AFIST, Chapter 20)
 
 ## WEEK 14 (Week of 23 NOV)
