@@ -23,7 +23,7 @@
 # CS 1632 - Software Quality Assurance
 Fall Semester 2026 - Exercise 9
 
-* DUE: November 13 (Wednesday), 2026 before start of class
+* DUE: November 18 (Wednesday), 2026 before start of class
 
 ## Description
 
