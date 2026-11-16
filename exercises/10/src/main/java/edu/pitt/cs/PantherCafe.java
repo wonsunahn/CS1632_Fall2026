@@ -9,6 +9,12 @@ import java.util.Scanner;
  */
 public final class PantherCafe {
 	/**
+	 * Prevents instantiation, since this class only has static methods.
+	 */
+	private PantherCafe() {
+	}
+
+	/**
 	 * Runs the register. Each customer orders drinks one at a time until they enter "done". Entering
 	 * "close" instead of a customer name closes the register and prints the end of day summary.
 	 *

@@ -7,6 +7,7 @@
   * [Task 1: Fix the Bugs that SpotBugs Finds](#task-1-fix-the-bugs-that-spotbugs-finds)
   * [Task 2: Deal with a False Positive](#task-2-deal-with-a-false-positive)
   * [Task 3: Fix the CheckStyle Warnings](#task-3-fix-the-checkstyle-warnings)
+    + [Javadoc: Documentation Generated from Comments](#javadoc-documentation-generated-from-comments)
   * [Task 4: Add a Rule to the Style Guide](#task-4-add-a-rule-to-the-style-guide)
   * [Task 5: Pass the Quality Gate](#task-5-pass-the-quality-gate)
   * [Lessons on Pattern Matching](#lessons-on-pattern-matching)
@@ -94,8 +95,8 @@ Coupon code (or press Enter to skip):
 
 Exception in thread "main" java.lang.NullPointerException
         at edu.pitt.cs.Cafe.checkout(Cafe.java:106)
-        at edu.pitt.cs.PantherCafe.takeOrder(PantherCafe.java:61)
-        at edu.pitt.cs.PantherCafe.main(PantherCafe.java:28)
+        at edu.pitt.cs.PantherCafe.takeOrder(PantherCafe.java:67)
+        at edu.pitt.cs.PantherCafe.main(PantherCafe.java:34)
 ```
 
 There are also JUnit tests under src/test that describe how the register should
@@ -160,7 +161,8 @@ mvn compile site
 This creates a new directory target/site, under which a website dedicated to
 this project is generated.  Open the "index.html" file at the root of that
 directory.  Then navigate to "Project Reports > SpotBugs" or "Project Reports >
-Checkstyle" to see either report.
+Checkstyle" to see either report.  There is also a "Project Reports > Javadoc"
+report, which we will come back to in Task 3.
 
 Both tools are also registered as **build** plugins under \<build\>\<plugins\>,
 with their "check" goals attached to the "verify" lifecycle phase.  The check
@@ -398,12 +400,70 @@ violated.
 
 As you work, notice two things:
 
-* CheckStyle checks your documentation too.  A Javadoc comment that describes a
-  parameter that no longer exists is worse than no comment at all, because it
-  misleads the reader.
+* CheckStyle checks your documentation too.  Several of the rules are about
+  Javadoc comments.  The next section explains what those are, and how to see
+  what each of those warnings means for someone reading your documentation.
 * A couple of the problems are reported by both CheckStyle and SpotBugs.  Can
   you find them?  Why is each tool able to see that problem, even though one
   reads source code and the other reads bytecode?
+
+### Javadoc: Documentation Generated from Comments
+
+A Javadoc comment is a comment that starts with /\*\* (two asterisks) instead
+of /\*, placed right before a class, method, constructor, or field.  For
+example, here is the Javadoc comment for addDrink in DrinkOrder:
+
+```
+	/**
+	 * Adds a drink to the order and updates the subtotal.
+	 *
+	 * @param drink the drink to add
+	 */
+	public void addDrink(Drink drink) {
+```
+
+The comment starts with a description, and the first sentence of the
+description doubles as a short summary.  After the description come block tags
+that start with @: "@param" describes a parameter, "@return" describes the
+return value, and "@throws" describes an exception that the method may throw.
+
+What makes these comments special is that the javadoc tool, which comes with
+the JDK, reads them and generates a website of HTML documentation for your
+code.  If you have ever looked up a method of String or ArrayList online, you
+were reading documentation that the javadoc tool generated from the Javadoc
+comments in the source code of the Java library:
+
+https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/String.html
+
+The people who read that kind of documentation usually never look at the
+source code.  They want to use a class without having to read its
+implementation.  So a mistake in a Javadoc comment becomes a mistake in the
+only description of your code that those people will ever read.  That is why a
+wrong comment is worse than no comment at all: it misleads the reader.
+
+The POM registers the Maven Javadoc plugin as a reporting plugin too, so
+"mvn compile site" also generates the documentation for PantherCafe.  Navigate
+to "Project Reports > Javadoc", click on the edu.pitt.cs package, and then on a
+class.  Each class page starts with summary tables that list every constructor
+and method along with its summary sentence.  Below that are the details for
+each one, where the @param and @return tags turn into "Parameters:" and
+"Returns:" sections.  Note that by default, only public and protected members
+are documented.  Private methods are implementation details, so they don't
+appear in the documentation at all.
+
+Now, for each CheckStyle warning that is about a Javadoc comment, find that
+constructor or method in the Javadoc report, and look at it from the point of
+view of a reader who has only the documentation.  You will find that some of
+the warnings correspond to a page that is visibly wrong or incomplete.  For
+those, the javadoc tool usually complains as well, in the output of "mvn
+compile site".  Other warnings make no difference at all in the generated
+pages.  For example, the javadoc tool always lists the Parameters section
+before the Returns section, no matter in what order the tags appear in the
+comment.  Rules like that exist to keep the comments readable in the source
+code, which is where the developers on your own team read them.
+
+After you fix the warnings, run "mvn compile site" again and check that every
+page now reads correctly.
 
 ## Task 4: Add a Rule to the Style Guide
 
