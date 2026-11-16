@@ -368,21 +368,61 @@ middle of the code with no explanation.  A reader can't tell what 20 means in
 "rand.nextInt(LUCKY_ODDS)".  Also, if the same number appears in several places,
 someone will eventually update one and forget the others.
 
-CheckStyle has a rule for this called MagicNumber.  Add it to
-[google_checks_modified.xml](google_checks_modified.xml) inside the TreeWalker
-module, with its default properties:
+CheckStyle has a rule for this called MagicNumber.  You will add it to
+[google_checks_modified.xml](google_checks_modified.xml) by hand.  Open the file
+and scroll all the way to the bottom.  The last rule in the file is
+CommentsIndentation, and it is followed by two closing tags.  The first one,
+indented by one tab, closes the TreeWalker module, and the second one closes
+the Checker module that wraps the whole file:
 
 ```
+		<module name="CommentsIndentation">
+			<property name="tokens"
+				value="SINGLE_LINE_COMMENT, BLOCK_COMMENT_BEGIN" />
+		</module>
+	</module>
+</module>
+```
+
+Insert one new line between the closing tag of CommentsIndentation and the
+closing tag of TreeWalker, so that the end of the file looks exactly like this:
+
+```
+		<module name="CommentsIndentation">
+			<property name="tokens"
+				value="SINGLE_LINE_COMMENT, BLOCK_COMMENT_BEGIN" />
+		</module>
 		<module name="MagicNumber" />
+	</module>
+</module>
 ```
 
-Before you run CheckStyle again, read the reference documentation for the rule:
+A few things to note about that line:
+
+* It must go inside the TreeWalker module.  TreeWalker is the module that
+  parses each .java file into an AST and hands the tree to every rule nested
+  inside it.  MagicNumber is one of those rules, so if you put it outside
+  TreeWalker (for example, after the last closing tag), CheckStyle stops with a
+  configuration error instead of checking your code.
+* It has no \<property\> elements, which is why it can be written as a single
+  self-closing tag ending in "/\>".  A rule with no properties uses the default
+  value for every property.  Compare it with CommentsIndentation right above
+  it, which sets its "tokens" property to a non-default value.
+* Indent it with two tabs, like the other rules inside TreeWalker.  (XML does
+  not care about indentation, but your teammates do.)
+
+To make sure you added it correctly, run "mvn checkstyle:check" and look for
+warnings whose rule name is MagicNumber, or open "Project Reports > Checkstyle"
+after "mvn compile site" and look for MagicNumber in the list of Rules.
+
+Before you start fixing the new warnings, read the reference documentation for
+the rule:
 
 https://checkstyle.org/checks/coding/magicnumber.html
 
 In particular, find out which numbers are ignored by default, and why a number
 in a field declaration like "private static final int LUCKY_ODDS = 20;" is not
-reported.  Then run CheckStyle again, and replace each magic number with a
+reported.  Then replace each magic number with a
 private static final constant with a descriptive name.  If the same quantity
 appears in several places, use the same constant for all of them.
 
