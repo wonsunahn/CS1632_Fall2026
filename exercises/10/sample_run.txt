@@ -1,0 +1,71 @@
+Welcome to Panther Cafe! Here is our menu (prices are for a small cup):
+  coffee $2.50
+  latte $4.25
+  mocha $4.75
+  tea $2.25
+Medium cups are $0.50 extra and large cups are $1.00 extra.
+
+Customer name (or "close" to close):
+Alice
+Drink (or "done" to finish the order):
+latte
+Size (small, medium, or large):
+medium
+Added medium latte $4.75
+Drink (or "done" to finish the order):
+Coffee
+Size (small, medium, or large):
+large
+Added large coffee $3.50
+Drink (or "done" to finish the order):
+pumpkin spice latte
+Size (small, medium, or large):
+small
+Sorry, pumpkin spice latte is not on the menu.
+Drink (or "done" to finish the order):
+done
+Panther Rewards ID (or press Enter to skip):
+alice01
+Coupon code (or press Enter to skip):
+PANTHER10
+Order #1 for Alice
+  medium latte $4.75
+  large coffee $3.50
+Subtotal: $8.25
+Welcome to Panther Rewards, alice01!
+You now have 20 points.
+Total charged: $7.43
+
+Customer name (or "close" to close):
+Bob
+Drink (or "done" to finish the order):
+mocha
+Size (small, medium, or large):
+venti
+Sorry, venti is not a size we offer.
+Size (small, medium, or large):
+small
+Added small mocha $4.75
+Drink (or "done" to finish the order):
+done
+Panther Rewards ID (or press Enter to skip):
+
+Coupon code (or press Enter to skip):
+
+Order #2 for Bob
+  small mocha $4.75
+Subtotal: $4.75
+Total charged: $4.75
+
+Customer name (or "close" to close):
+close
+=== End of day summary ===
+Order #1 for Alice
+  medium latte $4.75
+  large coffee $3.50
+Subtotal: $8.25
+Order #2 for Bob
+  small mocha $4.75
+Subtotal: $4.75
+Number of orders: 2
+Daily sales: $12.18
