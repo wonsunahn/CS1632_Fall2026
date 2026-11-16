@@ -3,6 +3,7 @@
   * [PantherCafe](#panthercafe)
   * [How the Two Tools Work](#how-the-two-tools-work)
   * [Running the Tools](#running-the-tools)
+    + [Maven Lifecycle Phases: mvn test vs. mvn verify](#maven-lifecycle-phases-mvn-test-vs-mvn-verify)
   * [Task 1: Fix the Bugs that SpotBugs Finds](#task-1-fix-the-bugs-that-spotbugs-finds)
   * [Task 2: Deal with a False Positive](#task-2-deal-with-a-false-positive)
   * [Task 3: Fix the CheckStyle Warnings](#task-3-fix-the-checkstyle-warnings)
@@ -182,8 +183,53 @@ mvn verify
 
 This last command is what we call a **quality gate**.  When it says BUILD
 SUCCESS, all the tests pass and neither tool has anything to complain about.
-Note that if a test fails, Maven stops before it gets to the checks, so use the
-first three commands while you are working on Tasks 1 through 4.
+
+### Maven Lifecycle Phases: mvn test vs. mvn verify
+
+You have probably run "mvn test" many times, so why do we need "mvn verify"?
+To answer that, you need to know how Maven organizes a build.  Maven's default
+lifecycle is an ordered list of phases.  These are the main ones, in order:
+
+```
+validate -> compile -> test -> package -> verify -> install -> deploy
+```
+
+There are more phases in between (for example, test-compile comes right before
+test, and integration-test comes right before verify), but these are the
+important ones.  When you invoke a phase, Maven runs every phase that comes
+before it, in order, and then the phase itself.  So "mvn test" validates the
+project, compiles the main code, compiles and runs the JUnit tests, and stops.
+"mvn verify" does all of that, then packages the compiled classes into a jar
+file under target/, and then runs the verify phase.
+
+The phases themselves don't do any work.  The work is done by plugin goals,
+each of which is attached (or "bound") to a phase, and a goal runs when the
+build reaches its phase.  Some goals are bound by default: for example, the
+Surefire plugin's "test" goal, which runs your JUnit tests, is bound to the test
+phase.  Other goals are bound in the POM: if you look at the \<executions\>
+sections under \<build\>\<plugins\>, you will see that the "check" goals of
+CheckStyle and SpotBugs are bound to the verify phase.  According to the
+Maven documentation, the verify phase is meant exactly for this: running
+checks that make sure the project meets its quality criteria.
+
+That has two important consequences for you:
+
+* "mvn test" never reaches the verify phase, so it never runs the checks.
+  "mvn test" can say BUILD SUCCESS even when the code has dozens of CheckStyle
+  and SpotBugs warnings.  Only "mvn verify" (or a later phase) enforces them.
+* Because the phases run in order and the build stops at the first failure, a
+  failing test stops the build at the test phase, before it ever gets to the
+  checks.  So while some tests are still failing (that is, during Tasks 1
+  through 4), "mvn verify" won't show you any warnings.  Use "mvn compile
+  site", "mvn checkstyle:check", and "mvn compile spotbugs:check" instead.
+  Invoking a goal directly, like "checkstyle:check", runs just that one goal
+  without going through the lifecycle phases.  That is also why we put
+  "compile" in front of "spotbugs:check": it makes sure there are up-to-date
+  class files for SpotBugs to read.
+
+By the way, "site" is not part of the default lifecycle.  It belongs to a
+separate site lifecycle, which generates documentation.  "mvn compile site" runs
+the default lifecycle up to the compile phase, and then the site lifecycle.
 
 Take a moment to read the plugin configurations in the POM.  For SpotBugs,
 "effort" is set to Max, which turns on the most precise (and slowest) analyses,
@@ -446,11 +492,16 @@ failing tests and the description of Panther Rewards under
 [PantherCafe](#panthercafe), and fix the remaining bug.  When "mvn verify" says
 BUILD SUCCESS, you are done.
 
-A command like "mvn verify" is exactly what a continuous integration (CI)
-pipeline runs every time someone pushes code.  With the check goals attached to
-the build, a pull request that introduces a new warning fails CI just like a
-pull request that breaks a test.  That way, your team never has to clean up a
-pile of warnings like the one you just cleaned up.
+"mvn verify" is also the command that a continuous integration (CI) pipeline
+should run every time someone pushes code, rather than "mvn test", because it
+checks everything that can be checked.  "mvn test" only tells you that the unit
+tests pass.  "mvn verify" also makes sure that the code can be packaged into a
+jar, and runs every quality check bound to the later phases: here, CheckStyle
+and SpotBugs, and in larger projects, things like integration tests that run
+against the packaged jar and minimum code coverage requirements.  With the
+check goals bound to verify, a pull request that introduces a new warning fails
+CI just like a pull request that breaks a test.  That way, your team never has
+to clean up a pile of warnings like the one you just cleaned up.
 
 ## Lessons on Pattern Matching
 
