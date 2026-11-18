@@ -804,13 +804,19 @@ your GUI follows the requirements, as demonstrated by BeanCounterSolution.jar.
 
 # Submission
 
-When you are done, commit and push your changes to your repository and submit
-it to GradeScope at the **Final Project** link.  Don't forget to add your
-partner, if you have one.  Once you submit, GradeScope will run the autograder
-to grade you and give feedback.  If you get deductions, fix your code based on
-the feedback and resubmit.  Repeat until you don't get deductions.  If you did
-any extra credit, it is part of the same submission, so there is no separate
-link.
+When you are done, add a DIVISION_OF_WORK.md file at the repository root that
+describes how the work was divided among the two group members, down to
+class/method granularity.  THe listed division of work should match your GitHub
+repository commit history.  If you worked alone, simply state that fact in the
+file.
+
+Don't forget to commit and push your changes to your repository before
+submitting it to GradeScope at the **Final Project** link.  Don't forget to add
+your partner the "View or Edit Group" link on the GradeScope submission, if you
+have one.  Once you submit, GradeScope will run the autograder to grade you and
+give feedback.  If you get deductions, fix your code based on the feedback and
+resubmit.  Repeat until you don't get deductions.  If you did any extra credit,
+it is part of the same submission, so there is no separate link.
 
 # Resources
 
