@@ -806,17 +806,23 @@ your GUI follows the requirements, as demonstrated by BeanCounterSolution.jar.
 
 When you are done, add a DIVISION_OF_WORK.md file at the repository root that
 describes how the work was divided among the two group members, down to
-class/method granularity.  THe listed division of work should match your GitHub
+class/method granularity.  The listed division of work should match your GitHub
 repository commit history.  If you worked alone, simply state that fact in the
 file.
 
+Also add an EXTRA_CREDIT.md file at the repository root.  If you did any extra
+credit, describe it in this file as explained in the [General
+Rules](#general-rules) for extra credit.  If you did not, the file should
+simply contain "Not done.".  Both files are required, even if you worked alone
+or skipped the extra credit.
+
 Don't forget to commit and push your changes to your repository before
 submitting it to GradeScope at the **Final Project** link.  Don't forget to add
-your partner the "View or Edit Group" link on the GradeScope submission, if you
-have one.  Once you submit, GradeScope will run the autograder to grade you and
-give feedback.  If you get deductions, fix your code based on the feedback and
-resubmit.  Repeat until you don't get deductions.  If you did any extra credit,
-it is part of the same submission, so there is no separate link.
+your partner using the "View or Edit Group" link on the GradeScope submission,
+if you have one.  Once you submit, GradeScope will run the autograder to grade
+you and give feedback.  If you get deductions, fix your code based on the
+feedback and resubmit.  Repeat until you don't get deductions.  If you did any
+extra credit, it is part of the same submission, so there is no separate link.
 
 # Resources
 
@@ -859,8 +865,9 @@ them will receive partial credit.
 
 1. Choose at most two techniques.
 
-1. Create an EXTRA_CREDIT.md file at the root of your repository.  For each
-   technique, list: the technique, the exact commands to run it starting from a
+1. In the EXTRA_CREDIT.md file at the root of your repository (which every
+   submission must have, as described in [Submission](#submission)), list for
+   each technique: the technique, the exact commands to run it starting from a
    fresh clone of your repository, where its artifacts are (reports,
    screenshots, workflow runs), and a short paragraph on what the technique told
    you about BeanCounter: the bugs it found, the gaps it exposed, or why it
